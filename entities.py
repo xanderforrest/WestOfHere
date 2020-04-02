@@ -10,20 +10,18 @@ from pygame.locals import (
     KEYDOWN,
     QUIT,
 )
-
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 288
+from consts import *
 
 
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super(Player, self).__init__()
-        self.surf = pygame.image.load("clint.png").convert()
+        self.surf = pygame.image.load(os.path.join("clint.png")).convert()
         self.surf.set_colorkey((255, 255, 255), RLEACCEL)
-        self.idle_imgs = []
-        for i in range(0, 40):
-            print(i)
-            self.idle_imgs.append(pygame.image.load(os.path.join("idle", f"clint{i}.png")).convert())
+        # self.idle_imgs = []
+        # for i in range(0, 40):
+        #   print(i)
+        #    self.idle_imgs.append(pygame.image.load(os.path.join("idle", f"clint{i}.png")).convert())
         self.rect = self.surf.get_rect()
         self.speed = 0.1
         self.jump = True
@@ -36,8 +34,8 @@ class Player(pygame.sprite.Sprite):
         if self.idle_level > 39:
             self.idle_level = 0
 
-        self.surf = self.idle_imgs[self.idle_level]
-        self.surf.set_colorkey((255, 255, 255), RLEACCEL)
+        # self.surf = self.idle_imgs[self.idle_level]
+        # self.surf.set_colorkey((255, 255, 255), RLEACCEL)
 
 
     def trigger_jump(self, tile_rects):

@@ -14,15 +14,13 @@ from pygame.locals import (
 )
 from entities import Player
 from utilities import TileLoader
+from consts import *
+import os
 
 pygame.init()
 
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 288
-# 50 x 18 blocks per screen
-
-pygame.display.set_icon(pygame.image.load("icon.png"))
-pygame.display.set_caption("West of Here")
+pygame.display.set_icon(pygame.image.load(os.path.join(ASSETS_DIRECTOY, WINDOW_ICON)))
+pygame.display.set_caption(WINDOW_TITLE)
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 screen.fill((255, 255, 255))
 
@@ -31,8 +29,8 @@ clint = Player()
 entities.add(clint)
 clock = pygame.time.Clock()
 
-dirt_img = pygame.image.load("dirt.png")
-grass_img = pygame.image.load("grass.png")
+dirt_img = pygame.image.load(os.path.join(ASSETS_DIRECTORY, DIRT_IMG))
+grass_img = pygame.image.load(os.path.join(ASSETS_DIRECTORY, GRASS_IMG))
 tile_map = TileLoader().load_map()
 tile_rects = []
 animation_count = 0
@@ -46,7 +44,7 @@ while running:
         animation_count = 0
         clint.update_animation()
 
-        # TILE RENDERING
+    # TILE RENDERING
     screen.fill((255, 101, 0))
     for x in range(0, 50):
         for y in range(0, 18):
