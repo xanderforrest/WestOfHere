@@ -1,5 +1,5 @@
 from PIL import Image
-import pygame
+#import pygame
 import os
 
 IMAGE_DIRECTORY = "images"
@@ -15,8 +15,8 @@ class TileLoader:
 			filename = os.path.join(IMAGE_DIRECTORY, filename)
 			if filename.endswith(".png"):
 				im = Image.open(filename)
-				new_tile = Tile(filename, im.size)
-				self.tiles.append(new_tile)
+				#new_tile = Tile(filename, im.size)
+				#s#elf.tiles.append(new_tile)
 		for filename in os.listdir(os.path.join(IMAGE_DIRECTORY, SPLITTER_DIRECTORY)):
 			filename = os.path.join(IMAGE_DIRECTORY, SPLITTER_DIRECTORY, filename)
 			print(filename)
@@ -26,6 +26,7 @@ class TileLoader:
 	def handle_large(self, image_path):
 		im = Image.open(image_path)
 		name = image_path.split("\\")[-1].strip(".png")
+		print("NAME VAR IS THIS")
 		print(name)
 		x, y = im.size
 
@@ -37,9 +38,9 @@ class TileLoader:
 		block_size = (x_chunks, y_chunks)
 		print(block_size)
 		new_matrix = []
-		for i in range(0, (x_chunks+2)):
+		for i in range(0, (x_chunks)):
 			row = []
-			for j in range(0, y_chunks+2):
+			for j in range(0, y_chunks):
 				print(f"Processing {i}, {j}")
 				sx = i*16
 				ex = (i+1) * 16
@@ -53,8 +54,8 @@ class TileLoader:
 				row.append(new_image)
 				print("Saved image...")
 
-				tile = Tile(save_location, new_image.size, piece=True, folder=os.path.join(IMAGE_DIRECTORY, SPLITTER_DIRECTORY, "output"), block_size=block_size)
-				self.tiles.append(tile)
+				#tile = Tile(save_location, new_image.size, piece=True, folder=os.path.join(IMAGE_DIRECTORY, SPLITTER_DIRECTORY, "output"), block_size=block_size)
+				#self.tiles.append(tile)
 			new_matrix.append(row)
 
 
