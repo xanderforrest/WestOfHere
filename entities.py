@@ -16,7 +16,7 @@ from consts import *
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super(Player, self).__init__()
-        self.surf = pygame.image.load(os.path.join("clint.png")).convert()
+        self.surf = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "clint.png")).convert()
         self.surf.set_colorkey((255, 255, 255), RLEACCEL)
         # self.idle_imgs = []
         # for i in range(0, 40):

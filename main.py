@@ -19,7 +19,7 @@ import os
 
 pygame.init()
 
-pygame.display.set_icon(pygame.image.load(os.path.join(ASSETS_DIRECTOY, WINDOW_ICON)))
+pygame.display.set_icon(pygame.image.load(os.path.join(ASSETS_DIRECTORY, WINDOW_ICON)))
 pygame.display.set_caption(WINDOW_TITLE)
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 screen.fill((255, 255, 255))
