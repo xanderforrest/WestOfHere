@@ -1,7 +1,7 @@
 <h1>West of Here</h1>
 A Spaghetti Western inspired click'n'shoot platformer.
 
-![The current state of the game](https://i.imgur.com/TeQYEJD.png)
+![The current state of the game](https://i.imgur.com/SQryDib.png)
 
 This project was started to get familiar with the Pygame library, and is currently more of a demo than game (not that it's currently demonstrating anything).
 
