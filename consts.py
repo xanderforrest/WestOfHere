@@ -10,7 +10,7 @@ SCREEN_HEIGHT = 288
 
 # ASSETS VARIABLES
 ASSETS_DIRECTORY = "assets"
-
+SOUNDS_DIRECTORY = "sounds"
 DIRT_IMG = "dirt.png"
 GRASS_IMG = "grass.png"
 

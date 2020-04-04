@@ -11,6 +11,33 @@ from pygame.locals import (
     QUIT,
 )
 from consts import *
+import math
+
+
+class Bullet(pygame.sprite.Sprite):
+    def __init__(self, start_pos, end_pos):
+        super(Bullet, self).__init__()
+        self.start_pos = start_pos
+        self.end_pos = end_pos
+        self.surf = pygame.Surface((5, 5))
+        self.v = self.calc_initial_velocity()
+        self.rect = self.surf.get_rect(
+            center=start_pos
+        )
+
+    def update(self, dt, keys, tile_rects):
+        self.rect.move_ip(dt*self.v[0], dt*self.v[1])
+
+    def calc_initial_velocity(self):
+        sp = self.start_pos
+        ep = self.end_pos
+        # these variables need a short name so these lines aren't massive
+        # minimising dependencies by not using numpy vector operations here
+
+        nv = [ep[0]-sp[0], ep[1]-sp[1]]
+        magnitude = math.sqrt(abs(nv[0]**2 + nv[1]**2))
+
+        return [nv[0]/magnitude, nv[1]/magnitude]
 
 
 class Player(pygame.sprite.Sprite):
@@ -65,8 +92,14 @@ class Player(pygame.sprite.Sprite):
                 self.surf = pygame.transform.flip(self.running_imgs[self.running_level], True, False)
         self.surf.set_colorkey((255, 255, 255), RLEACCEL)
 
+    def on_gun_fired(self):
+        pygame.mixer.music.load(os.path.join(ASSETS_DIRECTORY, SOUNDS_DIRECTORY, "gunshot.mp3"))
+        pygame.mixer.music.play(0)
 
+        spos = self.rect.center
+        epos = pygame.mouse.get_pos()
 
+        return Bullet(spos, epos)
 
     def trigger_jump(self, tile_rects):
         print("Jump triggered")

@@ -78,7 +78,9 @@ while running:
                 jumped = True
         elif event.type == QUIT:
             running = False
-
+        elif event.type == pygame.MOUSEBUTTONUP:
+            bullet = clint.on_gun_fired()
+            entities.add(bullet)
     # ENTITY UPDATES
     if not jumped:
         entities.update(dt, pygame.key.get_pressed(), tile_rects)
