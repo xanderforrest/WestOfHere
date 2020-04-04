@@ -33,6 +33,10 @@ dirt_img = pygame.image.load(os.path.join(ASSETS_DIRECTORY, DIRT_IMG))
 grass_img = pygame.image.load(os.path.join(ASSETS_DIRECTORY, GRASS_IMG))
 tile_map = TileLoader().load_map()
 tile_rects = []
+
+buildings = [[pygame.image.load(os.path.join(ASSETS_DIRECTORY, "BUILDINGS", "saloon.png")), [20, 15]]]
+
+
 animation_count = 0
 
 running = True
@@ -56,6 +60,12 @@ while running:
                 tile_rects.append(pygame.Rect(x * 16, y * 16, 16, 16))
             else:
                 pass
+
+    for build in buildings:
+        obj = build[0]
+        chunks = build[1]
+
+        screen.blit(obj, (chunks[0]*16, (chunks[1]-6)*16))
 
     # EVENT HANDLING
     jumped = False

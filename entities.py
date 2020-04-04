@@ -18,29 +18,59 @@ class Player(pygame.sprite.Sprite):
         super(Player, self).__init__()
         self.surf = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "clint.png")).convert()
         self.surf.set_colorkey((255, 255, 255), RLEACCEL)
-        # self.idle_imgs = []
-        # for i in range(0, 40):
-        #   print(i)
-        #    self.idle_imgs.append(pygame.image.load(os.path.join("idle", f"clint{i}.png")).convert())
+
+        self.sprite_sheet = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "clint-spritesheet.png"))
+
+        self.idle_imgs = []
+        for i in range(0, 4):
+            idle_image = pygame.Surface([16, 32]).convert()
+            idle_image.blit(self.sprite_sheet, (0, 0), ((i*16), 0, 16, 32))
+            self.idle_imgs.append(idle_image)
+
+        self.running_imgs = []
+        for i in range(4, 10):
+            running_image = pygame.Surface([16, 32]).convert()
+            running_image.blit(self.sprite_sheet, (0, 0), ((i*16), 0, 16, 32))
+            self.running_imgs.append(running_image)
         self.rect = self.surf.get_rect()
+
         self.speed = 0.1
-        self.jump = True
-        self.standing = False
+        self.jump = False
+
+        self.standing = True
+        self.on_object = False
+        self.direction = "right"
         self.jump_count = 0
+
         self.idle_level = 0
+        self.running_level = 0
 
     def update_animation(self):
-        self.idle_level += 1
-        if self.idle_level > 39:
-            self.idle_level = 0
+        if self.standing:
+            self.idle_level += 1
+            if self.idle_level > 3:
+                self.idle_level = 0
 
-        # self.surf = self.idle_imgs[self.idle_level]
-        # self.surf.set_colorkey((255, 255, 255), RLEACCEL)
+            if self.direction == "right":
+                self.surf = self.idle_imgs[self.idle_level]
+            else:
+                self.surf = pygame.transform.flip(self.idle_imgs[self.idle_level], True, False)
+        else:
+            self.running_level += 1
+            if self.running_level > 5:
+                self.running_level = 0
+            if self.direction == "right":
+                self.surf = self.running_imgs[self.running_level]
+            else:
+                self.surf = pygame.transform.flip(self.running_imgs[self.running_level], True, False)
+        self.surf.set_colorkey((255, 255, 255), RLEACCEL)
+
+
 
 
     def trigger_jump(self, tile_rects):
         print("Jump triggered")
-        if self.standing:
+        if self.on_object:
             self.jump = True
             self.jump_count = 0
         # self.move([0, -0.8], tile_rects)
@@ -54,7 +84,7 @@ class Player(pygame.sprite.Sprite):
 
     def move(self, xy, tile_rects):
         x, y = xy
-        self.standing = False
+        self.on_object = False
         if x != 0:
             self.rect.move_ip(x, 0)
             collisions = self.get_collisions(tile_rects)
@@ -72,22 +102,29 @@ class Player(pygame.sprite.Sprite):
                 return
             for collide in collisions:
                 if y > 0: # standing on top of a tile
-                    self.standing = True
                     self.rect.bottom = collide.top
+                    self.on_object = True
                 else: # hitting bottom of tile
                     self.rect.top = collide.bottom
 
     def update(self, dt, pressed_keys, tile_rects):
         #print(f"Pos X: {self.rect.left} \nPos Y {self.rect.top}")
         speed = self.speed * dt
-
+        self.standing = True
         if pressed_keys[K_LEFT]:
             self.move([-speed, 0], tile_rects)
+            self.direction = "left"
+            self.standing = False
         if pressed_keys[K_RIGHT]:
+            self.direction = "right"
+            self.standing = False
             self.move([speed, 0], tile_rects)
+        if not (pressed_keys[K_RIGHT] or pressed_keys[K_LEFT]):
+            self.standing = True
+            self.running_level = 0
         #if pressed_keys[K_DOWN]:
         #    self.move([0, speed], tile_rects)
-
+        # print(f"Is the player standing? {self.standing}")
         # gravity
         if not self.jump:
             self.move([0, 0.2*dt], tile_rects)
