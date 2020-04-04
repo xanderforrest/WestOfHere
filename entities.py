@@ -107,17 +107,22 @@ class Player(pygame.sprite.Sprite):
                 else: # hitting bottom of tile
                     self.rect.top = collide.bottom
 
+    def update_direction(self, direction="right"):
+        if self.direction != direction:
+            self.direction = direction
+            self.surf = pygame.transform.flip(self.surf, True, False)
+
     def update(self, dt, pressed_keys, tile_rects):
         #print(f"Pos X: {self.rect.left} \nPos Y {self.rect.top}")
         speed = self.speed * dt
         self.standing = True
         if pressed_keys[K_LEFT]:
             self.move([-speed, 0], tile_rects)
-            self.direction = "left"
+            self.update_direction("left")
             self.standing = False
         if pressed_keys[K_RIGHT]:
-            self.direction = "right"
             self.standing = False
+            self.update_direction("right")
             self.move([speed, 0], tile_rects)
         if not (pressed_keys[K_RIGHT] or pressed_keys[K_LEFT]):
             self.standing = True
