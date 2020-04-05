@@ -32,6 +32,7 @@ clock = pygame.time.Clock()
 dirt_img = pygame.image.load(os.path.join(ASSETS_DIRECTORY, DIRT_IMG))
 grass_img = pygame.image.load(os.path.join(ASSETS_DIRECTORY, GRASS_IMG))
 mountains_img = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "mountains.png"))
+cursor_img = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "cursor.png"))
 tile_map = TileLoader().load_map()
 tile_rects = []
 
@@ -50,7 +51,6 @@ while running:
         clint.update_animation()
 
     # TILE RENDERING
-    # screen.fill((255, 101, 0))
     screen.blit(mountains_img, (0, 0))
     for x in range(0, 50):
         for y in range(0, 18):
@@ -64,11 +64,17 @@ while running:
             else:
                 pass
 
+    # quick building rendering
     for build in buildings:
         obj = build[0]
         chunks = build[1]
 
         screen.blit(obj, (chunks[0]*16, (chunks[1]-6)*16))
+
+    # render a cursor
+    pygame.mouse.set_visible(False)
+    curs_pos = pygame.mouse.get_pos()
+    screen.blit(cursor_img, (curs_pos[0]-3, curs_pos[1]-3))
 
     # EVENT HANDLING
     jumped = False
