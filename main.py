@@ -33,6 +33,7 @@ dirt_img = pygame.image.load(os.path.join(ASSETS_DIRECTORY, DIRT_IMG))
 grass_img = pygame.image.load(os.path.join(ASSETS_DIRECTORY, GRASS_IMG))
 mountains_img = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "mountains.png"))
 cursor_img = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "cursor.png"))
+
 tile_map = TileLoader().load_map()
 tile_rects = []
 
@@ -50,26 +51,13 @@ while running:
         animation_count = 0
         clint.update_animation()
 
-    # TILE RENDERING
-    screen.blit(mountains_img, (0, 0))
-    for x in range(0, 50):
-        for y in range(0, 18):
-            if tile_map[y][x] == 1:
-                pass
-                #screen.blit(grass_img, (x * 16, y * 16))
-                #tile_rects.append(pygame.Rect(x * 16, y * 16, 16, 16))
-            elif tile_map[y][x] == 0:
-                screen.blit(dirt_img, (x * 16, y * 16))
-                tile_rects.append(pygame.Rect(x * 16, y * 16, 16, 16))
-            else:
-                pass
-
-    # quick building rendering
-    for build in buildings:
-        obj = build[0]
-        chunks = build[1]
-
-        screen.blit(obj, (chunks[0]*16, (chunks[1]-6)*16))
+    for x in range(0, len(tile_map)): # loads map
+        for y in range(0, len(tile_map[x])):
+            tile = tile_map[x][y]
+            if tile.image:
+                screen.blit(tile.image, (x*16, y*16))
+                if tile.interactable:
+                    tile_rects.append(pygame.Rect(x * 16, y * 16, 16, 16))
 
     # render a cursor
     pygame.mouse.set_visible(False)
