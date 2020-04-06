@@ -30,10 +30,11 @@ animation_count = 0
 running = True
 
 while running:
+    print(entities)
     # ANIMATION HANDLING
-    dt = clock.tick(60)
+    dt = clock.tick(60) / 1000
     animation_count += 1
-    if animation_count == 5:
+    if animation_count == 4:
         animation_count = 0
         clint.update_animation()
 
@@ -61,7 +62,7 @@ while running:
         elif event.type == QUIT:
             running = False
         elif event.type == pygame.MOUSEBUTTONUP:
-            bullet = clint.on_gun_fired()
+            bullet = clint.fire_gun()
             entities.add(bullet)
 
     # ENTITY UPDATES

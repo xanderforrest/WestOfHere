@@ -3,6 +3,14 @@ import os
 from consts import *
 
 
+def get_collisions(rect, tiles):
+	collisions = []
+	for tile in tiles:
+		if rect.colliderect(tile.rect):
+			collisions.append(tile)
+	return collisions
+
+
 class TileLoader:
 	def __init__(self):
 		pass
@@ -45,9 +53,8 @@ class TileLoader:
 		floor_map = self.load_floor()
 
 		final_map = self.empty_map()
-		for x in range(0, len(final_map)): # builds the final map with layering, because who needs parallax?
+		for x in range(0, len(final_map)):  # builds the final map with layering, because who needs parallax?
 			for y in range(0, len(final_map[x])):
-				print(background_map[x][y])
 				final_map[x][y] = background_map[x][y] if background_map[x][y].image else Tile(None)
 				final_map[x][y] = building_map[x][y] if building_map[x][y].image else final_map[x][y]
 				final_map[x][y] = floor_map[x][y] if floor_map[x][y].image else final_map[x][y]

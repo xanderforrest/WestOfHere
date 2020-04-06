@@ -13,6 +13,7 @@ ASSETS_DIRECTORY = "assets"
 DIRT_IMG = "dirt.png"
 GRASS_IMG = "grass.png"
 CURSOR_IMG = "cursor.png"
+CLINT_SPRITESHEET = "clint-spritesheet.png"
 
 
 SOUNDS_DIRECTORY = "sounds"
