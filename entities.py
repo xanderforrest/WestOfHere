@@ -14,6 +14,20 @@ from consts import *
 import math
 
 
+class Target(pygame.sprite.Sprite):
+    def __init__(self, location):
+        super(Target, self).__init__()
+        self.surf = pygame.Surface((20, 20))
+        self.rect = self.surf.get_rect(
+            center=location
+        )
+
+    def on_hit(self):
+        pass
+    # TODO hit sound
+    # TODO spin animation
+
+
 class Bullet(pygame.sprite.Sprite):
     def __init__(self, start_pos, end_pos):
         super(Bullet, self).__init__()
@@ -27,6 +41,26 @@ class Bullet(pygame.sprite.Sprite):
 
     def update(self, dt, keys, tile_rects):
         self.rect.move_ip(dt*self.v[0], dt*self.v[1])
+
+        if self.rect.left < 0: # LEFT BORDER
+            self.kill()
+        if self.rect.right > SCREEN_WIDTH: # RIGHT BORDER
+            self.kill()
+        if self.rect.top <= 0: # TOP BORDER
+            self.kill()
+        if self.rect.bottom >= SCREEN_HEIGHT: # BOTTOM BORDER
+            self.kill()
+
+        collisions = self.get_collisions(tile_rects)
+        if collisions: # for now we're only concerned if the bullet hits the floor
+            self.kill()
+
+    def get_collisions(self, tiles):
+        collisions = []
+        for tile in tiles:
+            if self.rect.colliderect(tile.rect):
+                collisions.append(tile)
+        return collisions
 
     def calc_initial_velocity(self):
         sp = self.start_pos
@@ -93,6 +127,7 @@ class Player(pygame.sprite.Sprite):
         self.surf.set_colorkey((255, 255, 255), RLEACCEL)
 
     def on_gun_fired(self):
+        # TODO start gun draw animation
         pygame.mixer.music.load(os.path.join(ASSETS_DIRECTORY, SOUNDS_DIRECTORY, "gunshot.mp3"))
         pygame.mixer.music.play(0)
 
@@ -101,17 +136,10 @@ class Player(pygame.sprite.Sprite):
 
         return Bullet(spos, epos)
 
-    def trigger_jump(self, tile_rects):
-        print("Jump triggered")
-        if self.on_object:
-            self.jump = True
-            self.jump_count = 0
-        # self.move([0, -0.8], tile_rects)
-
     def get_collisions(self, tiles):
         collisions = []
         for tile in tiles:
-            if self.rect.colliderect(tile):
+            if self.rect.colliderect(tile.rect):
                 collisions.append(tile)
         return collisions
 
@@ -125,9 +153,9 @@ class Player(pygame.sprite.Sprite):
                 return
             for collide in collisions:
                 if x < 0: # colliding with the right of a tile
-                    self.rect.left = collide.right
+                    self.rect.left = collide.rect.right
                 else: # colliding with the left of a tile
-                    self.rect.right = collide.left
+                    self.rect.right = collide.rect.left
         if y != 0 and y <= 14:
             self.rect.move_ip(0, y)
             collisions = self.get_collisions(tile_rects)
@@ -135,10 +163,10 @@ class Player(pygame.sprite.Sprite):
                 return
             for collide in collisions:
                 if y > 0: # standing on top of a tile
-                    self.rect.bottom = collide.top
+                    self.rect.bottom = collide.rect.top
                     self.on_object = True
                 else: # hitting bottom of tile
-                    self.rect.top = collide.bottom
+                    self.rect.top = collide.rect.bottom
 
     def update_direction(self, direction="right"):
         if self.direction != direction:

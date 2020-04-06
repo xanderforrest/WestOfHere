@@ -7,11 +7,13 @@ SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 288
 # 50 x 18 blocks per screen
 
-
 # ASSETS VARIABLES
 ASSETS_DIRECTORY = "assets"
-SOUNDS_DIRECTORY = "sounds"
+
 DIRT_IMG = "dirt.png"
 GRASS_IMG = "grass.png"
+CURSOR_IMG = "cursor.png"
 
 
+SOUNDS_DIRECTORY = "sounds"
+BUILDINGS_DIRECTORY = "buildings"

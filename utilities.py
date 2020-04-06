@@ -32,7 +32,7 @@ class TileLoader:
 		for x in range(0, 50):
 			row = []
 			for y in range(0, 18):
-				if y >= 14:
+				if y >= 15:
 					row.append(Tile(pygame.image.load(os.path.join(ASSETS_DIRECTORY, "dirt.png")), True))
 				else:
 					row.append(Tile(None))
@@ -55,6 +55,8 @@ class TileLoader:
 
 
 class Tile:
-	def __init__(self, image, interactable=False):
+	def __init__(self, image, interactable=False, category="floor", rect=None):
 		self.image = image
 		self.interactable = interactable
+		self.category = category
+		self.rect = rect
