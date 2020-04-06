@@ -41,7 +41,10 @@ class TileLoader:
 			row = []
 			for y in range(0, 18):
 				if y >= 15:
-					row.append(Tile(pygame.image.load(os.path.join(ASSETS_DIRECTORY, "dirt.png")), True))
+					if y == 15:
+						row.append(Tile(pygame.image.load(os.path.join(ASSETS_DIRECTORY, "dirt.png")), True))
+					else:
+						row.append(Tile(pygame.image.load(os.path.join(ASSETS_DIRECTORY, "dirt.png"))))
 				else:
 					row.append(Tile(None))
 			map.append(row)

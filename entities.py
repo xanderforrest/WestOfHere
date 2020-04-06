@@ -54,9 +54,9 @@ class Bullet(pygame.sprite.Sprite):
         if self.rect.bottom >= SCREEN_HEIGHT: # BOTTOM BORDER
             self.kill()
 
-        collisions = get_collisions(self.rect, tile_rects)
-        if collisions: # for now we're only concerned if the bullet hits the floor
-            self.kill()
+        # collisions = get_collisions(self.rect, tile_rects)
+        # if collisions: # for now we're only concerned if the bullet hits the floor
+        #     self.kill()
 
     def calc_initial_velocity(self):
         sp = self.start_pos
@@ -89,10 +89,10 @@ class Player(pygame.sprite.Sprite):
             if i < 4:
                 if i == 0:
                     self.surf = sprite_crop
-                    self.surf.set_colorkey((255, 255, 255), RLEACCEL)
-                self.idle_images.append(sprite_crop)
+                    self.surf.set_colorkey((255, 255, 255))
+                self.idle_images.append([sprite_crop, pygame.transform.flip(sprite_crop, True, False)])
             else:
-                self.running_images.append(sprite_crop)
+                self.running_images.append([sprite_crop, pygame.transform.flip(sprite_crop, True, False)])
 
         self.direction = "right"
         self.rect = self.surf.get_rect()
@@ -163,9 +163,9 @@ class Player(pygame.sprite.Sprite):
                 self.idle_level = 0 if self.idle_level > 3 else self.idle_level
 
                 if self.direction == "right":
-                    self.surf = self.idle_images[self.idle_level]
+                    self.surf.blit(self.idle_images[self.idle_level][0], (0, 0))
                 else:
-                    self.surf = pygame.transform.flip(self.idle_images[self.idle_level], True, False)
+                    self.surf.blit(self.idle_images[self.idle_level][1], (0, 0))
             else:
                 self.idle_flag = True
         else:
@@ -173,10 +173,10 @@ class Player(pygame.sprite.Sprite):
             self.running_level = 0 if self.running_level > 5 else self.running_level
 
             if self.direction == "right":
-                self.surf = self.running_images[self.running_level]
+                self.surf.blit(self.running_images[self.running_level][0], (0, 0))
             else:
-                self.surf = pygame.transform.flip(self.running_images[self.running_level], True, False)
-        self.surf.set_colorkey((255, 255, 255), RLEACCEL)
+                self.surf.blit(self.running_images[self.running_level][1], (0, 0))
+        self.surf.set_colorkey((255, 255, 255))
 
     def fire_gun(self):
         # TODO start gun draw animation

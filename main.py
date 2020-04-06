@@ -12,10 +12,13 @@ from consts import *
 import os
 
 pygame.init()
-
 pygame.display.set_icon(pygame.image.load(os.path.join(ASSETS_DIRECTORY, WINDOW_ICON)))
 pygame.display.set_caption(WINDOW_TITLE)
+
+# trying to increase performance
+pygame.event.set_allowed([KEYDOWN, QUIT, pygame.MOUSEBUTTONUP])
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+screen.set_alpha(None)
 
 entities = pygame.sprite.Group()
 clint = Player()
