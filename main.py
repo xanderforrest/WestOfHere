@@ -26,11 +26,12 @@ tile_rects = []
 cursor_img = pygame.image.load(os.path.join(ASSETS_DIRECTORY, CURSOR_IMG))
 tile_map = TileLoader().load_map()
 
+font = pygame.font.SysFont("Arial", 32)
+
 animation_count = 0
 running = True
 
 while running:
-    print(entities)
     # ANIMATION HANDLING
     dt = clock.tick(60) / 1000
     animation_count += 1
@@ -46,6 +47,10 @@ while running:
                 if tile.interactable:
                     tile.rect = pygame.Rect(x * 16, y * 16, 16, 16)
                     tile_rects.append(tile)
+
+    # render fps
+    fps = str(int(clock.get_fps()))
+    screen.blit(font.render(fps, 1, (255, 255, 255)), (0, 0))
 
     # render a cursor
     pygame.mouse.set_visible(False)
