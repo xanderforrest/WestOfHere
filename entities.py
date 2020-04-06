@@ -42,7 +42,7 @@ class Bullet(pygame.sprite.Sprite):
             center=start_pos
         )
 
-    def update(self, dt, keys, tile_rects):
+    def update(self, dt, keys, tile_map):
         self.rect.move_ip(dt*self.v[0], dt*self.v[1])
 
         if self.rect.left < 0: # LEFT BORDER
@@ -99,7 +99,7 @@ class Player(pygame.sprite.Sprite):
         self.v = [0, 0]
         self.acceleration = 10
         self.gravity = 10
-        self.max_v = [40, 200]
+        self.max_v = [50, 200]
 
     def update(self, dt, keys_pressed, tiles):
         self.idle = True
@@ -119,7 +119,8 @@ class Player(pygame.sprite.Sprite):
 
         self.update_movement(dt, tiles)
 
-    def update_movement(self, dt, tiles):
+    def update_movement(self, dt, tile_map):
+
         if self.v[0] > self.max_v[0]:
             self.v[0] = self.max_v[0]
         elif self.v[0] < -self.max_v[0]:
@@ -129,20 +130,26 @@ class Player(pygame.sprite.Sprite):
         elif self.v[1] < -self.max_v[1]:
             self.v[1] = -self.max_v[1]
 
-        x = self.v[0] * dt
-        y = self.v[1] * dt
+        if self.v[0] < 0:
+            x = -math.ceil((self.v[0]*-1) * dt)
+        else:
+            x = math.ceil(self.v[0] * dt)
+        y = math.ceil(self.v[1] * dt)
+
+        print(f"The x velocity is {self.v[0]}\nThe applied x velocity is {x}")
 
         if x != 0:
             self.rect.move_ip(x, 0)
-            collisions = get_collisions(self.rect, tiles)
+            collisions = get_collisions(self.rect, tile_map)
             for collide in collisions:
+                print("YOU ARE HORIZONTALLY COLLIDING")
                 if x < 0:  # colliding with the right of a tile
                     self.rect.left = collide.rect.right
                 else:  # colliding with the left of a tile
                     self.rect.right = collide.rect.left
         if y != 0:
             self.rect.move_ip(0, y)
-            collisions = get_collisions(self.rect, tiles)
+            collisions = get_collisions(self.rect, tile_map)
             for collide in collisions:
                 if y > 0:  # standing on top of a tile
                     self.v[1] = 0

@@ -1,13 +1,38 @@
 import pygame
 import os
 from consts import *
+import math
 
 
-def get_collisions(rect, tiles):
+def get_collisions(rect, tile_map):
 	collisions = []
+
+	cx, cy = [rect.x//16, rect.y//16] # get the tile the rect is currently in
+	tiles = []
+
+	subetc = {}
+	for i in range(-3, 3):
+		if i == -3:
+			subetc[i] = [0, -1, 1]
+		if i == -2:
+			subetc[i] = [-1, 0, 1]
+		elif i == -1:
+			subetc[i] = [-1, 0, 1]
+		elif i == 0:
+			subetc[i] = [-2, -1, 0, 1, 2]
+		elif i == 1:
+			subetc[i] = [-1, 0, 1]
+		elif i == 2:
+			subetc[i] = [0]
+
+	for yval in subetc:
+		for xval in subetc[yval]:
+			tiles.append(tile_map[xval][yval])
+
 	for tile in tiles:
-		if rect.colliderect(tile.rect):
-			collisions.append(tile)
+		if tile.rect:
+			if rect.colliderect(tile.rect):
+				collisions.append(tile)
 	return collisions
 
 
@@ -41,10 +66,8 @@ class TileLoader:
 			row = []
 			for y in range(0, 18):
 				if y >= 15:
-					if y == 15:
-						row.append(Tile(pygame.image.load(os.path.join(ASSETS_DIRECTORY, "dirt.png")), True))
-					else:
-						row.append(Tile(pygame.image.load(os.path.join(ASSETS_DIRECTORY, "dirt.png"))))
+					row.append(Tile(pygame.image.load(os.path.join(ASSETS_DIRECTORY, "dirt.png")), True))
+
 				else:
 					row.append(Tile(None))
 			map.append(row)

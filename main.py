@@ -74,7 +74,7 @@ while running:
             entities.add(bullet)
 
     # ENTITY UPDATES
-    entities.update(dt, pygame.key.get_pressed(), tile_rects)
+    entities.update(dt, pygame.key.get_pressed(), tile_map)
 
     for entity in entities:
         screen.blit(entity.surf, entity.rect)
