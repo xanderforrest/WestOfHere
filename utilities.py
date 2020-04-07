@@ -61,7 +61,9 @@ class TileLoader:
 
 	def load_buildings(self):
 		map = self.empty_map()
-		map[20][9] = Tile(pygame.image.load(os.path.join(ASSETS_DIRECTORY, "buildings", "saloon.png")))
+		map[20][9] = Tile(pygame.image.load(os.path.join(ASSETS_DIRECTORY, BUILDINGS_DIRECTORY, "saloon.png")))
+		map[26][10] = Tile(pygame.image.load(os.path.join(ASSETS_DIRECTORY, BUILDINGS_DIRECTORY, "gun-shop.png")))
+		map[33][11] = Tile(pygame.image.load(os.path.join(ASSETS_DIRECTORY, BUILDINGS_DIRECTORY, "side-shop.png")))
 		return map
 
 	def load_floor(self):

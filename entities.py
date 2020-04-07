@@ -61,17 +61,12 @@ class Bullet(pygame.sprite.Sprite):
     def calc_initial_velocity(self):
         sp = self.start_pos
         ep = self.end_pos
-        print(f"Calculating bullet: Start Pos: {sp}, End Pos: {ep}")
         # these variables need a short name so these lines aren't massive
         # minimising dependencies by not using numpy vector operations here
 
         nv = [ep[0]-sp[0], ep[1]-sp[1]]
-        print(f"Calculated vector as {nv}")
         magnitude = math.sqrt(abs(nv[0]**2 + nv[1]**2))
-        print(f"Calculated magnitude as {magnitude}")
-
         direction_vector = [nv[0]/magnitude, nv[1]/magnitude]
-        print(f"Calculated normalised vector as {nv}")
 
         return direction_vector
 

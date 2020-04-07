@@ -59,9 +59,9 @@ while running:
                 rect = pygame.Rect(x * 16, y * 16, 16, 16)
                 pygame.draw.rect(screen, (0, 0, 255), rect, 1)
 
-    # render fps
-    fps = str(int(clock.get_fps()))
-    screen.blit(font.render(fps, 1, (255, 255, 255)), (0, 0))
+        # render fps
+        fps = str(int(clock.get_fps()))
+        screen.blit(font.render(fps, 1, (255, 255, 255)), (0, 0))
 
     # render a cursor
     pygame.mouse.set_visible(False)
@@ -74,7 +74,8 @@ while running:
             if event.key == K_ESCAPE:
                 running = False
             if event.key == K_UP:
-                pass  # this will become "interact" key for entering doors
+                debug = False if debug else True
+                  # this will become "interact" key for entering doors
         elif event.type == QUIT:
             running = False
         elif event.type == pygame.MOUSEBUTTONUP:
