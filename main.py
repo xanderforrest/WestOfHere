@@ -6,7 +6,7 @@ from pygame.locals import (
     KEYDOWN,
     QUIT,
 )
-from entities import Player
+from entities import Player, Target
 from utilities import TileLoader
 from consts import *
 import os
@@ -21,6 +21,7 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 screen.set_alpha(None)
 
 entities = pygame.sprite.Group()
+destroyables = pygame.sprite.Group()
 clint = Player()
 entities.add(clint)
 clock = pygame.time.Clock()
@@ -47,7 +48,7 @@ while running:
         for y in range(0, len(tile_map[x])):
             tile = tile_map[x][y]
             if tile.image:
-                screen.blit(tile.image, (x*16, y*16))
+                screen.blit(tile.image, (x * 16, y * 16))
                 if tile.interactable:
                     tile.rect = pygame.Rect(x * 16, y * 16, 16, 16)
                     tile_rects.append(tile)
@@ -66,7 +67,8 @@ while running:
     # render a cursor
     pygame.mouse.set_visible(False)
     curs_pos = pygame.mouse.get_pos()
-    screen.blit(cursor_img, (curs_pos[0]-3, curs_pos[1]-3))  # offset to make mouse pointer line up with cursor centre
+    screen.blit(cursor_img,
+                (curs_pos[0] - 3, curs_pos[1] - 3))  # offset to make mouse pointer line up with cursor centre
 
     # EVENT HANDLING
     for event in pygame.event.get():
@@ -75,17 +77,28 @@ while running:
                 running = False
             if event.key == K_UP:
                 debug = False if debug else True
-                  # this will become "interact" key for entering doors
+                # this will become "interact" key for entering doors
         elif event.type == QUIT:
             running = False
         elif event.type == pygame.MOUSEBUTTONUP:
-            bullet = clint.fire_gun()
-            entities.add(bullet)
+            if event.button == 1:
+                bullet = clint.fire_gun()
+                entities.add(bullet)
+            else:
+                print("other mouse event button")
+                target = Target(pygame.mouse.get_pos())
+                destroyables.add(target)
+                entities.add(target)
 
     # ENTITY UPDATES
     entities.update(dt, pygame.key.get_pressed(), tile_map)
 
     for entity in entities:
         screen.blit(entity.surf, entity.rect)
+
+        if entity.name == "bullet":
+            for e in destroyables:
+                if entity.rect.colliderect(e.rect):
+                    e.on_hit()
 
     pygame.display.flip()

@@ -18,25 +18,31 @@ import math
 class Target(pygame.sprite.Sprite):
     def __init__(self, location):
         super(Target, self).__init__()
-        self.surf = pygame.Surface((20, 20))
+        self.name = "target"
+        self.surf = pygame.Surface((16, 16))
         self.rect = self.surf.get_rect(
             center=location
         )
 
-    def on_hit(self):
+    def update(self, dt, keys, tile_map):
         pass
-    # TODO hit sound
+
+    def on_hit(self):
+        pygame.mixer.Channel(0).play(
+            pygame.mixer.Sound(os.path.join(ASSETS_DIRECTORY, SOUNDS_DIRECTORY, "richochet.wav")))
+        self.kill()
     # TODO spin animation
 
 
 class Bullet(pygame.sprite.Sprite):
     def __init__(self, start_pos, end_pos):
         super(Bullet, self).__init__()
+        self.name = "bullet"
         self.start_pos = start_pos
         self.end_pos = end_pos
         self.surf = pygame.Surface((5, 5))
         self.v = self.calc_initial_velocity()
-        self.speed = 80
+        self.speed = 30
         self.v = [self.v[0] * self.speed, self.v[1] * self.speed]
         self.rect = self.surf.get_rect(
             center=start_pos
@@ -74,6 +80,7 @@ class Bullet(pygame.sprite.Sprite):
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super(Player, self).__init__()
+        self.name = "player"
 
         self.sprite_sheet = pygame.image.load(os.path.join(ASSETS_DIRECTORY, CLINT_SPRITESHEET))
         self.idle_images = []
@@ -184,8 +191,8 @@ class Player(pygame.sprite.Sprite):
 
     def fire_gun(self):
         # TODO start gun draw animation
-        pygame.mixer.music.load(os.path.join(ASSETS_DIRECTORY, SOUNDS_DIRECTORY, "gunshot.mp3"))
-        pygame.mixer.music.play(0)
+        pygame.mixer.Channel(1).play(
+            pygame.mixer.Sound(os.path.join(ASSETS_DIRECTORY, SOUNDS_DIRECTORY, "gunshot.wav")))
 
         spos = self.rect.center
         epos = pygame.mouse.get_pos()
