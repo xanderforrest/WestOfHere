@@ -85,18 +85,17 @@ while running:
                 bullet = clint.fire_gun()
                 entities.add(bullet)
             else:
-                print("other mouse event button")
                 target = Target(pygame.mouse.get_pos())
                 destroyables.add(target)
                 entities.add(target)
 
     # ENTITY UPDATES
-    entities.update(dt, pygame.key.get_pressed(), tile_map)
+    entities.update(dt, pygame.key.get_pressed(), tile_map, destroyables)
 
     for entity in entities:
         screen.blit(entity.surf, entity.rect)
 
-        if entity.name == "bullet":
+        if entity.name == "bullet":  # reasonably sure this could be removed, but if it isn't broke don't fix it
             for e in destroyables:
                 if entity.rect.colliderect(e.rect):
                     e.on_hit()

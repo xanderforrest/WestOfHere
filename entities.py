@@ -19,12 +19,13 @@ class Target(pygame.sprite.Sprite):
     def __init__(self, location):
         super(Target, self).__init__()
         self.name = "target"
-        self.surf = pygame.Surface((16, 16))
+        self.surf = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "barrel.png")).convert()
+        self.surf.set_colorkey((0, 0, 0))
         self.rect = self.surf.get_rect(
             center=location
         )
 
-    def update(self, dt, keys, tile_map):
+    def update(self, dt, keys, tile_map, destroyables):
         pass
 
     def on_hit(self):
@@ -47,9 +48,13 @@ class Bullet(pygame.sprite.Sprite):
         self.rect = self.surf.get_rect(
             center=start_pos
         )
+        self.gradient = (end_pos[1] - start_pos[1])//(end_pos[0] - start_pos[0])
+        self.last_point = self.rect.center
+        self.current_point = self.rect.center
 
-    def update(self, dt, keys, tile_map):
+    def update(self, dt, keys, tile_map, destroyables):
         self.rect.move_ip(self.v[0], self.v[1])
+        self.current_point = self.rect.center
 
         if self.rect.left < 0: # LEFT BORDER
             self.kill()
@@ -60,9 +65,23 @@ class Bullet(pygame.sprite.Sprite):
         if self.rect.bottom >= SCREEN_HEIGHT: # BOTTOM BORDER
             self.kill()
 
+        # this block of code checks the gap left by each frame for possible collisions
+        dif_x = int(self.current_point[0] - self.last_point[0])
+        for x in range(1, dif_x):
+            y_add = x*self.gradient
+
+            test_coords = (self.last_point[0]+x, self.last_point[1]+y_add)
+            self.rect.center = test_coords
+            for e in destroyables:
+                if self.rect.colliderect(e.rect):
+                    e.on_hit()
+        self.rect.center = self.current_point
+
         collisions = get_collisions(self.rect, tile_map)
-        if collisions: # for now we're only concerned if the bullet hits the floor
+        if collisions:  # for now we're only concerned if the bullet hits the floor
             self.kill()
+
+        self.last_point = self.current_point
 
     def calc_initial_velocity(self):
         sp = self.start_pos
@@ -108,7 +127,7 @@ class Player(pygame.sprite.Sprite):
         self.gravity = 10
         self.max_v = [50, 200]
 
-    def update(self, dt, keys_pressed, tiles):
+    def update(self, dt, keys_pressed, tiles, destroyables):
         self.idle = True
         if keys_pressed[K_LEFT]:
             self.v[0] -= self.acceleration
