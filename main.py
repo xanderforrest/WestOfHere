@@ -33,6 +33,7 @@ font = pygame.font.SysFont("Arial", 32)
 
 animation_count = 0
 running = True
+debug = False
 
 while running:
     # ANIMATION HANDLING
@@ -50,6 +51,13 @@ while running:
                 if tile.interactable:
                     tile.rect = pygame.Rect(x * 16, y * 16, 16, 16)
                     tile_rects.append(tile)
+
+    if debug:
+        # render blocks
+        for y in range(18):
+            for x in range(50):
+                rect = pygame.Rect(x * 16, y * 16, 16, 16)
+                pygame.draw.rect(screen, (0, 0, 255), rect, 1)
 
     # render fps
     fps = str(int(clock.get_fps()))

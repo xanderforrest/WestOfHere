@@ -7,15 +7,15 @@ import math
 def get_collisions(rect, tile_map):
 	collisions = []
 
-	cx, cy = [rect.x//16, rect.y//16] # get the tile the rect is currently in
+	cx, cy = [rect.center[0]//16, rect.center[1]//16]  # get the tile the rect is currently in
 	tiles = []
 
 	subetc = {}
-	for i in range(-3, 3):
+	for i in range(-2, 3):
 		if i == -3:
 			subetc[i] = [0, -1, 1]
 		if i == -2:
-			subetc[i] = [-1, 0, 1]
+			subetc[i] = [0]
 		elif i == -1:
 			subetc[i] = [-1, 0, 1]
 		elif i == 0:
@@ -27,7 +27,7 @@ def get_collisions(rect, tile_map):
 
 	for yval in subetc:
 		for xval in subetc[yval]:
-			tiles.append(tile_map[xval][yval])
+			tiles.append(tile_map[cx+xval][cy+yval])
 
 	for tile in tiles:
 		if tile.rect:
@@ -66,7 +66,7 @@ class TileLoader:
 			row = []
 			for y in range(0, 18):
 				if y >= 15:
-					row.append(Tile(pygame.image.load(os.path.join(ASSETS_DIRECTORY, "dirt.png")), True))
+					row.append(Tile(pygame.image.load(os.path.join(ASSETS_DIRECTORY, "dirt.png")), True, category="floor"))
 
 				else:
 					row.append(Tile(None))
@@ -88,8 +88,11 @@ class TileLoader:
 
 
 class Tile:
-	def __init__(self, image, interactable=False, category="floor", rect=None):
+	def __init__(self, image, interactable=False, category="none", rect=None):
 		self.image = image
 		self.interactable = interactable
 		self.category = category
 		self.rect = rect
+
+	def get_block_coords(self):
+		return f"({self.rect.center[0]//16}, {self.rect.center[1]//16})"

@@ -136,7 +136,9 @@ class Player(pygame.sprite.Sprite):
             x = math.ceil(self.v[0] * dt)
         y = math.ceil(self.v[1] * dt)
 
-        print(f"The x velocity is {self.v[0]}\nThe applied x velocity is {x}")
+        cx, cy = [self.rect.center[0] // 16, self.rect.center[1] // 16]  # get the tile the rect is currently in
+        # print(f"The player is currently in block ({cx}, {cy})")
+        #print(f"The x velocity is {self.v[0]}\nThe applied x velocity is {x}")
 
         if x != 0:
             self.rect.move_ip(x, 0)
