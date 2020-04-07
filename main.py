@@ -39,7 +39,7 @@ while running:
     # ANIMATION HANDLING
     dt = clock.tick(60) / 1000
     animation_count += 1
-    if animation_count == 4:
+    if animation_count == 5:
         animation_count = 0
         clint.update_animation()
 

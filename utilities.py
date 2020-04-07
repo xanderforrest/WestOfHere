@@ -27,7 +27,11 @@ def get_collisions(rect, tile_map):
 
 	for yval in subetc:
 		for xval in subetc[yval]:
-			tiles.append(tile_map[cx+xval][cy+yval])
+			try:
+				tiles.append(tile_map[cx+xval][cy+yval])
+			except IndexError as e:
+				pass
+				# print("Entity gone out of range.")
 
 	for tile in tiles:
 		if tile.rect:

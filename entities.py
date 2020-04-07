@@ -54,9 +54,9 @@ class Bullet(pygame.sprite.Sprite):
         if self.rect.bottom >= SCREEN_HEIGHT: # BOTTOM BORDER
             self.kill()
 
-        # collisions = get_collisions(self.rect, tile_rects)
-        # if collisions: # for now we're only concerned if the bullet hits the floor
-        #     self.kill()
+        collisions = get_collisions(self.rect, tile_map)
+        if collisions: # for now we're only concerned if the bullet hits the floor
+            self.kill()
 
     def calc_initial_velocity(self):
         sp = self.start_pos
@@ -80,7 +80,6 @@ class Player(pygame.sprite.Sprite):
         self.running_images = []
         self.running_level = 0
         self.idle = True
-        self.idle_flag = True
 
         for i in range(0, 10):
             sprite_crop = pygame.Surface([16, 32]).convert()
@@ -136,15 +135,14 @@ class Player(pygame.sprite.Sprite):
             x = math.ceil(self.v[0] * dt)
         y = math.ceil(self.v[1] * dt)
 
-        cx, cy = [self.rect.center[0] // 16, self.rect.center[1] // 16]  # get the tile the rect is currently in
+        # cx, cy = [self.rect.center[0] // 16, self.rect.center[1] // 16]  # get the tile the rect is currently in
         # print(f"The player is currently in block ({cx}, {cy})")
-        #print(f"The x velocity is {self.v[0]}\nThe applied x velocity is {x}")
+        # print(f"The x velocity is {self.v[0]}\nThe applied x velocity is {x}")
 
         if x != 0:
             self.rect.move_ip(x, 0)
             collisions = get_collisions(self.rect, tile_map)
             for collide in collisions:
-                print("YOU ARE HORIZONTALLY COLLIDING")
                 if x < 0:  # colliding with the right of a tile
                     self.rect.left = collide.rect.right
                 else:  # colliding with the left of a tile
@@ -166,25 +164,21 @@ class Player(pygame.sprite.Sprite):
 
     def update_animation(self):
         if self.idle:
-            if self.idle_flag:
-                self.idle_flag = False
-                self.idle_level += 1
-                self.idle_level = 0 if self.idle_level > 3 else self.idle_level
+            self.idle_level += 1
+            self.idle_level = 0 if self.idle_level > 3 else self.idle_level
 
-                if self.direction == "right":
-                    self.surf.blit(self.idle_images[self.idle_level][0], (0, 0))
-                else:
-                    self.surf.blit(self.idle_images[self.idle_level][1], (0, 0))
+            if self.direction == "right":
+                self.surf = self.idle_images[self.idle_level][0]
             else:
-                self.idle_flag = True
+                self.surf = self.idle_images[self.idle_level][1]
         else:
             self.running_level += 1
             self.running_level = 0 if self.running_level > 5 else self.running_level
 
             if self.direction == "right":
-                self.surf.blit(self.running_images[self.running_level][0], (0, 0))
+                self.surf = self.running_images[self.running_level][0]
             else:
-                self.surf.blit(self.running_images[self.running_level][1], (0, 0))
+                self.surf = self.running_images[self.running_level][1]
         self.surf.set_colorkey((255, 255, 255))
 
     def fire_gun(self):
