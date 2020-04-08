@@ -29,6 +29,8 @@ tile_rects = []
 
 cursor_img = pygame.image.load(os.path.join(ASSETS_DIRECTORY, CURSOR_IMG))
 tile_map = TileLoader().load_map()
+soundtrack = pygame.mixer.Sound(os.path.join(ASSETS_DIRECTORY, SOUNDS_DIRECTORY, "soundtrack.wav"))
+pygame.mixer.Channel(0).play(soundtrack, loops=-1)
 
 font = pygame.font.SysFont("Arial", 32)
 

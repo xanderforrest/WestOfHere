@@ -24,13 +24,13 @@ class Target(pygame.sprite.Sprite):
         self.rect = self.surf.get_rect(
             center=location
         )
+        self.hit_sound = pygame.mixer.Sound(os.path.join(ASSETS_DIRECTORY, SOUNDS_DIRECTORY, "richochet.wav"))
 
     def update(self, dt, keys, tile_map, destroyables):
         pass
 
     def on_hit(self):
-        pygame.mixer.Channel(0).play(
-            pygame.mixer.Sound(os.path.join(ASSETS_DIRECTORY, SOUNDS_DIRECTORY, "richochet.wav")))
+        pygame.mixer.Channel(0).play(self.hit_sound)
         self.kill()
     # TODO spin animation
 
@@ -107,6 +107,8 @@ class Player(pygame.sprite.Sprite):
         self.running_images = []
         self.running_level = 0
         self.idle = True
+
+        self.gunshot_sound = pygame.mixer.Sound(os.path.join(ASSETS_DIRECTORY, SOUNDS_DIRECTORY, "gunshot.wav"))
 
         for i in range(0, 10):
             sprite_crop = pygame.Surface([16, 32]).convert()
@@ -210,8 +212,7 @@ class Player(pygame.sprite.Sprite):
 
     def fire_gun(self):
         # TODO start gun draw animation
-        pygame.mixer.Channel(1).play(
-            pygame.mixer.Sound(os.path.join(ASSETS_DIRECTORY, SOUNDS_DIRECTORY, "gunshot.wav")))
+        pygame.mixer.Channel(1).play(self.gunshot_sound)
 
         spos = self.rect.center
         epos = pygame.mouse.get_pos()

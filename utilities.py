@@ -2,6 +2,7 @@ import pygame
 import os
 from consts import *
 import math
+import random
 
 
 def get_collisions(rect, tile_map):
@@ -72,9 +73,18 @@ class TileLoader:
             row = []
             for y in range(0, 18):
                 if y >= 15:
-                    row.append(
-                        Tile(pygame.image.load(os.path.join(ASSETS_DIRECTORY, "dirt.png")), True, category="floor"))
-
+                    if y == 15:
+                        row.append(Tile(
+                            pygame.image.load(os.path.join(ASSETS_DIRECTORY, "grass.png")), True, category="floor"))
+                    else:
+                        if random.randint(0, 5) == 3:
+                            row.append(Tile(
+                                pygame.image.load(os.path.join(ASSETS_DIRECTORY, "dirt-variant.png")), True,
+                                category="floor"))
+                        else:
+                            row.append(
+                                Tile(pygame.image.load(os.path.join(ASSETS_DIRECTORY, "dirt.png")), True,
+                                     category="floor"))
                 else:
                     row.append(Tile(None))
             map.append(row)
