@@ -48,7 +48,10 @@ class Bullet(pygame.sprite.Sprite):
         self.rect = self.surf.get_rect(
             center=start_pos
         )
-        self.gradient = (end_pos[1] - start_pos[1])//(end_pos[0] - start_pos[0])
+        try:
+            self.gradient = (end_pos[1] - start_pos[1])//(end_pos[0] - start_pos[0])
+        except ZeroDivisionError:
+            self.gradient = 0
         self.last_point = self.rect.center
         self.current_point = self.rect.center
 
@@ -218,3 +221,108 @@ class Player(pygame.sprite.Sprite):
         epos = pygame.mouse.get_pos()
 
         return Bullet(spos, epos)
+
+
+class Bandit(pygame.sprite.Sprite):
+    def __init__(self, start_pos):
+        super(Bandit, self).__init__()
+        self.name = "bandit"
+
+        self.sprite_sheet = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "bandit-spritesheet.png"))
+        self.idle_images = []
+        self.idle_level = 0
+        self.running_images = []
+        self.running_level = 0
+        self.idle = True
+
+        self.gunshot_sound = pygame.mixer.Sound(os.path.join(ASSETS_DIRECTORY, SOUNDS_DIRECTORY, "gunshot.wav"))
+
+        for i in range(0, 10):
+            sprite_crop = pygame.Surface([16, 32]).convert()
+            sprite_crop.blit(self.sprite_sheet, (0, 0), ((i*16), 0, 16, 32))
+
+            if i < 4:
+                if i == 0:
+                    self.surf = sprite_crop
+                    self.surf.set_colorkey((255, 255, 255))
+                self.idle_images.append([sprite_crop, pygame.transform.flip(sprite_crop, True, False)])
+            else:
+                self.running_images.append([sprite_crop, pygame.transform.flip(sprite_crop, True, False)])
+
+        self.direction = "left"
+        self.rect = self.surf.get_rect(
+            center=start_pos
+        )
+        self.v = [0, 0]
+        self.acceleration = 10
+        self.gravity = 10
+        self.max_v = [50, 200]
+
+    def update(self, dt, keys_pressed, tiles, destroyables):
+        self.idle = True
+        # TODO insert movement logic
+
+        # consider gravity
+        self.v[1] += self.gravity
+
+        self.update_movement(dt, tiles)
+
+    def update_movement(self, dt, tile_map):
+        if self.v[0] > self.max_v[0]:
+            self.v[0] = self.max_v[0]
+        elif self.v[0] < -self.max_v[0]:
+            self.v[0] = -self.max_v[0]
+        if self.v[1] > self.max_v[1]:
+            self.v[1] = self.max_v[1]
+        elif self.v[1] < -self.max_v[1]:
+            self.v[1] = -self.max_v[1]
+
+        if self.v[0] < 0:
+            x = -math.ceil((self.v[0]*-1) * dt)
+        else:
+            x = math.ceil(self.v[0] * dt)
+        y = math.ceil(self.v[1] * dt)
+
+        # cx, cy = [self.rect.center[0] // 16, self.rect.center[1] // 16]  # get the tile the rect is currently in
+        # print(f"The player is currently in block ({cx}, {cy})")
+        # print(f"The x velocity is {self.v[0]}\nThe applied x velocity is {x}")
+
+        if x != 0:
+            self.rect.move_ip(x, 0)
+            collisions = get_collisions(self.rect, tile_map)
+            for collide in collisions:
+                if x < 0:  # colliding with the right of a tile
+                    self.rect.left = collide.rect.right
+                else:  # colliding with the left of a tile
+                    self.rect.right = collide.rect.left
+        if y != 0:
+            self.rect.move_ip(0, y)
+            collisions = get_collisions(self.rect, tile_map)
+            for collide in collisions:
+                if y > 0:  # standing on top of a tile
+                    self.v[1] = 0
+                    self.rect.bottom = collide.rect.top
+                else:  # hitting bottom of tile
+                    self.rect.top = collide.rect.bottom
+
+    def update_animation(self):
+        if self.idle:
+            self.idle_level += 1
+            self.idle_level = 0 if self.idle_level > 3 else self.idle_level
+
+            if self.direction == "right":
+                self.surf = self.idle_images[self.idle_level][0]
+            else:
+                self.surf = self.idle_images[self.idle_level][1]
+        else:
+            self.running_level += 1
+            self.running_level = 0 if self.running_level > 5 else self.running_level
+
+            if self.direction == "right":
+                self.surf = self.running_images[self.running_level][0]
+            else:
+                self.surf = self.running_images[self.running_level][1]
+        self.surf.set_colorkey((255, 255, 255))
+
+    def on_hit(self):
+        self.kill()

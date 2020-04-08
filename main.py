@@ -6,7 +6,7 @@ from pygame.locals import (
     KEYDOWN,
     QUIT,
 )
-from entities import Player, Target
+from entities import Player, Target, Bandit
 from utilities import TileLoader
 from consts import *
 import os
@@ -22,8 +22,10 @@ screen.set_alpha(None)
 
 entities = pygame.sprite.Group()
 destroyables = pygame.sprite.Group()
+animated = pygame.sprite.Group()
 clint = Player()
 entities.add(clint)
+animated.add(clint)
 clock = pygame.time.Clock()
 tile_rects = []
 
@@ -44,7 +46,8 @@ while running:
     animation_count += 1
     if animation_count == 5:
         animation_count = 0
-        clint.update_animation()
+        for e in animated:
+            e.update_animation()
 
     for x in range(0, len(tile_map)):  # loads map
         for y in range(0, len(tile_map[x])):
@@ -87,8 +90,10 @@ while running:
                 bullet = clint.fire_gun()
                 entities.add(bullet)
             else:
-                target = Target(pygame.mouse.get_pos())
+                # target = Target(pygame.mouse.get_pos())
+                target = Bandit(pygame.mouse.get_pos())
                 destroyables.add(target)
+                animated.add(target)
                 entities.add(target)
 
     # ENTITY UPDATES
@@ -100,6 +105,7 @@ while running:
         if entity.name == "bullet":  # reasonably sure this could be removed, but if it isn't broke don't fix it
             for e in destroyables:
                 if entity.rect.colliderect(e.rect):
+                    entity.kill()
                     e.on_hit()
 
     pygame.display.flip()
