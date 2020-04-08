@@ -7,7 +7,7 @@ from pygame.locals import (
     QUIT,
 )
 from entities import Player, Target, Bandit
-from utilities import TileLoader
+from utilities import TileLoader, GameState
 from consts import *
 import os
 
@@ -20,45 +20,38 @@ pygame.event.set_allowed([KEYDOWN, QUIT, pygame.MOUSEBUTTONUP])
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 screen.set_alpha(None)
 
-entities = pygame.sprite.Group()
-destroyables = pygame.sprite.Group()
-animated = pygame.sprite.Group()
+GS = GameState()
+
 clint = Player()
-entities.add(clint)
-animated.add(clint)
-clock = pygame.time.Clock()
-tile_rects = []
+GS.entities.add(clint)
+GS.animated.add(clint)
+
+GS.tile_map = TileLoader().load_map()
 
 cursor_img = pygame.image.load(os.path.join(ASSETS_DIRECTORY, CURSOR_IMG))
-tile_map = TileLoader().load_map()
 soundtrack = pygame.mixer.Sound(os.path.join(ASSETS_DIRECTORY, SOUNDS_DIRECTORY, "soundtrack.wav"))
 pygame.mixer.Channel(0).play(soundtrack, loops=-1)
-
 font = pygame.font.SysFont("Arial", 32)
 
-animation_count = 0
-running = True
-debug = False
 
-while running:
+while GS.running:
     # ANIMATION HANDLING
-    dt = clock.tick(60) / 1000
-    animation_count += 1
-    if animation_count == 5:
-        animation_count = 0
-        for e in animated:
+    GS.dt = GS.clock.tick(60) / 1000
+    GS.animation_count += 1
+    if GS.animation_count == 5:
+        GS.animation_count = 0
+        for e in GS.animated:
             e.update_animation()
 
-    for x in range(0, len(tile_map)):  # loads map
-        for y in range(0, len(tile_map[x])):
-            tile = tile_map[x][y]
+    for x in range(0, len(GS.tile_map)):  # loads map
+        for y in range(0, len(GS.tile_map[x])):
+            tile = GS.tile_map[x][y]
             if tile.image:
                 screen.blit(tile.image, (x * 16, y * 16))
-                if tile.interactable:
+                if tile.interactable:  # TODO move this into the tile class
                     tile.rect = pygame.Rect(x * 16, y * 16, 16, 16)
-                    tile_rects.append(tile)
 
-    if debug:
+    if GS.debug:
         # render blocks
         for y in range(18):
             for x in range(50):
@@ -66,7 +59,7 @@ while running:
                 pygame.draw.rect(screen, (0, 0, 255), rect, 1)
 
         # render fps
-        fps = str(int(clock.get_fps()))
+        fps = str(int(GS.clock.get_fps()))
         screen.blit(font.render(fps, 1, (255, 255, 255)), (0, 0))
 
     # render a cursor
@@ -79,31 +72,33 @@ while running:
     for event in pygame.event.get():
         if event.type == KEYDOWN:
             if event.key == K_ESCAPE:
-                running = False
+                GS.running = False
             if event.key == K_UP:
-                debug = False if debug else True
+                GS.debug = False if GS.debug else True
                 # this will become "interact" key for entering doors
         elif event.type == QUIT:
-            running = False
+            GS.running = False
         elif event.type == pygame.MOUSEBUTTONUP:
             if event.button == 1:
                 bullet = clint.fire_gun()
-                entities.add(bullet)
+                GS.entities.add(bullet)
             else:
                 # target = Target(pygame.mouse.get_pos())
                 target = Bandit(pygame.mouse.get_pos())
-                destroyables.add(target)
-                animated.add(target)
-                entities.add(target)
+                GS.destroyables.add(target)
+                GS.animated.add(target)
+                GS.entities.add(target)
 
     # ENTITY UPDATES
-    entities.update(dt, pygame.key.get_pressed(), tile_map, destroyables)
+    for entity in GS.entities:
+        GS = entity.update(GS, pygame.key.get_pressed())
 
-    for entity in entities:
+    for entity in GS.entities:
         screen.blit(entity.surf, entity.rect)
 
+        #  TODO remove this nicely
         if entity.name == "bullet":  # reasonably sure this could be removed, but if it isn't broke don't fix it
-            for e in destroyables:
+            for e in GS.destroyables:
                 if entity.rect.colliderect(e.rect):
                     entity.kill()
                     e.on_hit()

@@ -26,8 +26,8 @@ class Target(pygame.sprite.Sprite):
         )
         self.hit_sound = pygame.mixer.Sound(os.path.join(ASSETS_DIRECTORY, SOUNDS_DIRECTORY, "richochet.wav"))
 
-    def update(self, dt, keys, tile_map, destroyables):
-        pass
+    def update(self, GS, keys_pressed):
+        return GS
 
     def on_hit(self):
         pygame.mixer.Channel(0).play(self.hit_sound)
@@ -55,7 +55,7 @@ class Bullet(pygame.sprite.Sprite):
         self.last_point = self.rect.center
         self.current_point = self.rect.center
 
-    def update(self, dt, keys, tile_map, destroyables):
+    def update(self, GS, keys_pressed):
         self.rect.move_ip(self.v[0], self.v[1])
         self.current_point = self.rect.center
 
@@ -75,16 +75,17 @@ class Bullet(pygame.sprite.Sprite):
 
             test_coords = (self.last_point[0]+x, self.last_point[1]+y_add)
             self.rect.center = test_coords
-            for e in destroyables:
+            for e in GS.destroyables:
                 if self.rect.colliderect(e.rect):
                     e.on_hit()
         self.rect.center = self.current_point
 
-        collisions = get_collisions(self.rect, tile_map)
+        collisions = get_collisions(self.rect, GS.tile_map)
         if collisions:  # for now we're only concerned if the bullet hits the floor
             self.kill()
 
         self.last_point = self.current_point
+        return GS
 
     def calc_initial_velocity(self):
         sp = self.start_pos
@@ -132,7 +133,7 @@ class Player(pygame.sprite.Sprite):
         self.gravity = 10
         self.max_v = [50, 200]
 
-    def update(self, dt, keys_pressed, tiles, destroyables):
+    def update(self, GS, keys_pressed):
         self.idle = True
         if keys_pressed[K_LEFT]:
             self.v[0] -= self.acceleration
@@ -148,7 +149,8 @@ class Player(pygame.sprite.Sprite):
         # consider gravity
         self.v[1] += self.gravity
 
-        self.update_movement(dt, tiles)
+        self.update_movement(GS.dt, GS.tile_map)
+        return GS
 
     def update_movement(self, dt, tile_map):
 
@@ -258,14 +260,15 @@ class Bandit(pygame.sprite.Sprite):
         self.gravity = 10
         self.max_v = [50, 200]
 
-    def update(self, dt, keys_pressed, tiles, destroyables):
+    def update(self, GS, keys_pressed):
         self.idle = True
         # TODO insert movement logic
 
         # consider gravity
         self.v[1] += self.gravity
 
-        self.update_movement(dt, tiles)
+        self.update_movement(GS.dt, GS.tile_map)
+        return GS
 
     def update_movement(self, dt, tile_map):
         if self.v[0] > self.max_v[0]:
