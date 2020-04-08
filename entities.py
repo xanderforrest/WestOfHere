@@ -77,6 +77,7 @@ class Bullet(pygame.sprite.Sprite):
             self.rect.center = test_coords
             for e in GS.destroyables:
                 if self.rect.colliderect(e.rect):
+                    self.kill()
                     e.on_hit()
         self.rect.center = self.current_point
 

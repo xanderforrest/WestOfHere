@@ -96,11 +96,4 @@ while GS.running:
     for entity in GS.entities:
         screen.blit(entity.surf, entity.rect)
 
-        #  TODO remove this nicely
-        if entity.name == "bullet":  # reasonably sure this could be removed, but if it isn't broke don't fix it
-            for e in GS.destroyables:
-                if entity.rect.colliderect(e.rect):
-                    entity.kill()
-                    e.on_hit()
-
     pygame.display.flip()
