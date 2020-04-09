@@ -13,7 +13,7 @@ from pygame.locals import (
 from consts import *
 from utilities import get_collisions
 import math
-
+from animation import Animation
 
 class Target(pygame.sprite.Sprite):
     def __init__(self, location):
@@ -69,6 +69,8 @@ class Bullet(pygame.sprite.Sprite):
             self.kill()
 
         # this block of code checks the gap left by each frame for possible collisions
+        # TODO fix this not working with collisions to the left of you, probably involving checking which point
+        # has a larger x value so that the subtraction doesn't mess up
         dif_x = int(self.current_point[0] - self.last_point[0])
         for x in range(1, dif_x):
             y_add = x*self.gradient
@@ -106,14 +108,26 @@ class Player(pygame.sprite.Sprite):
         super(Player, self).__init__()
         self.name = "player"
 
-        self.sprite_sheet = pygame.image.load(os.path.join(ASSETS_DIRECTORY, CLINT_SPRITESHEET))
+        self.sprite_sheet = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "spritesheets", CLINT_SPRITESHEET))
         self.idle_images = []
         self.idle_level = 0
         self.running_images = []
         self.running_level = 0
         self.idle = True
+        self.gun_draw = False
+        self.gun_level = 0
+        self.gun_draw_images = []
 
         self.gunshot_sound = pygame.mixer.Sound(os.path.join(ASSETS_DIRECTORY, SOUNDS_DIRECTORY, "gunshot.wav"))
+
+        # self.GunDrawAnimation = Animation("")
+
+        gun_draw_spritesheet = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "spritesheets", "gun_draw_spritesheet.png"))
+        for i in range(0, 6):
+            sprite_crop = pygame.Surface([16, 32]).convert()
+            sprite_crop.blit(gun_draw_spritesheet, (0, 0), ((i*16), 0, 16, 32))
+
+            self.gun_draw_images.append([sprite_crop, pygame.transform.flip(sprite_crop, True, False)])
 
         for i in range(0, 10):
             sprite_crop = pygame.Surface([16, 32]).convert()
@@ -134,6 +148,8 @@ class Player(pygame.sprite.Sprite):
         self.gravity = 10
         self.max_v = [50, 200]
 
+        self.spawned_entities = []
+
     def update(self, GS, keys_pressed):
         self.idle = True
         if keys_pressed[K_LEFT]:
@@ -146,6 +162,11 @@ class Player(pygame.sprite.Sprite):
             self.idle = False
         if not keys_pressed[K_RIGHT] and not keys_pressed[K_LEFT]:
             self.v[0] = 0
+
+        # update the gamestate with changes made
+        for entity in self.spawned_entities:
+            GS.entities.add(entity)
+        self.spawned_entities = []
 
         # consider gravity
         self.v[1] += self.gravity
@@ -198,22 +219,37 @@ class Player(pygame.sprite.Sprite):
             self.surf = pygame.transform.flip(self.surf, True, False)  # horizontal flip: true, vertical: false
 
     def update_animation(self):
-        if self.idle:
-            self.idle_level += 1
-            self.idle_level = 0 if self.idle_level > 3 else self.idle_level
+        if not self.gun_draw:
+            if self.idle:
+                self.idle_level += 1
+                self.idle_level = 0 if self.idle_level > 3 else self.idle_level
 
-            if self.direction == "right":
-                self.surf = self.idle_images[self.idle_level][0]
+                if self.direction == "right":
+                    self.surf = self.idle_images[self.idle_level][0]
+                else:
+                    self.surf = self.idle_images[self.idle_level][1]
             else:
-                self.surf = self.idle_images[self.idle_level][1]
+                self.running_level += 1
+                self.running_level = 0 if self.running_level > 5 else self.running_level
+
+                if self.direction == "right":
+                    self.surf = self.running_images[self.running_level][0]
+                else:
+                    self.surf = self.running_images[self.running_level][1]
         else:
-            self.running_level += 1
-            self.running_level = 0 if self.running_level > 5 else self.running_level
+            print("DOING THIS GUN DRAW ANIMATIOn")
+            self.gun_level += 1
+            apply = self.gun_level
+            if self.gun_level > 5:
+                apply = 5
+                self.fire_gun()
+                if self.gun_level > 20:
+                    self.gun_draw = False
 
             if self.direction == "right":
-                self.surf = self.running_images[self.running_level][0]
+                self.surf = self.gun_draw_images[apply][0]
             else:
-                self.surf = self.running_images[self.running_level][1]
+                self.surf = self.gun_draw_images[apply][1]
         self.surf.set_colorkey((255, 255, 255))
 
     def fire_gun(self):
@@ -223,7 +259,11 @@ class Player(pygame.sprite.Sprite):
         spos = self.rect.center
         epos = pygame.mouse.get_pos()
 
-        return Bullet(spos, epos)
+        bullet = Bullet(spos, epos)
+        self.spawned_entities.append(bullet)
+
+    def trigger_gunfire(self):
+        self.gun_draw = True
 
 
 class Bandit(pygame.sprite.Sprite):

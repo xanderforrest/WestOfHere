@@ -31,7 +31,7 @@ GS.tile_map = TileLoader().load_map()
 cursor_img = pygame.image.load(os.path.join(ASSETS_DIRECTORY, CURSOR_IMG))
 soundtrack = pygame.mixer.Sound(os.path.join(ASSETS_DIRECTORY, SOUNDS_DIRECTORY, "soundtrack.wav"))
 pygame.mixer.Channel(0).play(soundtrack, loops=-1)
-font = pygame.font.SysFont("Arial", 32)
+font = pygame.font.Font(os.path.join(ASSETS_DIRECTORY, "fonts", "arcade-font.ttf"), 32)
 
 
 while GS.running:
@@ -80,8 +80,7 @@ while GS.running:
             GS.running = False
         elif event.type == pygame.MOUSEBUTTONUP:
             if event.button == 1:
-                bullet = clint.fire_gun()
-                GS.entities.add(bullet)
+                clint.trigger_gunfire()
             else:
                 # target = Target(pygame.mouse.get_pos())
                 target = Bandit(pygame.mouse.get_pos())
