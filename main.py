@@ -82,7 +82,6 @@ while GS.running:
             if event.button == 1:
                 clint.trigger_gunfire()
             else:
-                # target = Target(pygame.mouse.get_pos())
                 target = Bandit(pygame.mouse.get_pos())
                 GS.destroyables.add(target)
                 GS.animated.add(target)

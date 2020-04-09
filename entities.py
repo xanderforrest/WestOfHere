@@ -69,11 +69,8 @@ class Bullet(pygame.sprite.Sprite):
         if self.rect.bottom >= SCREEN_HEIGHT:  # BOTTOM BORDER
             self.kill()
 
-        # this block of code checks the gap left by each frame for possible collisions
-        # TODO fix this not working with collisions to the left of you, probably involving checking which point
-        # has a larger x value so that the subtraction doesn't mess up
         dif_x = int(self.current_point[0] - self.last_point[0])
-        for x in range(1, dif_x):
+        for x in range(1, abs(dif_x)):
             y_add = x * self.gradient
 
             test_coords = (self.last_point[0] + x, self.last_point[1] + y_add)
@@ -132,14 +129,15 @@ class Player(pygame.sprite.Sprite):
 
     def update(self, GS, keys_pressed):
         self.idle = True
-        if keys_pressed[K_LEFT]:
-            self.v[0] -= self.acceleration
-            self.update_direction("left")
-            self.idle = False
-        if keys_pressed[K_RIGHT]:
-            self.v[0] += self.acceleration
-            self.update_direction("right")
-            self.idle = False
+        if not self.gun_draw:
+            if keys_pressed[K_LEFT]:
+                self.v[0] -= self.acceleration
+                self.update_direction("left")
+                self.idle = False
+            if keys_pressed[K_RIGHT]:
+                self.v[0] += self.acceleration
+                self.update_direction("right")
+                self.idle = False
         if not keys_pressed[K_RIGHT] and not keys_pressed[K_LEFT]:
             self.v[0] = 0
 
@@ -233,31 +231,20 @@ class Bandit(pygame.sprite.Sprite):
         super(Bandit, self).__init__()
         self.name = "bandit"
 
-        self.sprite_sheet = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "bandit-spritesheet.png"))
-        self.idle_images = []
-        self.idle_level = 0
-        self.running_images = []
-        self.running_level = 0
+        self.Animation_Idle = Animation("bandit-spritesheet.png", [0, 4])
+        self.Animation_Walk = Animation("bandit-spritesheet.png", [4, 10])
+
         self.idle = True
 
         self.gunshot_sound = pygame.mixer.Sound(os.path.join(ASSETS_DIRECTORY, SOUNDS_DIRECTORY, "gunshot.wav"))
 
-        for i in range(0, 10):
-            sprite_crop = pygame.Surface([16, 32]).convert()
-            sprite_crop.blit(self.sprite_sheet, (0, 0), ((i * 16), 0, 16, 32))
-
-            if i < 4:
-                if i == 0:
-                    self.surf = sprite_crop
-                    self.surf.set_colorkey((255, 255, 255))
-                self.idle_images.append([sprite_crop, pygame.transform.flip(sprite_crop, True, False)])
-            else:
-                self.running_images.append([sprite_crop, pygame.transform.flip(sprite_crop, True, False)])
-
         self.direction = "left"
+        self.surf = self.Animation_Idle.get_frame(position=0, direction=self.direction)
+        self.surf.set_colorkey((255, 255, 255))
         self.rect = self.surf.get_rect(
             center=start_pos
         )
+
         self.v = [0, 0]
         self.acceleration = 10
         self.gravity = 10
@@ -313,21 +300,11 @@ class Bandit(pygame.sprite.Sprite):
 
     def update_animation(self):
         if self.idle:
-            self.idle_level += 1
-            self.idle_level = 0 if self.idle_level > 3 else self.idle_level
-
-            if self.direction == "right":
-                self.surf = self.idle_images[self.idle_level][0]
-            else:
-                self.surf = self.idle_images[self.idle_level][1]
+            self.Animation_Idle.increment_frame()
+            self.surf = self.Animation_Idle.get_frame(direction=self.direction)
         else:
-            self.running_level += 1
-            self.running_level = 0 if self.running_level > 5 else self.running_level
-
-            if self.direction == "right":
-                self.surf = self.running_images[self.running_level][0]
-            else:
-                self.surf = self.running_images[self.running_level][1]
+            self.Animation_Walk.increment_frame()
+            self.surf = self.Animation_Walk.get_frame(direction=self.direction)
         self.surf.set_colorkey((255, 255, 255))
 
     def on_hit(self):
