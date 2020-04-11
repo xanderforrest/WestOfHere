@@ -48,6 +48,7 @@ class GameState:
         self.entities = pygame.sprite.Group()
         self.destroyables = pygame.sprite.Group()
         self.animated = pygame.sprite.Group()
+        self.player = None
 
         self.clock = pygame.time.Clock()
         self.dt = None
@@ -81,6 +82,12 @@ class TileLoader:
         map[20][9] = Tile(pygame.image.load(os.path.join(ASSETS_DIRECTORY, BUILDINGS_DIRECTORY, "saloon.png")))
         map[26][10] = Tile(pygame.image.load(os.path.join(ASSETS_DIRECTORY, BUILDINGS_DIRECTORY, "gun-shop.png")))
         map[33][11] = Tile(pygame.image.load(os.path.join(ASSETS_DIRECTORY, BUILDINGS_DIRECTORY, "side-shop.png")))
+        map[37][10] = Tile(pygame.image.load(os.path.join(ASSETS_DIRECTORY, BUILDINGS_DIRECTORY, "general-shop.png")))
+
+        map[12][14] = Tile(pygame.image.load(os.path.join(ASSETS_DIRECTORY, "crate.png")))
+        map[12][13] = Tile(pygame.image.load(os.path.join(ASSETS_DIRECTORY, "crate.png")))
+        map[13][14] = Tile(pygame.image.load(os.path.join(ASSETS_DIRECTORY, "crate.png")))
+        map[14][13] = Tile(pygame.image.load(os.path.join(ASSETS_DIRECTORY, "cactus.png")))
         return map
 
     def load_floor(self):

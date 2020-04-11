@@ -16,6 +16,94 @@ import math
 from animation import Animation
 
 
+class Tumbleweed(pygame.sprite.Sprite):
+    def __init__(self, position=None, direction="left"):
+        super(Tumbleweed, self).__init__()
+        self.name = "tumbleweed"
+
+        self.animation_count = 0
+        self.roll_angle = 10
+        self.current_angle = 0
+        self.tumbleweed_image = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "tumbleweed.png"))
+        self.surf = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "tumbleweed.png"))
+        if position:
+            self.rect = self.surf.get_rect(
+                center=position
+            )
+        else:
+            self.rect = self.surf.get_rect(
+                center=(SCREEN_WIDTH, SCREEN_HEIGHT/2)
+            )
+
+        self.v = [0, 0]
+        self.acceleration = 10
+        self.gravity = 10
+        self.max_v = [50, 200]
+        self.direction = direction
+
+    def update(self, GS, keys_pressed):
+        if self.direction == "right":
+            self.v[0] += self.acceleration
+        else:
+            self.v[0] -= self.acceleration
+
+        self.v[1] += self.gravity
+        self.update_movement(GS.dt, GS.tile_map)
+
+        self.animation_count += 1
+        if self.animation_count == 5:
+            self.animation_count = 0
+            self.update_animation()
+
+        return GS
+
+    def update_animation(self):
+        new_image = pygame.transform.rotate(self.tumbleweed_image, self.current_angle)
+        self.surf = new_image
+
+        self.current_angle += self.roll_angle
+        if self.current_angle >= 360:
+            self.current_angle = 0
+
+    def update_movement(self, dt, tile_map):
+
+        if self.v[0] > self.max_v[0]:
+            self.v[0] = self.max_v[0]
+        elif self.v[0] < -self.max_v[0]:
+            self.v[0] = -self.max_v[0]
+        if self.v[1] > self.max_v[1]:
+            self.v[1] = self.max_v[1]
+        elif self.v[1] < -self.max_v[1]:
+            self.v[1] = -self.max_v[1]
+
+        if self.v[0] < 0:
+            x = -math.ceil((self.v[0] * -1) * dt)
+        else:
+            x = math.ceil(self.v[0] * dt)
+        y = math.ceil(self.v[1] * dt)
+
+        # cx, cy = [self.rect.center[0] // 16, self.rect.center[1] // 16]  # get the tile the rect is currently in
+        # print(f"The player is currently in block ({cx}, {cy})")
+        # print(f"The x velocity is {self.v[0]}\nThe applied x velocity is {x}")
+
+        if x != 0:
+            self.rect.move_ip(x, 0)
+            collisions = get_collisions(self.rect, tile_map)
+            for collide in collisions:
+                if x < 0:  # colliding with the right of a tile
+                    self.rect.left = collide.rect.right
+                else:  # colliding with the left of a tile
+                    self.rect.right = collide.rect.left
+        if y != 0:
+            self.rect.move_ip(0, y)
+            collisions = get_collisions(self.rect, tile_map)
+            for collide in collisions:
+                if y > 0:  # standing on top of a tile
+                    self.v[1] = 0
+                    self.rect.bottom = collide.rect.top
+                else:  # hitting bottom of tile
+                    self.rect.top = collide.rect.bottom
+
 class Target(pygame.sprite.Sprite):
     def __init__(self, location):
         super(Target, self).__init__()
@@ -125,6 +213,7 @@ class Player(pygame.sprite.Sprite):
         self.gravity = 10
         self.max_v = [50, 200]
 
+        self.animation_count = 0
         self.spawned_entities = []
 
     def update(self, GS, keys_pressed):
@@ -150,6 +239,12 @@ class Player(pygame.sprite.Sprite):
         self.v[1] += self.gravity
 
         self.update_movement(GS.dt, GS.tile_map)
+
+        self.animation_count += 1
+        if self.animation_count == 5:
+            self.animation_count = 0
+            self.update_animation()
+
         return GS
 
     def update_movement(self, dt, tile_map):
@@ -213,11 +308,15 @@ class Player(pygame.sprite.Sprite):
         self.surf.set_colorkey((255, 255, 255))
 
     def fire_gun(self):
-        # TODO start gun draw animation
-        pygame.mixer.Channel(1).play(self.gunshot_sound)
-
         spos = self.rect.center
         epos = pygame.mouse.get_pos()
+
+        if epos[0] > spos[0]:
+            self.update_direction("right")
+        else:
+            self.update_direction("left")
+
+        pygame.mixer.Channel(1).play(self.gunshot_sound)
 
         bullet = Bullet(spos, epos)
         self.spawned_entities.append(bullet)
@@ -249,6 +348,7 @@ class Bandit(pygame.sprite.Sprite):
         self.acceleration = 10
         self.gravity = 10
         self.max_v = [50, 200]
+        self.animation_count = 0
 
     def update(self, GS, keys_pressed):
         self.idle = True
@@ -257,8 +357,24 @@ class Bandit(pygame.sprite.Sprite):
         # consider gravity
         self.v[1] += self.gravity
 
+        player_location = GS.player.rect.center
+        if player_location[0] > self.rect.center[0]:
+            self.update_direction("right")
+        else:
+            self.update_direction("left")
         self.update_movement(GS.dt, GS.tile_map)
+
+        self.animation_count += 1
+        if self.animation_count == 5:
+            self.animation_count = 0
+            self.update_animation()
+
         return GS
+
+    def update_direction(self, direction="right"):
+        if self.direction != direction:
+            self.direction = direction
+            self.surf = pygame.transform.flip(self.surf, True, False)  # horizontal flip: true, vertical: false
 
     def update_movement(self, dt, tile_map):
         if self.v[0] > self.max_v[0]:
