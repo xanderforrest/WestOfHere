@@ -64,6 +64,33 @@ class GameState:
         self.debug = False
 
 
+class Button:
+    def __init__(self, text):
+        self.text = text
+        self.font = pygame.font.Font(os.path.join(ASSETS_DIRECTORY, "fonts", "arcade-font.ttf"), 32)
+
+        self.button_surface = self.draw_button()
+        self.rect = self.button_surface.get_rect()
+
+    def draw_button(self):
+        text_surf = self.font.render(self.text, 1, (255, 255, 255))
+        size = self.font.size(self.text)
+
+        border_size = 4
+        border_offset = 4
+
+        box_size = (size[0]+border_offset*2, size[1]+border_offset*2)
+        self.button_surface = pygame.Surface(box_size)
+        self.button_surface.blit(text_surf, (border_offset, border_offset))
+        rect = pygame.Rect((0, 0), box_size)
+        pygame.draw.rect(self.button_surface, (255, 255, 255), rect, 1)
+
+        return self.button_surface
+
+    def on_press(self):
+        pass
+
+
 class TileLoader:
     def __init__(self):
         pass

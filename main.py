@@ -4,7 +4,7 @@ from pygame.locals import (
     QUIT,
 )
 from consts import *
-from gamemodes import TownMenu
+from gamemodes import TownMenu, MainMenu
 from utilities import GlobalSettings
 import os
 
@@ -19,4 +19,5 @@ screen.set_alpha(None)
 global_config = GlobalSettings()
 
 while global_config.game_running:
+    MainMenu(screen, global_config)
     TownMenu(screen, global_config)
