@@ -41,6 +41,12 @@ def get_collisions(rect, tile_map):
     return collisions
 
 
+class GlobalSettings:
+    def __init__(self):
+        self.game_running = True
+        self.sound_on = True
+
+
 class GameState:
     def __init__(self):
         self.tile_map = []

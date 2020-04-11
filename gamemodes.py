@@ -12,9 +12,10 @@ from consts import *
 import os
 
 
-class TownMenu:
-    def __init__(self, screen):
+class TownMenu:  # TODO redo sound handling so sound settings can be changed
+    def __init__(self, screen, global_config):
         self.screen = screen
+        self.global_config = global_config
         self.GS = GameState()
 
         self.GS.player = Player()
@@ -71,6 +72,7 @@ class TownMenu:
                         self.GS.debug = False if self.GS.debug else True
                         # this will become "interact" key for entering doors
                 elif event.type == QUIT:
+                    self.global_config.game_running = False
                     self.GS.running = False
                 elif event.type == pygame.MOUSEBUTTONUP:
                     if event.button == 1:
