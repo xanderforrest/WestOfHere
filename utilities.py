@@ -3,7 +3,7 @@ import os
 from consts import *
 import math
 import random
-
+import soundsystem
 
 def get_collisions(rect, tile_map):
     collisions = []
@@ -44,7 +44,7 @@ def get_collisions(rect, tile_map):
 class GlobalSettings:
     def __init__(self):
         self.game_running = True
-        self.sound_on = True
+        self.SoundSystem = soundsystem.SoundSystem()
 
 
 class GameState:
@@ -80,10 +80,10 @@ class Button:
         border_offset = 4
 
         box_size = (size[0]+border_offset*2, size[1]+border_offset*2)
-        self.button_surface = pygame.Surface(box_size)
+        self.button_surface = pygame.Surface(box_size, pygame.SRCALPHA)
         self.button_surface.blit(text_surf, (border_offset, border_offset))
         rect = pygame.Rect((0, 0), box_size)
-        pygame.draw.rect(self.button_surface, (255, 255, 255), rect, 1)
+        pygame.draw.rect(self.button_surface, (255, 255, 255), rect, border_size)
 
         return self.button_surface
 

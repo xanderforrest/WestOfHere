@@ -58,7 +58,7 @@ class MainMenu:
                     if event.button == 1:
                         pass  # is he clicking a button
 
-            self.screen.blit(self.start_button.button_surf, (146, 120))
+            self.screen.blit(self.start_button.button_surface, (146, 120))
 
             pygame.display.flip()
 

@@ -14,6 +14,8 @@ from consts import *
 from utilities import get_collisions
 import math
 from animation import Animation
+from soundsystem import SoundSystem
+stero = SoundSystem()
 
 
 class Tumbleweed(pygame.sprite.Sprite):
@@ -104,6 +106,7 @@ class Tumbleweed(pygame.sprite.Sprite):
                 else:  # hitting bottom of tile
                     self.rect.top = collide.rect.bottom
 
+
 class Target(pygame.sprite.Sprite):
     def __init__(self, location):
         super(Target, self).__init__()
@@ -119,7 +122,7 @@ class Target(pygame.sprite.Sprite):
         return GS
 
     def on_hit(self):
-        pygame.mixer.Channel(0).play(self.hit_sound)
+        stero.play_sound(self.hit_sound)
         self.kill()
     # TODO spin animation
 
@@ -316,7 +319,7 @@ class Player(pygame.sprite.Sprite):
         else:
             self.update_direction("left")
 
-        pygame.mixer.Channel(1).play(self.gunshot_sound)
+        stero.play_sound(self.gunshot_sound)
 
         bullet = Bullet(spos, epos)
         self.spawned_entities.append(bullet)
