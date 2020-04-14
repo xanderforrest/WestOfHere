@@ -1,8 +1,19 @@
 import pygame
 import os
 from utilities.consts import *
-import random
 import json
+
+
+class Layer:
+    def __init__(self, layer_json):
+        self.tile_jsons = layer_json
+
+    def get_tile_by_coords(self, coords):
+        print(self.tile_jsons)
+        for tile in self.tile_jsons:
+            if tile["coords"] == coords:
+                return tile
+        return None
 
 
 class TileMapHandler:
@@ -19,43 +30,29 @@ class TileMapHandler:
             map.append(row)
         return map
 
-    def load_background(self):
-        map = self.empty_map()
-        map[0][0] = Tile([ASSETS_DIRECTORY, "mountains.png"])
-        return map
+    @staticmethod
+    def load_tile_from_json(tile_json):
+        return Tile(tile_json["image"], tile_json["interactable"], tile_json["category"])
 
-    def load_buildings(self):
-        map = self.empty_map()
-        map[20][9] = Tile([ASSETS_DIRECTORY, BUILDINGS_DIRECTORY, "saloon.png"])
-        map[26][10] = Tile([ASSETS_DIRECTORY, BUILDINGS_DIRECTORY, "gun-shop.png"])
-        map[33][11] = Tile([ASSETS_DIRECTORY, BUILDINGS_DIRECTORY, "side-shop.png"])
-        map[37][10] = Tile([ASSETS_DIRECTORY, BUILDINGS_DIRECTORY, "general-shop.png"])
+    def load_map(self, filename):
+        with open(os.path.join(MAPS_DIRECTORY, filename), "r") as f:
+            json_data = json.load(f)
 
-        map[12][14] = Tile([ASSETS_DIRECTORY, "crate.png"])
-        map[12][13] = Tile([ASSETS_DIRECTORY, "crate.png"])
-        map[13][14] = Tile([ASSETS_DIRECTORY, "crate.png"])
-        map[14][13] = Tile([ASSETS_DIRECTORY, "cactus.png"])
-        return map
+        tile_map = self.empty_map()  # change this to take the dimensions from the backgrounds layer in save file
+        layers = json_data["layers"]
+        layer_objects = [Layer(layers[layer]) for layer in layers]
 
-    def load_floor(self):
-        map = []
-        for x in range(0, 50):
-            row = []
-            for y in range(0, 18):
-                if y >= 15:
-                    if y == 15:
-                        row.append(Tile([ASSETS_DIRECTORY, "dirt.png"], True, category="floor"))
-                    else:
-                        if random.randint(0, 5) == 3:
-                            row.append(Tile([ASSETS_DIRECTORY, "dirt-variant.png"], True, category="floor"))
-                        else:
-                            row.append(Tile([ASSETS_DIRECTORY, "dirt.png"], True, category="floor"))
-                else:
-                    row.append(Tile(None))
-            map.append(row)
-        return map
+        for x in range(0, len(tile_map)):
+            for y in range(0, len(tile_map[x])):
+                for layer in layer_objects:  # iterate over all layers in order, only load the topmost layer
+                    tile_data = layer.get_tile_by_coords([x, y])
+                    if tile_data:
+                        tile_map[x][y] = self.load_tile_from_json(tile_data)
 
-    def get_layer_tiles(self, map):
+        return tile_map
+
+    @staticmethod
+    def get_layer_tiles(map):
         tiles = []
         for x in range(0, len(map)):  # loads map
             for y in range(0, len(map[x])):
@@ -70,29 +67,12 @@ class TileMapHandler:
                         pass
         return tiles
 
-    def gen_save_file(self):
-        #background_tiles = [Tile([ASSETS_DIRECTORY, "mountains.png"])]
-        #background_tiles[0]["coords"] = [0, 0]
-        buildings_layer = self.load_buildings()
-        buildings_tiles = self.get_layer_tiles(buildings_layer)
-        floor_layer = self.load_floor()
-        floor_tiles = self.get_layer_tiles(floor_layer)
-
-        save_json = {"layers": {}}
-        #ave_json["layers"]["background"] = background_tiles
-        save_json["layers"]["buildings"] = buildings_tiles
-        save_json["layers"]["floor"] = floor_tiles
-
-        with open("test_save.json", "w") as f:
-            json.dump(save_json, f, indent=4)
-
 
 class Tile:
     def __init__(self, image_path, interactable=False, category="none", rect=None):
         self.image_path = image_path  # TODO make this universal so maps can work with changed directories
         print(self.image_path)
         if self.image_path:
-            #current_path = os.path.dirname(__file__)
             self.image = pygame.image.load(os.path.join(*image_path))
         else:
             self.image = None
@@ -108,5 +88,3 @@ class Tile:
             return None
 
         return {"image": self.image_path, "interactable": self.interactable, "category": self.category}
-
-TileMapHandler().gen_save_file()

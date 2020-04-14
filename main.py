@@ -20,7 +20,5 @@ screen.set_alpha(None)
 global_config = GlobalSettings()
 
 while global_config.game_running:
-    TileMapHandler().gen_save_file()
-    input()
     MainMenu(screen, global_config)
     TownMenu(screen, global_config)

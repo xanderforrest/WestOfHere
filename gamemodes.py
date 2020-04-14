@@ -7,7 +7,8 @@ from pygame.locals import (
     QUIT,
 )
 from entities import Player, Tumbleweed
-from utilities.utilities import TileLoader, GameState, Button
+from utilities.utilities import GameState, Button
+from utilities.tilemap_handler import TileMapHandler
 from utilities.consts import *
 import os
 
@@ -18,8 +19,7 @@ class MainMenu:
         self.global_config = global_config
         self.start_button = Button("start")
 
-        #  TODO create method to load default town map
-        self.tile_map = TileLoader().load_map()
+        self.tile_map = TileMapHandler().load_map("menu_town.json")
         self.cursor_img = pygame.image.load(os.path.join(ASSETS_DIRECTORY, CURSOR_IMG))
         self.font = pygame.font.Font(os.path.join(ASSETS_DIRECTORY, "fonts", "arcade-font.ttf"), 32)
         self.title_font = pygame.font.Font(os.path.join(ASSETS_DIRECTORY, "fonts", "arcade-font.ttf"), 60)
@@ -73,7 +73,7 @@ class TownMenu:  # TODO redo sound handling so sound settings can be changed
         self.GS.player = Player()
         self.GS.entities.add(self.GS.player)
 
-        self.GS.tile_map = TileLoader().load_map()
+        self.GS.tile_map = TileMapHandler().load_map("menu_town.json")
 
         self.cursor_img = pygame.image.load(os.path.join(ASSETS_DIRECTORY, CURSOR_IMG))
         self.soundtrack = pygame.mixer.Sound(os.path.join(ASSETS_DIRECTORY, SOUNDS_DIRECTORY, "soundtrack.wav"))

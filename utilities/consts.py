@@ -7,6 +7,8 @@ SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 288
 # 50 x 18 blocks per screen
 
+MAPS_DIRECTORY = "maps"
+
 # ASSETS VARIABLES
 ASSETS_DIRECTORY = "assets"
 

@@ -1,0 +1,1922 @@
+{
+    "layers": {
+        "background": [
+            {
+                "image": [
+                    "assets",
+                    "mountains.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    0,
+                    0
+                ]
+            }
+        ],
+        "buildings": [
+            {
+                "image": [
+                    "assets",
+                    "crate.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    12,
+                    13
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "crate.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    12,
+                    14
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "crate.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    13,
+                    14
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "cactus.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    14,
+                    13
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "buildings",
+                    "saloon.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    20,
+                    9
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "buildings",
+                    "gun-shop.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    26,
+                    10
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "buildings",
+                    "side-shop.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    33,
+                    11
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "buildings",
+                    "general-shop.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    37,
+                    10
+                ]
+            }
+        ],
+        "floor": [
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    0,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    0,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    0,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    1,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    1,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    1,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    2,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    2,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    2,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    3,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    3,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    3,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    4,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    4,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    4,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    5,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    5,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    5,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    6,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    6,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    6,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    7,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    7,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    7,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    8,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    8,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    8,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    9,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    9,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    9,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    10,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    10,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    10,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    11,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    11,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    11,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    12,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    12,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    12,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    13,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    13,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    13,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    14,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    14,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    14,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    15,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    15,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    15,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    16,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    16,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    16,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    17,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    17,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    17,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    18,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    18,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    18,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    19,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    19,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    19,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    20,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    20,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    20,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    21,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    21,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    21,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    22,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    22,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    22,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    23,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    23,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    23,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    24,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    24,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    24,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    25,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    25,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    25,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    26,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    26,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    26,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    27,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    27,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    27,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    28,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    28,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    28,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    29,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    29,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    29,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    30,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    30,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    30,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    31,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    31,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    31,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    32,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    32,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    32,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    33,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    33,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    33,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    34,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    34,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    34,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    35,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    35,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    35,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    36,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    36,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    36,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    37,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    37,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    37,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    38,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    38,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    38,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    39,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    39,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    39,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    40,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    40,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    40,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    41,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    41,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    41,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    42,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    42,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    42,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    43,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    43,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    43,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    44,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    44,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    44,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    45,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    45,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    45,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    46,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    46,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    46,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    47,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    47,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    47,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    48,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    48,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    48,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    49,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    49,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": true,
+                "category": "floor",
+                "coords": [
+                    49,
+                    17
+                ]
+            }
+        ]
+    }
+}
