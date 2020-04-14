@@ -1,16 +1,5 @@
-import pygame
 import pygame.gfxdraw
-from pygame.locals import (
-    RLEACCEL,
-    K_UP,
-    K_DOWN,
-    K_LEFT,
-    K_RIGHT,
-    K_ESCAPE,
-    KEYDOWN,
-    QUIT,
-)
-from utilities import TileLoader
+from utilities.utilities import TileLoader
 
 pygame.init()
 

@@ -6,9 +6,9 @@ from pygame.locals import (
     KEYDOWN,
     QUIT,
 )
-from entities import Player, Target, Bandit, Tumbleweed
-from utilities import TileLoader, GameState, Button
-from consts import *
+from entities import Player, Tumbleweed
+from utilities.utilities import TileLoader, GameState, Button
+from utilities.consts import *
 import os
 
 
@@ -143,3 +143,8 @@ class TownMenu:  # TODO redo sound handling so sound settings can be changed
                 self.screen.blit(entity.surf, entity.rect)
 
             pygame.display.flip()
+
+
+class TileMapMaker:
+    def __init__(self):
+        pass

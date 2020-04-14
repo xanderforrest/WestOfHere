@@ -3,10 +3,11 @@ from pygame.locals import (
     KEYDOWN,
     QUIT,
 )
-from consts import *
+from utilities.consts import *
 from gamemodes import TownMenu, MainMenu
-from utilities import GlobalSettings
+from utilities.utilities import GlobalSettings
 import os
+from utilities.tilemap_handler import TileMapHandler
 
 pygame.init()
 pygame.display.set_icon(pygame.image.load(os.path.join(ASSETS_DIRECTORY, WINDOW_ICON)))
@@ -19,5 +20,7 @@ screen.set_alpha(None)
 global_config = GlobalSettings()
 
 while global_config.game_running:
+    TileMapHandler().gen_save_file()
+    input()
     MainMenu(screen, global_config)
     TownMenu(screen, global_config)

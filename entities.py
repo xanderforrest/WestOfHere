@@ -1,20 +1,14 @@
 import pygame
 import os
 from pygame.locals import (
-    RLEACCEL,
-    K_UP,
-    K_DOWN,
     K_LEFT,
     K_RIGHT,
-    K_ESCAPE,
-    KEYDOWN,
-    QUIT,
 )
-from consts import *
-from utilities import get_collisions
+from utilities.consts import *
+from utilities.utilities import get_collisions
 import math
-from animation import Animation
-from soundsystem import SoundSystem
+from utilities.animation import Animation
+from utilities.soundsystem import SoundSystem
 stero = SoundSystem()
 
 

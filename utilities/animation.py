@@ -1,6 +1,6 @@
 import pygame
 import os
-from consts import *
+from utilities.consts import *
 
 
 class Animation:
