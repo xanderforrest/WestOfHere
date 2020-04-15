@@ -18,6 +18,7 @@ class MainMenu:
         self.screen = screen
         self.global_config = global_config
         self.start_button = Button("start")
+        self.settings_button = Button("settings")
 
         self.tile_map = TileMapHandler().load_map("menu_town.json")
         self.cursor_img = pygame.image.load(os.path.join(ASSETS_DIRECTORY, CURSOR_IMG))
@@ -38,7 +39,14 @@ class MainMenu:
                         if tile.interactable:  # TODO move this into the tile class
                             tile.rect = pygame.Rect(x * 16, y * 16, 16, 16)
 
+            # menu rendering
             self.screen.blit(self.title_font.render("West of Here", 1, (255, 255, 255)), (46, 60))
+            self.start_button.rect.center = (SCREEN_WIDTH*0.75, SCREEN_HEIGHT-(SCREEN_HEIGHT*0.08))
+            self.screen.blit(self.start_button.button_surface, self.start_button.rect)
+            self.settings_button.rect.center = (SCREEN_WIDTH*0.25, SCREEN_HEIGHT-(SCREEN_HEIGHT*0.08))
+            self.screen.blit(self.settings_button.button_surface, self.settings_button.rect)
+            # is the cursor in the start button?
+
 
             # render a cursor
             pygame.mouse.set_visible(False)
@@ -50,15 +58,18 @@ class MainMenu:
             for event in pygame.event.get():
                 if event.type == KEYDOWN:
                     if event.key == K_ESCAPE:
+                        self.global_config.game_running = False
                         running = False
                 elif event.type == QUIT:
                     self.global_config.game_running = False
                     running = False
                 elif event.type == pygame.MOUSEBUTTONUP:
                     if event.button == 1:
-                        pass  # is he clicking a button
-
-            self.screen.blit(self.start_button.button_surface, (146, 120))
+                        print("pressing click")
+                        # is the mouses coordinates in the start box?
+                        if self.start_button.rect.collidepoint(pygame.mouse.get_pos()):
+                            print("pressing button")
+                            running = False
 
             pygame.display.flip()
 

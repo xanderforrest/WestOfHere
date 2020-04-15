@@ -9,7 +9,6 @@ class Layer:
         self.tile_jsons = layer_json
 
     def get_tile_by_coords(self, coords):
-        print(self.tile_jsons)
         for tile in self.tile_jsons:
             if tile["coords"] == coords:
                 return tile
@@ -61,7 +60,6 @@ class TileMapHandler:
                     try:
                         tile_json = tile.get_json_save_data()
                         tile_json["coords"] = [x, y]
-                        print(tile_json)
                         tiles.append(tile_json)
                     except:
                         pass
@@ -71,7 +69,6 @@ class TileMapHandler:
 class Tile:
     def __init__(self, image_path, interactable=False, category="none", rect=None):
         self.image_path = image_path  # TODO make this universal so maps can work with changed directories
-        print(self.image_path)
         if self.image_path:
             self.image = pygame.image.load(os.path.join(*image_path))
         else:

@@ -87,5 +87,3 @@ class Button:
 
         return self.button_surface
 
-    def on_press(self):
-        pass
