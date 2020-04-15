@@ -7,7 +7,6 @@ from utilities.consts import *
 from gamemodes import TownMenu, MainMenu
 from utilities.utilities import GlobalSettings
 import os
-from utilities.tilemap_handler import TileMapHandler
 
 pygame.init()
 pygame.display.set_icon(pygame.image.load(os.path.join(ASSETS_DIRECTORY, WINDOW_ICON)))
