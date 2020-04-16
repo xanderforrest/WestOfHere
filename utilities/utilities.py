@@ -65,25 +65,39 @@ class GameState:
 
 
 class Button:
-    def __init__(self, text):
+    def __init__(self, text, action=None):
         self.text = text
         self.font = pygame.font.Font(os.path.join(ASSETS_DIRECTORY, "fonts", "arcade-font.ttf"), 32)
+        self.mode = "off"
+        self.action = action
 
         self.button_surface = self.draw_button()
         self.rect = self.button_surface.get_rect()
 
-    def draw_button(self):
-        text_surf = self.font.render(self.text, 1, (255, 255, 255))
+    def draw_button(self, text_colour=(255, 255, 255)):
+        text_surf = self.font.render(self.text, 1, text_colour)
         size = self.font.size(self.text)
 
-        border_size = 4
+        self.border_size = 4
         border_offset = 4
 
         box_size = (size[0]+border_offset*2, size[1]+border_offset*2)
         self.button_surface = pygame.Surface(box_size, pygame.SRCALPHA)
         self.button_surface.blit(text_surf, (border_offset, border_offset))
         rect = pygame.Rect((0, 0), box_size)
-        pygame.draw.rect(self.button_surface, (255, 255, 255), rect, border_size)
+        pygame.draw.rect(self.button_surface, (255, 255, 255), rect, self.border_size)
 
         return self.button_surface
 
+    def update_highlight(self, mode):
+        if self.mode != mode:
+            if mode == "on":
+                self.button_surface = self.draw_button((211, 211, 211))
+                self.mode = "on"
+            else:
+                self.mode = "off"
+                self.button_surface = self.draw_button()
+
+    def on_hit(self):
+        if self.action:
+            self.action()
