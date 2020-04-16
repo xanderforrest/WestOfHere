@@ -4,7 +4,7 @@ from pygame.locals import (
     QUIT,
 )
 from utilities.consts import *
-from gamemodes import TownMenu, MainMenu
+from gamemodes import TownMenu, MainMenu, WesternMaker
 from utilities.utilities import GlobalSettings
 import os
 
@@ -20,4 +20,5 @@ global_config = GlobalSettings()
 
 while global_config.game_running:
     MainMenu(screen, global_config)
-    TownMenu(screen, global_config)
+    WesternMaker(screen, global_config)
+    # TownMenu(screen, global_config)
