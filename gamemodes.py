@@ -41,18 +41,17 @@ class MainMenu:
 
             # menu rendering
             self.screen.blit(self.title_font.render("West of Here", 1, (255, 255, 255)), (46, 60))
-            self.start_button.rect.center = (SCREEN_WIDTH*0.75, SCREEN_HEIGHT-(SCREEN_HEIGHT*0.08))
+            self.start_button.rect.center = (SCREEN_WIDTH * 0.75, SCREEN_HEIGHT - (SCREEN_HEIGHT * 0.08))
             self.screen.blit(self.start_button.button_surface, self.start_button.rect)
-            self.settings_button.rect.center = (SCREEN_WIDTH*0.25, SCREEN_HEIGHT-(SCREEN_HEIGHT*0.08))
+            self.settings_button.rect.center = (SCREEN_WIDTH * 0.25, SCREEN_HEIGHT - (SCREEN_HEIGHT * 0.08))
             self.screen.blit(self.settings_button.button_surface, self.settings_button.rect)
-            # is the cursor in the start button?
-
 
             # render a cursor
             pygame.mouse.set_visible(False)
             curs_pos = pygame.mouse.get_pos()
             self.screen.blit(self.cursor_img,
-                        (curs_pos[0] - 3, curs_pos[1] - 3))  # offset to make mouse pointer line up with cursor centre
+                             (curs_pos[0] - 3,
+                              curs_pos[1] - 3))  # offset to make mouse pointer line up with cursor centre
 
             # EVENT HANDLING
             for event in pygame.event.get():
@@ -72,7 +71,6 @@ class MainMenu:
                             running = False
 
             pygame.display.flip()
-
 
 
 class TownMenu:  # TODO redo sound handling so sound settings can be changed
@@ -124,7 +122,8 @@ class TownMenu:  # TODO redo sound handling so sound settings can be changed
             pygame.mouse.set_visible(False)
             curs_pos = pygame.mouse.get_pos()
             self.screen.blit(self.cursor_img,
-                        (curs_pos[0] - 3, curs_pos[1] - 3))  # offset to make mouse pointer line up with cursor centre
+                             (curs_pos[0] - 3,
+                              curs_pos[1] - 3))  # offset to make mouse pointer line up with cursor centre
 
             # EVENT HANDLING
             for event in pygame.event.get():
@@ -142,8 +141,8 @@ class TownMenu:  # TODO redo sound handling so sound settings can be changed
                         self.GS.player.trigger_gunfire()
                     else:
                         target = Tumbleweed(pygame.mouse.get_pos())
-                        #GS.destroyables.add(target)
-                        #GS.animated.add(target)
+                        # GS.destroyables.add(target)
+                        # GS.animated.add(target)
                         self.GS.entities.add(target)
 
             # ENTITY UPDATES
