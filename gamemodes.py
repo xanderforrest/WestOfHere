@@ -177,6 +177,7 @@ class WesternMaker:  # TODO redo sound handling so sound settings can be changed
         self.global_config = global_config
         self.running = True
         self.debug = False
+        self.selected_object = Tile(["assets", "dirt.png"], interactable=True)
 
         self.tile_map = TileMapHandler().empty_map()
         print(self.tile_map)
@@ -192,7 +193,7 @@ class WesternMaker:  # TODO redo sound handling so sound settings can be changed
         tile_x = pos[0] // 16
         tile_y = pos[1] // 16
 
-        self.tile_map[tile_x][tile_y] = Tile(["assets", "dirt.png"], interactable=True)
+        self.tile_map[tile_x][tile_y] = self.selected_object
 
     def mainloop(self):
         while self.running:
@@ -212,11 +213,14 @@ class WesternMaker:  # TODO redo sound handling so sound settings can be changed
                         rect = pygame.Rect(x * 16, y * 16, 16, 16)
                         pygame.draw.rect(self.screen, (0, 0, 255), rect, 1)
 
+            curs_pos = pygame.mouse.get_pos()
             # self.screen.blit(self.title_font.render("West of Here", 1, (255, 255, 255)), (46, 60))
+
+            # render in where the selected tile would be placed
+            self.screen.blit(self.selected_object.image, ((curs_pos[0]//16)*16, (curs_pos[1]//16)*16))
 
             # render a cursor
             pygame.mouse.set_visible(False)
-            curs_pos = pygame.mouse.get_pos()
             self.screen.blit(self.cursor_img,
                              (curs_pos[0] - 3,
                               curs_pos[1] - 3))  # offset to make mouse pointer line up with cursor centre
