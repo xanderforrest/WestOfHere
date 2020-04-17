@@ -3,11 +3,11 @@ A Spaghetti Western inspired click'n'shoot platformer.
 
 ![The current state of the game](https://i.imgur.com/HV5F9hz.png)
 
-This project was started to get familiar with the Pygame library and game development in general. In the past week it has
-gone from nothing at all to a solid platform to build different game mods on top of. 
+This project was started to get familiar with the Pygame library and game development in general. 
 <br><br>
-My main problem at the moment is focussing too much on the backend/features, not the actual gameplay. As such,
-lots is there, there's just not a lot to do with it at the moment. 
+The focus has largely been on building a solid foundation for game modes to be built upon, and I plan to make that
+as easy for others as possible, by building tools to speed up development and make life easier (such as a tilemap maker/
+events system for the add-on minigames)
 <br><br>
 Originally I saw this becoming a Mario-esque platformer, but at the moment am leaning more towards having
 multiple types of 2d scroller games in one. This means there could be duck-hunter/space invaders minigame
@@ -29,8 +29,8 @@ I've tried to do as much of the game myself as possible, but quickly realised I'
 I commissioned an artist to draw and animate the main character, and another to design the buildings and
 tileset the game uses. 
 <br><br>
-There is a font used in the debug overlay that'll probably be used more in the game later as well, I found it
-on fontspace under the SIL Open Font License, meaning I'm allowed to use it commercially.<br>
+I found a font on fontspace under the SIL Open Font License, meaning I'm allowed to use it commercially.
+This is used for the title and other text in the game.<br>
 https://www.fontspace.com/press-start-2p-font-f11591
 
 <br><br>
