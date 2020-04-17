@@ -1,8 +1,10 @@
 import pygame
 import os
+import pygame.locals
 from utilities.consts import *
 import random
 from utilities import soundsystem
+from PIL import Image
 
 
 def get_collisions(rect, tile_map):
@@ -39,6 +41,23 @@ def get_collisions(rect, tile_map):
             if rect.colliderect(tile.rect):
                 collisions.append(tile)
     return collisions
+
+
+def get_available_assets(directory):  # this only gets tiles at the moment for simplicity
+    tiles = []
+    for root, _, files in os.walk(directory):
+        for file in files:
+            if file.endswith(".png"):
+                file_path = os.path.join(root, file)
+                image = Image.open(file_path)
+                if image.size == (16, 16):
+                    tiles.append([file, file_path])
+    return tiles
+
+
+def num_from_keypress(key):
+    name_string = pygame.key.name(key)
+    return int(name_string)
 
 
 class GlobalSettings:

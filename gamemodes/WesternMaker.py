@@ -5,9 +5,10 @@ from pygame.locals import (
     K_ESCAPE,
     KEYDOWN,
     QUIT,
+    K_6
 )
 from entities import Player, Tumbleweed
-from utilities.utilities import GameState, Button
+from utilities.utilities import GameState, Button, get_available_assets, num_from_keypress
 from utilities.tilemap_handler import TileMapHandler, Tile
 from utilities.consts import *
 import os
@@ -19,7 +20,10 @@ class WesternMaker:
         self.global_config = global_config
         self.running = True
         self.debug = False
+        self.potential_objects = get_available_assets("assets")
         self.selected_object = Tile(["assets", "dirt.png"], interactable=True)
+        for i, obj in enumerate(self.potential_objects):
+            print(f"{i} - {obj[0]}")
 
         self.tile_map = TileMapHandler().empty_map()
         print(self.tile_map)
@@ -75,6 +79,12 @@ class WesternMaker:
                     if event.key == K_UP:
                         self.debug = False if self.debug else True
                         # this will become "interact" key for entering doors
+                    if event.key == K_6:
+                        self.selected_object = Tile(["assets", "buildings", "general-shop.png"], category="building")
+                    obj_num = num_from_keypress(event.key)
+                    if obj_num:
+                        new_selected_path = self.potential_objects[obj_num][1]
+                        self.selected_object = Tile([new_selected_path], category="none")
                 elif event.type == QUIT:
                     self.global_config.game_running = False
                     self.running = False

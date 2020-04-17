@@ -6,7 +6,7 @@ from pygame.locals import (
 from utilities.consts import *
 from gamemodes.MainMenu import MainMenu
 from gamemodes.WesternMaker import WesternMaker
-from utilities.utilities import GlobalSettings
+from utilities.utilities import GlobalSettings, get_available_assets
 import os
 
 pygame.init()
