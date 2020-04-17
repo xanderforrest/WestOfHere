@@ -4,7 +4,8 @@ from pygame.locals import (
     QUIT,
 )
 from utilities.consts import *
-from gamemodes import TownMenu, MainMenu, WesternMaker
+from gamemodes.MainMenu import MainMenu
+from gamemodes.WesternMaker import WesternMaker
 from utilities.utilities import GlobalSettings
 import os
 
