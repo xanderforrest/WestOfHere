@@ -5,7 +5,8 @@ from pygame.locals import (
     K_ESCAPE,
     KEYDOWN,
     QUIT,
-    K_6
+    K_6,
+K_7
 )
 from entities import Player, Tumbleweed
 from utilities.utilities import GameState, Button, get_available_assets, num_from_keypress
@@ -39,7 +40,11 @@ class WesternMaker:
         tile_x = pos[0] // 16
         tile_y = pos[1] // 16
 
-        self.tile_map[tile_x][tile_y] = self.selected_object
+        try:
+            self.tile_map[tile_x][tile_y] = self.selected_object
+        except IndexError:
+            self.tile_map = TileMapHandler().extend_map(self.tile_map, (tile_x, tile_y))
+            self.place_object()
 
     def mainloop(self):
         while self.running:
@@ -81,10 +86,14 @@ class WesternMaker:
                         # this will become "interact" key for entering doors
                     if event.key == K_6:
                         self.selected_object = Tile(["assets", "buildings", "general-shop.png"], category="building")
-                    obj_num = num_from_keypress(event.key)
-                    if obj_num:
-                        new_selected_path = self.potential_objects[obj_num][1]
-                        self.selected_object = Tile([new_selected_path], category="none")
+                    elif event.key == K_7:
+                        self.screen = pygame.display.set_mode((800, 600))
+                    else:
+                        obj_num = num_from_keypress(event.key)
+                        if obj_num:
+                            if obj_num < len(self.potential_objects):
+                                new_selected_path = self.potential_objects[obj_num][1]
+                                self.selected_object = Tile([new_selected_path], category="none")
                 elif event.type == QUIT:
                     self.global_config.game_running = False
                     self.running = False
