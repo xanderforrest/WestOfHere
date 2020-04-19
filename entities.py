@@ -20,8 +20,7 @@ class Tumbleweed(pygame.sprite.Sprite):
         self.animation_count = 0
         self.roll_angle = 10
         self.current_angle = 0
-        self.tumbleweed_image = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "tumbleweed.png"))
-        self.surf = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "tumbleweed.png"))
+        self.surf = TUMBLEWEED_IMG
         if position:
             self.rect = self.surf.get_rect(
                 center=position
@@ -54,7 +53,7 @@ class Tumbleweed(pygame.sprite.Sprite):
         return GS
 
     def update_animation(self):
-        new_image = pygame.transform.rotate(self.tumbleweed_image, self.current_angle)
+        new_image = pygame.transform.rotate(TUMBLEWEED_IMG, self.current_angle)
         self.surf = new_image
 
         self.current_angle += self.roll_angle
@@ -105,7 +104,7 @@ class Target(pygame.sprite.Sprite):
     def __init__(self, location):
         super(Target, self).__init__()
         self.name = "target"
-        self.surf = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "barrel.png")).convert()
+        self.surf = TILE_BARREL.convert()
         self.surf.set_colorkey((0, 0, 0))
         self.rect = self.surf.get_rect(
             center=location

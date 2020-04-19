@@ -90,7 +90,6 @@ class GameState:
 class Button:
     def __init__(self, text, action=None):
         self.text = text
-        self.font = pygame.font.Font(os.path.join(ASSETS_DIRECTORY, "fonts", "arcade-font.ttf"), 32)
         self.mode = "off"
         self.action = action
 
@@ -98,8 +97,8 @@ class Button:
         self.rect = self.button_surface.get_rect()
 
     def draw_button(self, text_colour=(255, 255, 255)):
-        text_surf = self.font.render(self.text, 1, text_colour)
-        size = self.font.size(self.text)
+        text_surf = FONT.render(self.text, 1, text_colour)
+        size = FONT.size(self.text)
 
         self.border_size = 4
         border_offset = 4

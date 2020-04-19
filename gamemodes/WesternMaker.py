@@ -27,12 +27,8 @@ class WesternMaker:
             print(f"{i} - {obj[0]}")
 
         self.tile_map = TileMapHandler().empty_map()
-        self.cursor_img = pygame.image.load(os.path.join(ASSETS_DIRECTORY, CURSOR_IMG))
 
-        self.font = pygame.font.Font(os.path.join(ASSETS_DIRECTORY, "fonts", "arcade-font.ttf"), 32)
-        self.title_font = pygame.font.Font(os.path.join(ASSETS_DIRECTORY, "fonts", "arcade-font.ttf"), 60)
         self.gui_image = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "western-maker-gui.png"))
-        self.barrel = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "crate.png"))
         self.screen = pygame.display.set_mode((800, 432))
         self.mainloop()
 
@@ -67,7 +63,7 @@ class WesternMaker:
 
             self.screen.blit(self.gui_image, (0, 18*16))
             for x in range(0, 50):
-                self.screen.blit(self.barrel, (x*16, 18*16))
+                self.screen.blit(TILE_CRATE, (x*16, 18*16))
 
             curs_pos = pygame.mouse.get_pos()
             # self.screen.blit(self.title_font.render("West of Here", 1, (255, 255, 255)), (46, 60))
@@ -78,7 +74,7 @@ class WesternMaker:
 
             # render a cursor
             pygame.mouse.set_visible(False)
-            self.screen.blit(self.cursor_img,
+            self.screen.blit(CURSOR_IMG,
                              (curs_pos[0] - 3,
                               curs_pos[1] - 3))  # offset to make mouse pointer line up with cursor centre
 

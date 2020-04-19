@@ -1,15 +1,14 @@
 import pygame
+pygame.init()
 from pygame.locals import (
     KEYDOWN,
     QUIT,
 )
-from utilities.consts import *
 from gamemodes.MainMenu import MainMenu
 from gamemodes.WesternMaker import WesternMaker
-from utilities.utilities import GlobalSettings, get_available_assets
-import os
+from utilities.utilities import GlobalSettings
+from utilities.consts import *
 
-pygame.init()
 pygame.display.set_icon(pygame.image.load(os.path.join(ASSETS_DIRECTORY, WINDOW_ICON)))
 pygame.display.set_caption(WINDOW_TITLE)
 pygame.event.set_allowed([KEYDOWN, QUIT, pygame.MOUSEBUTTONUP])

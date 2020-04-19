@@ -26,9 +26,6 @@ class MainMenu:
         self.buttons.append(self.settings_button)
 
         self.tile_map = TileMapHandler().load_map("menu_town.json")
-        self.cursor_img = pygame.image.load(os.path.join(ASSETS_DIRECTORY, CURSOR_IMG))
-        self.font = pygame.font.Font(os.path.join(ASSETS_DIRECTORY, "fonts", "arcade-font.ttf"), 32)
-        self.title_font = pygame.font.Font(os.path.join(ASSETS_DIRECTORY, "fonts", "arcade-font.ttf"), 60)
 
         self.mainloop()
 
@@ -50,7 +47,7 @@ class MainMenu:
             # render a cursor
             pygame.mouse.set_visible(False)
             curs_pos = pygame.mouse.get_pos()
-            self.screen.blit(self.cursor_img,
+            self.screen.blit(CURSOR_IMG,
                              (curs_pos[0] - 3,
                               curs_pos[1] - 3))  # offset to make mouse pointer line up with cursor centre
 
@@ -64,7 +61,7 @@ class MainMenu:
                     selected_button = None
 
             # menu rendering
-            self.screen.blit(self.title_font.render("West of Here", 1, (255, 255, 255)), (46, 60))
+            self.screen.blit(FONT_TITLE.render("West of Here", 1, (255, 255, 255)), (46, 60))
             self.start_button.rect.center = (SCREEN_WIDTH * 0.75, SCREEN_HEIGHT - (SCREEN_HEIGHT * 0.08))
             self.screen.blit(self.start_button.button_surface, self.start_button.rect)
             self.settings_button.rect.center = (SCREEN_WIDTH * 0.25, SCREEN_HEIGHT - (SCREEN_HEIGHT * 0.08))

@@ -24,11 +24,8 @@ class TownMenu:  # TODO redo sound handling so sound settings can be changed
 
         self.GS.tile_map = TileMapHandler().load_map("menu_town.json")
 
-        self.cursor_img = pygame.image.load(os.path.join(ASSETS_DIRECTORY, CURSOR_IMG))
         self.soundtrack = pygame.mixer.Sound(os.path.join(ASSETS_DIRECTORY, SOUNDS_DIRECTORY, "soundtrack.wav"))
         pygame.mixer.Channel(0).play(self.soundtrack, loops=-1)
-        self.font = pygame.font.Font(os.path.join(ASSETS_DIRECTORY, "fonts", "arcade-font.ttf"), 32)
-        self.title_font = pygame.font.Font(os.path.join(ASSETS_DIRECTORY, "fonts", "arcade-font.ttf"), 60)
 
         self.mainloop()
 
@@ -54,14 +51,14 @@ class TownMenu:  # TODO redo sound handling so sound settings can be changed
 
                 # render fps
                 fps = str(int(self.GS.clock.get_fps()))
-                self.screen.blit(self.font.render(fps, 1, (255, 255, 255)), (0, 0))
+                self.screen.blit(FONT.render(fps, 1, (255, 255, 255)), (0, 0))
 
-            self.screen.blit(self.title_font.render("West of Here", 1, (255, 255, 255)), (46, 60))
+            self.screen.blit(FONT_TITLE.render("West of Here", 1, (255, 255, 255)), (46, 60))
 
             # render a cursor
             pygame.mouse.set_visible(False)
             curs_pos = pygame.mouse.get_pos()
-            self.screen.blit(self.cursor_img,
+            self.screen.blit(CURSOR_IMG,
                              (curs_pos[0] - 3,
                               curs_pos[1] - 3))  # offset to make mouse pointer line up with cursor centre
 
