@@ -57,7 +57,11 @@ def get_available_assets(directory):  # this only gets tiles at the moment for s
 
 def num_from_keypress(key):
     name_string = pygame.key.name(key)
-    return int(name_string)
+    try:
+        to_return = int(name_string)
+    except ValueError:
+        to_return = None
+    return to_return
 
 
 class GlobalSettings:

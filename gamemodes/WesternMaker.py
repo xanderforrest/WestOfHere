@@ -27,12 +27,13 @@ class WesternMaker:
             print(f"{i} - {obj[0]}")
 
         self.tile_map = TileMapHandler().empty_map()
-        print(self.tile_map)
         self.cursor_img = pygame.image.load(os.path.join(ASSETS_DIRECTORY, CURSOR_IMG))
 
         self.font = pygame.font.Font(os.path.join(ASSETS_DIRECTORY, "fonts", "arcade-font.ttf"), 32)
         self.title_font = pygame.font.Font(os.path.join(ASSETS_DIRECTORY, "fonts", "arcade-font.ttf"), 60)
-
+        self.gui_image = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "western-maker-gui.png"))
+        self.barrel = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "crate.png"))
+        self.screen = pygame.display.set_mode((800, 432))
         self.mainloop()
 
     def place_object(self):
@@ -59,16 +60,21 @@ class WesternMaker:
 
             if self.debug:
                 # render blocks
-                for y in range(18):
-                    for x in range(50):
+                for y in range(18):  # this is here to show where the game is actually affected
+                    for x in range(len(self.tile_map)):
                         rect = pygame.Rect(x * 16, y * 16, 16, 16)
                         pygame.draw.rect(self.screen, (0, 0, 255), rect, 1)
+
+            self.screen.blit(self.gui_image, (0, 18*16))
+            for x in range(0, 50):
+                self.screen.blit(self.barrel, (x*16, 18*16))
 
             curs_pos = pygame.mouse.get_pos()
             # self.screen.blit(self.title_font.render("West of Here", 1, (255, 255, 255)), (46, 60))
 
             # render in where the selected tile would be placed
-            self.screen.blit(self.selected_object.image, ((curs_pos[0]//16)*16, (curs_pos[1]//16)*16))
+            if curs_pos[1] < 288:  # don't want it interefering with the gui
+                self.screen.blit(self.selected_object.image, ((curs_pos[0]//16)*16, (curs_pos[1]//16)*16))
 
             # render a cursor
             pygame.mouse.set_visible(False)
@@ -86,8 +92,6 @@ class WesternMaker:
                         # this will become "interact" key for entering doors
                     if event.key == K_6:
                         self.selected_object = Tile(["assets", "buildings", "general-shop.png"], category="building")
-                    elif event.key == K_7:
-                        self.screen = pygame.display.set_mode((800, 600))
                     else:
                         obj_num = num_from_keypress(event.key)
                         if obj_num:
