@@ -35,9 +35,9 @@ class WesternMaker:
         for i, block in enumerate(self.potential_objects):
             print(i)
             x = i + 1
-            tile_image = pygame.image.load(os.path.join(*self.potential_objects[i][1]))
+            tile_image = pygame.transform.scale(pygame.image.load(os.path.join(*self.potential_objects[i][1])), (64, 64))
             print(self.potential_objects[i][1])
-            button = ImageButton((x * 16, 20 * 16), tile_image, image_path=self.potential_objects[i][1])
+            button = ImageButton((x * 64, 20 * 16), tile_image, image_path=self.potential_objects[i][1])
             self.buttons.append(button)
 
         self.mainloop()
@@ -105,9 +105,8 @@ class WesternMaker:
                     else:
                         obj_num = num_from_keypress(event.key)
                         if obj_num:
-                            if obj_num < len(self.potential_objects):
-                                new_selected_path = self.potential_objects[obj_num][1]
-                                self.selected_object = Tile([new_selected_path], category="none")
+                            if obj_num == 1:
+                                TileMapHandler().save_map("testsave.json", self.tile_map)
                 elif event.type == QUIT:
                     self.global_config.game_running = False
                     self.running = False

@@ -55,6 +55,18 @@ class TileMapHandler:
     def load_tile_from_json(tile_json):
         return Tile(tile_json["image"], tile_json["interactable"], tile_json["category"])
 
+    def save_map(self, filename, tile_map):
+        json_data = {}
+        json_data["layers"] = {}
+        # layering hasnt been introduced to tilemaker so one layer is assumed
+        json_data["layers"]["general"] = []
+
+        tiles = self.get_layer_tiles(tile_map)
+        json_data["layers"]["general"] = tiles
+
+        with open(os.path.join(MAPS_DIRECTORY, filename), "w") as f:
+            json.dump(json_data, f, indent=4)
+
     def load_map(self, filename):
         with open(os.path.join(MAPS_DIRECTORY, filename), "r") as f:
             json_data = json.load(f)

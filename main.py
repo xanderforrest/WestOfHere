@@ -6,6 +6,7 @@ from pygame.locals import (
 )
 from gamemodes.MainMenu import MainMenu
 from gamemodes.WesternMaker import WesternMaker
+from gamemodes.TownMenu import TownMenu
 from utilities.utilities import GlobalSettings
 from utilities.consts import *
 
