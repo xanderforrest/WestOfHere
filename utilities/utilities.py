@@ -51,7 +51,7 @@ def get_available_assets(directory):  # this only gets tiles at the moment for s
                 file_path = os.path.join(root, file)
                 image = Image.open(file_path)
                 if image.size == (16, 16):
-                    tiles.append([file, file_path])
+                    tiles.append([file, [root, file]])
     return tiles
 
 
@@ -123,3 +123,15 @@ class Button:
     def on_hit(self):
         if self.action:
             self.action()
+
+
+class ImageButton(pygame.sprite.Sprite):
+    def __init__(self, position, image, image_path=None):
+        super(ImageButton, self).__init__()
+        self.name = "ImageButton"
+
+        self.surf = image
+        self.rect = self.surf.get_rect(
+            topleft=position
+        )
+        self.image_path = image_path

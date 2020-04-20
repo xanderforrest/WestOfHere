@@ -9,7 +9,7 @@ from pygame.locals import (
 K_7
 )
 from entities import Player, Tumbleweed
-from utilities.utilities import GameState, Button, get_available_assets, num_from_keypress
+from utilities.utilities import GameState, Button, get_available_assets, num_from_keypress, ImageButton
 from utilities.tilemap_handler import TileMapHandler, Tile
 from utilities.consts import *
 import os
@@ -30,6 +30,16 @@ class WesternMaker:
 
         self.gui_image = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "western-maker-gui.png"))
         self.screen = pygame.display.set_mode((800, 432))
+        self.buttons = []
+
+        for i, block in enumerate(self.potential_objects):
+            print(i)
+            x = i + 1
+            tile_image = pygame.image.load(os.path.join(*self.potential_objects[i][1]))
+            print(self.potential_objects[i][1])
+            button = ImageButton((x * 16, 20 * 16), tile_image, image_path=self.potential_objects[i][1])
+            self.buttons.append(button)
+
         self.mainloop()
 
     def place_object(self):
@@ -61,9 +71,13 @@ class WesternMaker:
                         rect = pygame.Rect(x * 16, y * 16, 16, 16)
                         pygame.draw.rect(self.screen, (0, 0, 255), rect, 1)
 
+            # gui stuff
             self.screen.blit(self.gui_image, (0, 18*16))
             for x in range(0, 50):
                 self.screen.blit(TILE_CRATE, (x*16, 18*16))
+
+            for button in self.buttons:
+                self.screen.blit(button.surf, button.rect)
 
             curs_pos = pygame.mouse.get_pos()
             # self.screen.blit(self.title_font.render("West of Here", 1, (255, 255, 255)), (46, 60))
@@ -99,7 +113,13 @@ class WesternMaker:
                     self.running = False
 
             if pygame.mouse.get_pressed()[0]:
-                self.place_object()
+                if curs_pos[1] < 288:
+                    self.place_object()
+                else:
+                    for button in self.buttons:
+                        if button.rect.collidepoint(curs_pos):
+                            print(button.image_path)
+                            self.selected_object = Tile(button.image_path, category="none")
 
             pygame.display.flip()
 
