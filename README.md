@@ -17,9 +17,9 @@ multiple types of 2d scroller games in one. This means there could be duck-hunte
 
 <h2>Roadmap</h2>
 <li>Implement any gameplay aspect at all</li>
-<li>Tilemap Creator (think Mario Maker, with a smaller budget)</li>
+<li>Rewrite Tilemap object to allow for more interaction + layering</li>
+<li><del>Tilemap Creator</del> (think Mario Maker, <del>with a smaller budget</del>)</li>
 <li><del>Background/Tileset</del> with Parallax</li>
-<li><del>Gun Mechanics (including something to shoot)</del></li>
 <li><del>Gun Animations</del> + Logic (reloading, <del>delays</del>)</li>
 <li>Enemy logic</li>
 
