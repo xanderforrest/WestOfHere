@@ -77,9 +77,13 @@ class WesternMaker:
                         pygame.draw.rect(self.screen, (0, 0, 255), rect, 1)
 
             # gui stuff
-            self.screen.blit(self.gui_image, (0, 18*16))
+            #self.screen.blit(self.gui_image, (0, 18*16))
             for x in range(0, 50):
                 self.screen.blit(TILE_CRATE, (x*16, 18*16))
+                self.screen.blit(TILE_CRATE, (x*16, 26*16))
+            for y in range(18, 27):
+                self.screen.blit(TILE_CRATE, (0, y*16))
+                self.screen.blit(TILE_CRATE, (49*16, y*16))
 
             for button in self.buttons:
                 self.screen.blit(button.surf, button.rect)
