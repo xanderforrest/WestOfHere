@@ -6,7 +6,9 @@ from pygame.locals import (
     KEYDOWN,
     QUIT,
     K_6,
-K_7
+K_7,
+K_LEFT,
+K_RIGHT
 )
 from entities import Player, Tumbleweed
 from utilities.utilities import GameState, Button, get_available_assets, num_from_keypress, ImageButton
@@ -27,6 +29,7 @@ class WesternMaker:
             print(f"{i} - {obj[0]}")
 
         self.tile_map = TileMapHandler().empty_map()
+        self.x_offset = 0
 
         self.gui_image = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "western-maker-gui.png"))
         self.screen = pygame.display.set_mode((800, 432))
@@ -44,14 +47,16 @@ class WesternMaker:
 
     def place_object(self):
         pos = pygame.mouse.get_pos()
-        tile_x = pos[0] // 16
+        tile_x = (pos[0]+self.x_offset) // 16
         tile_y = pos[1] // 16
+        print(f"{tile_x}, {tile_y}")
 
         try:
             self.tile_map[tile_x][tile_y] = self.selected_object
         except IndexError:
             self.tile_map = TileMapHandler().extend_map(self.tile_map, (tile_x, tile_y))
-            self.place_object()
+            print(f"New map size {len(self.tile_map)}")
+            self.tile_map[tile_x][tile_y] = self.selected_object
 
     def mainloop(self):
         while self.running:
@@ -60,15 +65,15 @@ class WesternMaker:
                 for y in range(0, len(self.tile_map[x])):
                     tile = self.tile_map[x][y]
                     if tile.image:
-                        self.screen.blit(tile.image, (x * 16, y * 16))
+                        self.screen.blit(tile.image, ((x * 16)-self.x_offset, y * 16))
                         if tile.interactable:  # TODO move this into the tile class
-                            tile.rect = pygame.Rect(x * 16, y * 16, 16, 16)
+                            tile.rect = pygame.Rect((x * 16)-self.x_offset, y * 16, 16, 16)
 
             if self.debug:
                 # render blocks
                 for y in range(18):  # this is here to show where the game is actually affected
                     for x in range(len(self.tile_map)):
-                        rect = pygame.Rect(x * 16, y * 16, 16, 16)
+                        rect = pygame.Rect((x * 16), y * 16, 16, 16)
                         pygame.draw.rect(self.screen, (0, 0, 255), rect, 1)
 
             # gui stuff
@@ -79,12 +84,14 @@ class WesternMaker:
             for button in self.buttons:
                 self.screen.blit(button.surf, button.rect)
 
-            curs_pos = pygame.mouse.get_pos()
+            curs_posx, curs_posy = pygame.mouse.get_pos()
+            curs_pos = (curs_posx, curs_posy)
             # self.screen.blit(self.title_font.render("West of Here", 1, (255, 255, 255)), (46, 60))
 
             # render in where the selected tile would be placed
             if curs_pos[1] < 288:  # don't want it interefering with the gui
-                self.screen.blit(self.selected_object.image, ((curs_pos[0]//16)*16, (curs_pos[1]//16)*16))
+                tile_x = ((curs_posx+self.x_offset)//16)
+                self.screen.blit(self.selected_object.image, ((tile_x*16)-self.x_offset, (curs_pos[1]//16)*16))
 
             # render a cursor
             pygame.mouse.set_visible(False)
@@ -100,6 +107,10 @@ class WesternMaker:
                     if event.key == K_UP:
                         self.debug = False if self.debug else True
                         # this will become "interact" key for entering doors
+                    if event.key == K_LEFT:
+                        self.x_offset -= 4
+                    if event.key == K_RIGHT:
+                        self.x_offset += 4
                     if event.key == K_6:
                         self.selected_object = Tile(["assets", "buildings", "general-shop.png"], category="building")
                     else:

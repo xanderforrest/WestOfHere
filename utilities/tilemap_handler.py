@@ -33,15 +33,19 @@ class TileMapHandler:
         x, y = xy
         cur_x = len(tile_map)
         cur_y = len(tile_map[0])
+        print(f"Proposed {x}, {y}")
+        print(f"Current {cur_x}, {cur_y}")
 
-        if x > cur_x:
-            new_base_x = x
+        if x+2 > cur_x:
+            new_base_x = x + 2
         else:
             new_base_x = cur_x
         if y+2 > cur_y:
             new_base_y = y+2
         else:
             new_base_y = cur_y
+
+        print(f"Creating new map of {new_base_x}, {new_base_y}")
         base_map = self.empty_map((new_base_x, new_base_y))
         for x in range(0, len(tile_map)):
             for y in range(0, len(tile_map[x])):
