@@ -117,20 +117,25 @@ class WesternMaker:
                         obj_num = num_from_keypress(event.key)
                         if obj_num:
                             if obj_num == 1:
-                                TileMapHandler().save_map("testsave.json", self.tile_map)
+                                name = str(input("Name to save as: ")) + ".json"
+                                TileMapHandler().save_map(name, self.tile_map)
                 elif event.type == QUIT:
                     self.global_config.game_running = False
                     self.running = False
 
-            if pygame.mouse.get_pressed()[0]:
+            if pygame.mouse.get_pressed()[0] or pygame.mouse.get_pressed()[2]:
                 if curs_pos[1] < 288:
                     self.place_object()
                 else:
                     for button in self.buttons:
                         if button.rect.collidepoint(curs_pos):
                             print(button.image_path)
-                            self.selected_object = Tile(button.image_path, category="none")
-
+                            if pygame.mouse.get_pressed()[0]:
+                                self.selected_object = Tile(button.image_path, category="none")
+                                print("not interactable block")
+                            else:
+                                self.selected_object = Tile(button.image_path, category="none", interactable=True)
+                                print("making blockinteractable")
             pygame.display.flip()
 
 
