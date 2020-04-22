@@ -111,10 +111,6 @@ class WesternMaker:
                     if event.key == K_UP:
                         self.debug = False if self.debug else True
                         # this will become "interact" key for entering doors
-                    if event.key == K_LEFT:
-                        self.x_offset -= 4
-                    if event.key == K_RIGHT:
-                        self.x_offset += 4
                     if event.key == K_6:
                         self.selected_object = Tile(["assets", "buildings", "general-shop.png"], category="building")
                     else:
@@ -126,6 +122,13 @@ class WesternMaker:
                 elif event.type == QUIT:
                     self.global_config.game_running = False
                     self.running = False
+
+            keys = pygame.key.get_pressed()
+            if keys[K_LEFT]:
+                self.x_offset -= 4
+            if keys[K_RIGHT]:
+                self.x_offset += 4
+
 
             if pygame.mouse.get_pressed()[0] or pygame.mouse.get_pressed()[2]:
                 if curs_pos[1] < 288:
