@@ -12,8 +12,7 @@ K_RIGHT
 )
 from entities import Player, Tumbleweed
 from utilities.utilities import GameState, Button, get_available_assets, num_from_keypress, ImageButton
-from utilities.tilemap_handler import TileMapHandler, Tile
-from utilities.GameMap import GameMap
+from utilities.GameMap import GameMap, Tile
 from utilities.consts import *
 import os
 
@@ -29,7 +28,7 @@ class WesternMaker:
         for i, obj in enumerate(self.potential_objects):
             print(f"{i} - {obj[0]}")
 
-        self.tile_map = TileMapHandler().empty_map()
+        self.GameMap = GameMap()
         self.x_offset = 0
 
         self.gui_image = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "western-maker-gui.png"))
@@ -52,19 +51,18 @@ class WesternMaker:
         tile_y = pos[1] // 16
         print(f"{tile_x}, {tile_y}")
 
-        try:
-            self.tile_map[tile_x][tile_y] = self.selected_object
+        try:  # TODO rewrite to handle this in gamemap
+            self.GameMap.tile_map[tile_x][tile_y] = self.selected_object
         except IndexError:
-            self.tile_map = TileMapHandler().extend_map(self.tile_map, (tile_x, tile_y))
-            print(f"New map size {len(self.tile_map)}")
-            self.tile_map[tile_x][tile_y] = self.selected_object
+            self.GameMap.extend_map([tile_x, tile_y])
+            self.GameMap.tile_map[tile_x][tile_y] = self.selected_object
 
     def mainloop(self):
         while self.running:
             self.screen.fill((0, 255, 255))
-            for x in range(0, len(self.tile_map)):  # loads map
-                for y in range(0, len(self.tile_map[x])):
-                    tile = self.tile_map[x][y]
+            for x in range(0, len(self.GameMap.tile_map)):  # loads map
+                for y in range(0, len(self.GameMap.tile_map[x])):
+                    tile = self.GameMap.tile_map[x][y]
                     if tile.image:
                         self.screen.blit(tile.image, ((x * 16)-self.x_offset, y * 16))
                         if tile.interactable:  # TODO move this into the tile class
@@ -73,7 +71,7 @@ class WesternMaker:
             if self.debug:
                 # render blocks
                 for y in range(18):  # this is here to show where the game is actually affected
-                    for x in range(len(self.tile_map)):
+                    for x in range(len(self.GameMap.tile_map)):
                         rect = pygame.Rect((x * 16), y * 16, 16, 16)
                         pygame.draw.rect(self.screen, (0, 0, 255), rect, 1)
 
@@ -119,7 +117,7 @@ class WesternMaker:
                         if obj_num:
                             if obj_num == 1:
                                 name = str(input("Name to save as: ")) + ".json"
-                                TileMapHandler().save_map(name, self.tile_map)
+                                self.GameMap.save_map(name)
                 elif event.type == QUIT:
                     self.global_config.game_running = False
                     self.running = False

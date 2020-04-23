@@ -59,6 +59,15 @@ class GameMap:
         return tile_map
 
     @staticmethod
+    def empty_save_data():
+        map_data = {}
+        map_data["layers"] = {}
+        map_data["entities"] = {}
+        map_data["meta"] = {}
+
+        return map_data
+
+    @staticmethod
     def get_tiles(layer_data):
         tiles = []
         for x in range(0, len(layer_data)):  # loads map
@@ -92,7 +101,7 @@ class GameMap:
         self.player_location = map_data["entities"]["player"]["location"]
 
     def save_map(self, filename, player_location=None):
-        map_data = {}
+        map_data = self.empty_save_data()
         for layer in self.layers:
             map_data["layers"][layer.name] = self.get_tiles(layer.layer_data)
 
@@ -107,4 +116,25 @@ class GameMap:
         with open(os.path.join(MAPS_DIRECTORY, filename), "w") as f:
             json.dump(map_data, f, indent=4)
 
+    def extend_map(self, xy):
+        x, y = xy
+        cur_x = len(self.tile_map)
+        cur_y = len(self.tile_map[0])
 
+        if x+1 > cur_x:
+            new_base_x = x + 1
+        else:
+            new_base_x = cur_x
+        if y+1 > cur_y:
+            new_base_y = y+1
+        else:
+            new_base_y = cur_y
+
+        base_map = self.empty_map((new_base_x, new_base_y))
+        for x in range(0, len(self.tile_map)):
+            for y in range(0, len(self.tile_map[x])):
+                if self.tile_map[x][y].image:
+                    base_map[x][y] = self.tile_map[x][y]
+
+        self.map_size = (new_base_x, new_base_y)
+        self.tile_map = base_map
