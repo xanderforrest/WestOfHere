@@ -13,6 +13,7 @@ K_RIGHT
 from entities import Player, Tumbleweed
 from utilities.utilities import GameState, Button, get_available_assets, num_from_keypress, ImageButton
 from utilities.tilemap_handler import TileMapHandler, Tile
+from utilities.GameMap import GameMap
 from utilities.consts import *
 import os
 
