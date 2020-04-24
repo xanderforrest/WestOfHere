@@ -112,6 +112,8 @@ class WesternMaker:
                         # this will become "interact" key for entering doors
                     if event.key == K_6:
                         self.selected_object = Tile(["assets", "buildings", "general-shop.png"], category="building")
+                    if event.key == K_7:
+                        self.GameMap.player_location = curs_posx + self.x_offset
                     else:
                         obj_num = num_from_keypress(event.key)
                         if obj_num:
