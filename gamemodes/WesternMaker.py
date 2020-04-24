@@ -60,20 +60,7 @@ class WesternMaker:
     def mainloop(self):
         while self.running:
             self.screen.fill((0, 255, 255))
-            for x in range(0, len(self.GameMap.tile_map)):  # loads map
-                for y in range(0, len(self.GameMap.tile_map[x])):
-                    tile = self.GameMap.tile_map[x][y]
-                    if tile.image:
-                        self.screen.blit(tile.image, ((x * 16)-self.x_offset, y * 16))
-                        if tile.interactable:  # TODO move this into the tile class
-                            tile.rect = pygame.Rect((x * 16)-self.x_offset, y * 16, 16, 16)
-
-            if self.debug:
-                # render blocks
-                for y in range(18):  # this is here to show where the game is actually affected
-                    for x in range(len(self.GameMap.tile_map)):
-                        rect = pygame.Rect((x * 16), y * 16, 16, 16)
-                        pygame.draw.rect(self.screen, (0, 0, 255), rect, 1)
+            self.GameMap.render(self.screen, (self.x_offset, 0), debug=self.debug)
 
             # gui stuff
             #self.screen.blit(self.gui_image, (0, 18*16))
