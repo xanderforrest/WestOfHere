@@ -139,8 +139,8 @@ class GameMap:
         self.map_size = (new_base_x, new_base_y)
         self.tile_map = base_map
 
-    def render(self, screen, offset=(0, 0), debug=False):
-        x_offset, y_offset = offset
+    def render(self, screen, GS):
+        x_offset, y_offset = GS.offset
         for x in range(0, len(self.tile_map)):  # loads map
             for y in range(0, len(self.tile_map[x])):
                 tile = self.tile_map[x][y]
@@ -149,10 +149,12 @@ class GameMap:
                     if tile.interactable:
                         tile.rect = pygame.Rect((x * 16) - x_offset, y * 16, 16, 16)
 
-        if debug:
+        if GS.debug:
             for y in range(0, len(self.tile_map[0])):
                 for x in range(0, len(self.tile_map)):
                     rect = pygame.Rect((x*16)-x_offset, (y*16)-y_offset, 16, 16)
                     pygame.draw.rect(screen, (0, 0, 255), rect, 1)
+            fps = str(int(GS.clock.get_fps()))
+            screen.blit(FONT.render(fps, 1, (255, 255, 255)), (0, 0))
 
         return screen

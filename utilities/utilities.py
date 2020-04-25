@@ -78,10 +78,12 @@ class GameState:
         self.destroyables = pygame.sprite.Group()
         self.animated = pygame.sprite.Group()
         self.player = None
+        self.curs_pos = (0, 0)
 
         self.clock = pygame.time.Clock()
         self.dt = None
         self.animation_count = 0
+        self.offset = [0, 0]
 
         self.running = True
         self.debug = False
