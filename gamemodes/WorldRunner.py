@@ -25,13 +25,38 @@ class TestWorld:  # TODO redo sound handling so sound settings can be changed
         self.GameMap = GameMap(filename=str(input("Worldname: ")+".json"))
 
         self.soundtrack = pygame.mixer.Sound(os.path.join(ASSETS_DIRECTORY, SOUNDS_DIRECTORY, "soundtrack.wav"))
-        pygame.mixer.Channel(0).play(self.soundtrack, loops=-1)
 
+    def resume(self):
+        self.GS.running = True
         self.mainloop()
 
+    def pause(self):
+        pygame.mixer.pause()
+        self.GS.running = False
+
+    def handle_event(self, event):
+        if event.type == KEYDOWN:
+            if event.key == K_ESCAPE:
+                self.pause()
+            if event.key == K_UP:
+                self.GS.debug = False if self.GS.debug else True
+                # this will become "interact" key for entering doors
+        elif event.type == QUIT:
+            self.global_config.game_running = False
+            self.GS.running = False
+        elif event.type == pygame.MOUSEBUTTONUP:
+            if event.button == 1:
+                self.GS.player.trigger_gunfire()
+            else:
+                target = Tumbleweed(pygame.mouse.get_pos())
+                # GS.destroyables.add(target)
+                # GS.animated.add(target)
+                self.GS.entities.add(target)
+
     def mainloop(self):
+        pygame.mixer.Channel(0).play(self.soundtrack, loops=-1)
         while self.GS.running:
-            # update game clock
+
             self.GS.dt = self.GS.clock.tick(60) / 1000
             self.screen.fill((255, 255, 255))
 
@@ -43,28 +68,6 @@ class TestWorld:  # TODO redo sound handling so sound settings can be changed
                              (self.GS.curs_pos[0] - 3,
                               self.GS.curs_pos[1] - 3))
 
-            # EVENT HANDLING
-            for event in pygame.event.get():
-                if event.type == KEYDOWN:
-                    if event.key == K_ESCAPE:
-                        pygame.mixer.pause()
-                        self.GS.running = False
-                    if event.key == K_UP:
-                        self.GS.debug = False if self.GS.debug else True
-                        # this will become "interact" key for entering doors
-                elif event.type == QUIT:
-                    self.global_config.game_running = False
-                    self.GS.running = False
-                elif event.type == pygame.MOUSEBUTTONUP:
-                    if event.button == 1:
-                        self.GS.player.trigger_gunfire()
-                    else:
-                        target = Tumbleweed(pygame.mouse.get_pos())
-                        # GS.destroyables.add(target)
-                        # GS.animated.add(target)
-                        self.GS.entities.add(target)
-
-            # ENTITY UPDATES
             for entity in self.GS.entities:
                 self.GS = entity.update(self.GS, pygame.key.get_pressed())
 
