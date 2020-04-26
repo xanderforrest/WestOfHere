@@ -13,16 +13,16 @@ from utilities.consts import *
 import os
 
 
-class TestWorld:  # TODO redo sound handling so sound settings can be changed
-    def __init__(self, screen, global_config):
-        self.screen = screen
+class WorldRunner:  # TODO redo sound handling so sound settings can be changed
+    def __init__(self, global_config, GS=None):
+        self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.global_config = global_config
         self.GS = GameState()
 
         self.GS.player = Player()
         self.GS.entities.add(self.GS.player)
 
-        self.GameMap = GameMap(filename=str(input("Worldname: ")+".json"))
+        self.GameMap = GameMap(filename="testbutagain.json")
 
         self.soundtrack = pygame.mixer.Sound(os.path.join(ASSETS_DIRECTORY, SOUNDS_DIRECTORY, "soundtrack.wav"))
 
@@ -56,17 +56,19 @@ class TestWorld:  # TODO redo sound handling so sound settings can be changed
     def mainloop(self):
         pygame.mixer.Channel(0).play(self.soundtrack, loops=-1)
         while self.GS.running:
-
             self.GS.dt = self.GS.clock.tick(60) / 1000
             self.screen.fill((255, 255, 255))
 
-            self.GameMap.render(self.screen, self.GS)
+            self.GameMap.render(self.screen, (0, 0))
 
             self.GS.curs_pos = pygame.mouse.get_pos()
             pygame.mouse.set_visible(False)
             self.screen.blit(CURSOR_IMG,
                              (self.GS.curs_pos[0] - 3,
                               self.GS.curs_pos[1] - 3))
+
+            for event in pygame.event.get():
+                self.handle_event(event)
 
             for entity in self.GS.entities:
                 self.GS = entity.update(self.GS, pygame.key.get_pressed())

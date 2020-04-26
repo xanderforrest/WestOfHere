@@ -8,6 +8,7 @@ from gamemodes.MainMenu import MainMenu
 from gamemodes.WesternMaker import WesternMaker
 from gamemodes.TownMenu import TownMenu
 from gamemodes.TestWorld import TestWorld
+from gamemodes.WorldRunner import WorldRunner
 from utilities.utilities import GlobalSettings
 from utilities.consts import *
 
@@ -20,7 +21,4 @@ screen.set_alpha(None)
 global_config = GlobalSettings()
 
 while global_config.game_running:
-    MainMenu(screen, global_config)
-    WesternMaker(screen, global_config)
-    # TestWorld(screen, global_config)
-    # TownMenu(screen, global_config)
+    WorldRunner(screen, global_config).resume()

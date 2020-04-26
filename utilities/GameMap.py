@@ -87,7 +87,7 @@ class GameMap:
         with open(os.path.join(MAPS_DIRECTORY, filename), "r") as f:
             map_data = json.load(f)
 
-        base_map = self.empty_map()
+        base_map = self.empty_map(map_data["meta"]["size"])
         self.layers = [Layer(map_data["layers"], layer) for layer in map_data["layers"]]
 
         width, height = map_data["meta"]["size"]
@@ -98,7 +98,10 @@ class GameMap:
                     if tile_data:
                         base_map[x][y] = self.load_tile(tile_data)
 
-        self.player_location = map_data["entities"]["player"]["location"]
+        try:
+            self.player_location = map_data["entities"]["player"]["location"]
+        except KeyError:
+            self.player_location = None
 
     def save_map(self, filename, player_location=None):
         map_data = self.empty_save_data()
@@ -139,8 +142,8 @@ class GameMap:
         self.map_size = (new_base_x, new_base_y)
         self.tile_map = base_map
 
-    def render(self, screen, GS):
-        x_offset, y_offset = GS.offset
+    def render(self, screen, offset, debug=False, fps=None):
+        x_offset, y_offset = offset
         for x in range(0, len(self.tile_map)):  # loads map
             for y in range(0, len(self.tile_map[x])):
                 tile = self.tile_map[x][y]
@@ -149,12 +152,13 @@ class GameMap:
                     if tile.interactable:
                         tile.rect = pygame.Rect((x * 16) - x_offset, y * 16, 16, 16)
 
-        if GS.debug:
+        if debug:
             for y in range(0, len(self.tile_map[0])):
                 for x in range(0, len(self.tile_map)):
                     rect = pygame.Rect((x*16)-x_offset, (y*16)-y_offset, 16, 16)
                     pygame.draw.rect(screen, (0, 0, 255), rect, 1)
-            fps = str(int(GS.clock.get_fps()))
+        if fps:
+            fps = str(fps)
             screen.blit(FONT.render(fps, 1, (255, 255, 255)), (0, 0))
 
         return screen
