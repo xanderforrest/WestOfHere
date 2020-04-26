@@ -103,6 +103,8 @@ class GameMap:
         except KeyError:
             self.player_location = None
 
+        self.tile_map = base_map
+
     def save_map(self, filename, player_location=None):
         map_data = self.empty_save_data()
         for layer in self.layers:

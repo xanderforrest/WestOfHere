@@ -22,7 +22,7 @@ class WorldRunner:  # TODO redo sound handling so sound settings can be changed
         self.GS.player = Player()
         self.GS.entities.add(self.GS.player)
 
-        self.GameMap = GameMap(filename="testbutagain.json")
+        self.GameMap = GameMap(filename="menu_town.json")
 
         self.soundtrack = pygame.mixer.Sound(os.path.join(ASSETS_DIRECTORY, SOUNDS_DIRECTORY, "soundtrack.wav"))
 
