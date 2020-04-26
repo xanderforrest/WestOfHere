@@ -14,6 +14,7 @@ from entities import Player, Tumbleweed
 from utilities.utilities import GameState, Button, get_available_assets, num_from_keypress, ImageButton
 from utilities.GameMap import GameMap, Tile
 from utilities.consts import *
+from utilities.GUI import TextInput
 import os
 
 
@@ -34,6 +35,7 @@ class WesternMaker:
         self.gui_image = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "western-maker-gui.png"))
         self.screen = pygame.display.set_mode((800, 432))
         self.buttons = []
+        self.filename_input = TextInput(200, 400, "filename.json")
 
         for i, block in enumerate(self.potential_objects):
             print(i)
@@ -74,6 +76,8 @@ class WesternMaker:
             for button in self.buttons:
                 self.screen.blit(button.surf, button.rect)
 
+            self.screen.blit(self.filename_input.text_surface, self.filename_input.rect)
+
             curs_posx, curs_posy = pygame.mouse.get_pos()
             curs_pos = (curs_posx, curs_posy)
             # self.screen.blit(self.title_font.render("West of Here", 1, (255, 255, 255)), (46, 60))
@@ -92,6 +96,8 @@ class WesternMaker:
             # EVENT HANDLING
             for event in pygame.event.get():
                 if event.type == KEYDOWN:
+                    self.filename_input.update(event)
+
                     if event.key == K_ESCAPE:
                         self.running = False
                     if event.key == K_UP:
@@ -105,7 +111,7 @@ class WesternMaker:
                         obj_num = num_from_keypress(event.key)
                         if obj_num:
                             if obj_num == 1:
-                                name = str(input("Name to save as: ")) + ".json"
+                                name = self.filename_input.text
                                 self.GameMap.save_map(name)
                 elif event.type == QUIT:
                     self.global_config.game_running = False
@@ -122,6 +128,10 @@ class WesternMaker:
                 if curs_pos[1] < 288:
                     self.place_object()
                 else:
+                    if self.filename_input.rect.collidepoint(curs_pos):
+                        self.filename_input.active = True
+                    else:
+                        self.filename_input.active = False
                     for button in self.buttons:
                         if button.rect.collidepoint(curs_pos):
                             print(button.image_path)

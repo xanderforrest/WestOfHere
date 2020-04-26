@@ -4,10 +4,7 @@ from pygame.locals import (
     KEYDOWN,
     QUIT,
 )
-from gamemodes.MainMenu import MainMenu
 from gamemodes.WesternMaker import WesternMaker
-from gamemodes.TownMenu import TownMenu
-from gamemodes.TestWorld import TestWorld
 from gamemodes.WorldRunner import WorldRunner
 from utilities.utilities import GlobalSettings
 from utilities.consts import *
@@ -21,4 +18,4 @@ screen.set_alpha(None)
 global_config = GlobalSettings()
 
 while global_config.game_running:
-    WorldRunner(screen, global_config).resume()
+    WesternMaker(screen, global_config)
