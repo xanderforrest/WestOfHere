@@ -8,11 +8,12 @@ class Tile:
         self.image_path = image_path  # TODO make this universal so maps can work with changed directories
         if self.image_path:
             self.image = pygame.image.load(os.path.join(*image_path))
+            self.rect = self.image.get_rect()
         else:
             self.image = None
+            self.rect = rect
         self.interactable = interactable
         self.category = category
-        self.rect = rect
 
     def get_block_coords(self):
         return f"({self.rect.center[0] // 16}, {self.rect.center[1] // 16})"

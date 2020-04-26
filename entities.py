@@ -43,7 +43,7 @@ class Tumbleweed(pygame.sprite.Sprite):
             self.v[0] -= self.acceleration
 
         self.v[1] += self.gravity
-        self.update_movement(GS.dt, GS.tile_map)
+        self.update_movement(GS.dt, GS.GameMap.tile_map)
 
         self.animation_count += 1
         if self.animation_count == 5:
@@ -165,7 +165,7 @@ class Bullet(pygame.sprite.Sprite):
                     e.on_hit()
         self.rect.center = self.current_point
 
-        collisions = get_collisions(self.rect, GS.tile_map)
+        collisions = get_collisions(self.rect, GS.GameMap.tile_map)
         if collisions:  # for now we're only concerned if the bullet hits the floor
             self.kill()
 
@@ -234,7 +234,7 @@ class Player(pygame.sprite.Sprite):
         # consider gravity
         self.v[1] += self.gravity
 
-        self.update_movement(GS.dt, GS.tile_map)
+        self.update_movement(GS.dt, GS.GameMap.tile_map)
 
         self.animation_count += 1
         if self.animation_count == 5:
@@ -358,7 +358,7 @@ class Bandit(pygame.sprite.Sprite):
             self.update_direction("right")
         else:
             self.update_direction("left")
-        self.update_movement(GS.dt, GS.tile_map)
+        self.update_movement(GS.dt, GS.GameMap.tile_map)
 
         self.animation_count += 1
         if self.animation_count == 5:

@@ -22,7 +22,7 @@ class WorldRunner:  # TODO redo sound handling so sound settings can be changed
         self.GS.player = Player()
         self.GS.entities.add(self.GS.player)
 
-        self.GameMap = GameMap(filename="menu_town.json")
+        self.GS.GameMap = GameMap(filename="firstsave.json")
 
         self.soundtrack = pygame.mixer.Sound(os.path.join(ASSETS_DIRECTORY, SOUNDS_DIRECTORY, "soundtrack.wav"))
 
@@ -59,7 +59,7 @@ class WorldRunner:  # TODO redo sound handling so sound settings can be changed
             self.GS.dt = self.GS.clock.tick(60) / 1000
             self.screen.fill((255, 255, 255))
 
-            self.GameMap.render(self.screen, (0, 0))
+            self.GS.GameMap.render(self.screen, (0, 0))
 
             self.GS.curs_pos = pygame.mouse.get_pos()
             pygame.mouse.set_visible(False)

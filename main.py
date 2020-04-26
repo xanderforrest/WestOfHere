@@ -18,4 +18,4 @@ screen.set_alpha(None)
 global_config = GlobalSettings()
 
 while global_config.game_running:
-    WesternMaker(screen, global_config)
+    WorldRunner(screen, global_config).resume()

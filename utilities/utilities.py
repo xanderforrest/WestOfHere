@@ -37,7 +37,7 @@ def get_collisions(rect, tile_map):
             # print("Entity gone out of range.")
 
     for tile in tiles:
-        if tile.rect:
+        if tile.interactable:
             if rect.colliderect(tile.rect):
                 collisions.append(tile)
     return collisions
@@ -72,7 +72,7 @@ class GlobalSettings:
 
 class GameState:
     def __init__(self):
-        self.tile_map = []
+        self.GameMap = None
 
         self.entities = pygame.sprite.Group()
         self.destroyables = pygame.sprite.Group()
