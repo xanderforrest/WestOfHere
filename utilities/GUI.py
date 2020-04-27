@@ -2,12 +2,30 @@ import pygame
 from utilities.consts import *
 
 
+def file_loader(screen):
+    filename_input = TextInput(0, 0, "?")
+    filename_input.colour = (255, 0, 0)
+    filename_input.active = True
+    while True:
+        screen.fill((255, 255, 255))
+        screen.blit(filename_input.text_surface, filename_input.rect)
+
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                print("event triggered")
+                filename_input.update(event)
+                if event.key == pygame.K_RETURN:
+                    return filename_input.text
+
+        pygame.display.flip()
+
+
 class TextInput:
     def __init__(self, x, y, text="input here"):
         self.rect = pygame.Rect((x, y), FONT.size(text))
         self.colour = (255, 255, 255)
         self.text = text
-        self.text_surface = FONT.render(text, True, self.colour)
+        self.text_surface = FONT.render(self.text, True, self.colour)
         self.active = False
 
     def update(self, event):

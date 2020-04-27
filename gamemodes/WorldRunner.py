@@ -10,6 +10,7 @@ from entities import Player, Tumbleweed
 from utilities.utilities import GameState
 from utilities.GameMap import GameMap
 from utilities.consts import *
+from utilities.GUI import file_loader
 import os
 
 
@@ -22,11 +23,16 @@ class WorldRunner:  # TODO redo sound handling so sound settings can be changed
         self.GS.player = Player()
         self.GS.entities.add(self.GS.player)
 
-        self.GS.GameMap = GameMap(filename="firstsave.json")
+        self.GS.GameMap = None
+        self.first_start = True
 
         self.soundtrack = pygame.mixer.Sound(os.path.join(ASSETS_DIRECTORY, SOUNDS_DIRECTORY, "soundtrack.wav"))
 
     def resume(self):
+        if self.first_start:
+            map_file = file_loader(self.screen)
+            self.GS.GameMap = GameMap(map_file)
+            self.first_start = False
         self.GS.running = True
         self.mainloop()
 

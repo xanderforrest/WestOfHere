@@ -4,7 +4,6 @@ from pygame.locals import (
     KEYDOWN,
     QUIT,
 )
-from gamemodes.WesternMaker import WesternMaker
 from gamemodes.WorldRunner import WorldRunner
 from utilities.utilities import GlobalSettings
 from utilities.consts import *

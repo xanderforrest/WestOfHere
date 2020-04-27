@@ -64,6 +64,11 @@ def num_from_keypress(key):
     return to_return
 
 
+class Camera:
+    def __init__(self, target):
+        pass  # TODO this
+
+
 class GlobalSettings:
     def __init__(self):
         self.game_running = True
@@ -87,53 +92,3 @@ class GameState:
 
         self.running = True
         self.debug = False
-
-
-class Button:
-    def __init__(self, text, action=None):
-        self.text = text
-        self.mode = "off"
-        self.action = action
-
-        self.button_surface = self.draw_button()
-        self.rect = self.button_surface.get_rect()
-
-    def draw_button(self, text_colour=(255, 255, 255)):
-        text_surf = FONT.render(self.text, 1, text_colour)
-        size = FONT.size(self.text)
-
-        self.border_size = 4
-        border_offset = 4
-
-        box_size = (size[0]+border_offset*2, size[1]+border_offset*2)
-        self.button_surface = pygame.Surface(box_size, pygame.SRCALPHA)
-        self.button_surface.blit(text_surf, (border_offset, border_offset))
-        rect = pygame.Rect((0, 0), box_size)
-        pygame.draw.rect(self.button_surface, (255, 255, 255), rect, self.border_size)
-
-        return self.button_surface
-
-    def update_highlight(self, mode):
-        if self.mode != mode:
-            if mode == "on":
-                self.button_surface = self.draw_button((211, 211, 211))
-                self.mode = "on"
-            else:
-                self.mode = "off"
-                self.button_surface = self.draw_button()
-
-    def on_hit(self):
-        if self.action:
-            self.action()
-
-
-class ImageButton(pygame.sprite.Sprite):
-    def __init__(self, position, image, image_path=None):
-        super(ImageButton, self).__init__()
-        self.name = "ImageButton"
-
-        self.surf = image
-        self.rect = self.surf.get_rect(
-            topleft=position
-        )
-        self.image_path = image_path
