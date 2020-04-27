@@ -11,10 +11,10 @@ K_LEFT,
 K_RIGHT
 )
 from entities import Player, Tumbleweed
-from utilities.utilities import GameState, Button, get_available_assets, num_from_keypress, ImageButton
+from utilities.utilities import GameState, get_available_assets, num_from_keypress
 from utilities.GameMap import GameMap, Tile
 from utilities.consts import *
-from utilities.GUI import TextInput
+from utilities.GUI import TextInput, Button, ImageButton
 import os
 
 
@@ -22,7 +22,7 @@ class WesternMaker:
     def __init__(self, screen, global_config):
         self.screen = screen
         self.global_config = global_config
-        self.running = True
+        self.running = False
         self.debug = False
         self.potential_objects = get_available_assets("assets")
         self.selected_object = Tile(["assets", "dirt.png"], interactable=True)
@@ -33,7 +33,7 @@ class WesternMaker:
         self.x_offset = 0
 
         self.gui_image = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "western-maker-gui.png"))
-        self.screen = pygame.display.set_mode((800, 432))
+        self.screen = None
         self.buttons = []
         self.filename_input = TextInput(200, 400, "filename.json")
 
@@ -45,7 +45,16 @@ class WesternMaker:
             button = ImageButton((x * 64, 20 * 16), tile_image, image_path=self.potential_objects[i][1])
             self.buttons.append(button)
 
+    def resume(self):
+        self.screen = pygame.display.set_mode((800, 432))
+        self.running = True
         self.mainloop()
+        return self.global_config
+
+    def pause(self):
+        pygame.mixer.pause()
+        self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+        self.running = False
 
     def place_object(self):
         pos = pygame.mouse.get_pos()
@@ -99,7 +108,8 @@ class WesternMaker:
                     self.filename_input.update(event)
 
                     if event.key == K_ESCAPE:
-                        self.running = False
+                        self.global_config.next_game = "worldrunner"
+                        self.pause()
                     if event.key == K_UP:
                         self.debug = False if self.debug else True
                         # this will become "interact" key for entering doors
@@ -113,9 +123,10 @@ class WesternMaker:
                             if obj_num == 1:
                                 name = self.filename_input.text
                                 self.GameMap.save_map(name)
+                                self.global_config.default_world = name
                 elif event.type == QUIT:
                     self.global_config.game_running = False
-                    self.running = False
+                    self.pause()
 
             keys = pygame.key.get_pressed()
             if keys[K_LEFT]:

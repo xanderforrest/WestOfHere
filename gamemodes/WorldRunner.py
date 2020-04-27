@@ -35,6 +35,7 @@ class WorldRunner:  # TODO redo sound handling so sound settings can be changed
             self.first_start = False
         self.GS.running = True
         self.mainloop()
+        return self.global_config
 
     def pause(self):
         pygame.mixer.pause()

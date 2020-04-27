@@ -5,6 +5,7 @@ from pygame.locals import (
     QUIT,
 )
 from gamemodes.WorldRunner import WorldRunner
+from gamemodes.WesternMaker import WesternMaker
 from utilities.utilities import GlobalSettings
 from utilities.consts import *
 
@@ -16,5 +17,9 @@ screen.set_alpha(None)
 
 global_config = GlobalSettings()
 
+games = {"worldrunner": WorldRunner, "westernmaker": WesternMaker}
+global_config.next_game = "westernmaker"
+
 while global_config.game_running:
-    WorldRunner(screen, global_config).resume()
+    current_game = games[global_config.next_game]
+    global_config = current_game(screen, global_config).resume()

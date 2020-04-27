@@ -90,3 +90,5 @@ class TestWorld:  # TODO redo sound handling so sound settings can be changed
                 self.screen.blit(entity.surf, entity.rect)
 
             pygame.display.flip()
+
+

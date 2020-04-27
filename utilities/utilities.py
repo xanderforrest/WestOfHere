@@ -73,6 +73,8 @@ class GlobalSettings:
     def __init__(self):
         self.game_running = True
         self.SoundSystem = soundsystem.SoundSystem()
+        self.next_game = ""
+        self.default_world = ""
 
 
 class GameState:
