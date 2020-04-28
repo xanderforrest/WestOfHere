@@ -9,7 +9,7 @@ SCREEN_HEIGHT = 288
 # 50 x 18 blocks per screen
 
 MAPS_DIRECTORY = "maps"
-
+GUI_DIRECTORY = "gui"
 # ASSETS VARIABLES
 ASSETS_DIRECTORY = "assets"
 
@@ -29,6 +29,8 @@ FONT_TITLE = pygame.font.Font(os.path.join(ASSETS_DIRECTORY, "fonts", "arcade-fo
 
 # Tiles
 TILE_DIRT = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "dirt.png"))
+TILE_DIRT_VARIANT = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "dirt-variant.png"))
+TILE_GRASS = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "grass.png"))
 TILE_CRATE = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "crate.png"))
 TILE_BARREL = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "barrel.png"))
 

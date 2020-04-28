@@ -15,7 +15,7 @@ import os
 
 
 class WorldRunner:  # TODO redo sound handling so sound settings can be changed
-    def __init__(self, global_config, GS=None):
+    def __init__(self, screen, global_config, GS=None):
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.global_config = global_config
         self.GS = GameState()
@@ -28,11 +28,16 @@ class WorldRunner:  # TODO redo sound handling so sound settings can be changed
 
         self.soundtrack = pygame.mixer.Sound(os.path.join(ASSETS_DIRECTORY, SOUNDS_DIRECTORY, "soundtrack.wav"))
 
-    def resume(self):
-        if self.first_start:
-            map_file = file_loader(self.screen)
+    def resume(self, force=False):
+        if self.first_start and not force:
+            map_file = file_loader(self.screen, self.global_config.default_world)
             self.GS.GameMap = GameMap(map_file)
             self.first_start = False
+        if force:
+            map_file = self.global_config.default_world
+            self.GS.GameMap = GameMap(map_file)
+            self.first_start = False
+
         self.GS.running = True
         self.mainloop()
         return self.global_config
@@ -66,7 +71,7 @@ class WorldRunner:  # TODO redo sound handling so sound settings can be changed
             self.GS.dt = self.GS.clock.tick(60) / 1000
             self.screen.fill((255, 255, 255))
 
-            self.GS.GameMap.render(self.screen, (0, 0))
+            self.GS.GameMap.render(self.screen, (0, 0), self.GS.debug)
 
             self.GS.curs_pos = pygame.mouse.get_pos()
             pygame.mouse.set_visible(False)

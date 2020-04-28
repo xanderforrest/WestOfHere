@@ -32,18 +32,32 @@ class WesternMaker:
         self.GameMap = GameMap()
         self.x_offset = 0
 
-        self.gui_image = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "western-maker-gui.png"))
+        self.gui_image = pygame.image.load(os.path.join(ASSETS_DIRECTORY, GUI_DIRECTORY, "gui.png"))
+        self.save_button_image = pygame.image.load(os.path.join(ASSETS_DIRECTORY, GUI_DIRECTORY, "save-button.png"))
         self.screen = None
-        self.buttons = []
-        self.filename_input = TextInput(200, 400, "filename.json")
 
-        for i, block in enumerate(self.potential_objects):
-            print(i)
-            x = i + 1
-            tile_image = pygame.transform.scale(pygame.image.load(os.path.join(*self.potential_objects[i][1])), (64, 64))
-            print(self.potential_objects[i][1])
-            button = ImageButton((x * 64, 20 * 16), tile_image, image_path=self.potential_objects[i][1])
-            self.buttons.append(button)
+        # TODO unhardcode this
+
+        self.buttons = []
+        self.filename_input = TextInput(16, 24*16, "filename")
+
+        self.save_button = ImageButton((19*16, 24*16), self.save_button_image, on_click=self.save_map)
+        self.buttons.append(self.save_button)
+
+        self.grass_button = ImageButton((16, 19*16), TILE_GRASS, image_path=TILE_GRASS)
+        self.buttons.append(self.grass_button)
+
+        self.dirt_variant_button = ImageButton((16, 20*16), TILE_DIRT_VARIANT, image_path=TILE_DIRT_VARIANT)
+        self.buttons.append(self.grass_button)
+
+        self.dirt_button = ImageButton((16, 21*16), TILE_DIRT, image_path=TILE_DIRT)
+        self.buttons.append(self.dirt_button)
+
+        self.barrel_button = ImageButton((32, 19*16), TILE_BARREL, image_path=TILE_BARREL)
+        self.buttons.append(self.barrel_button)
+
+        self.crate_button = ImageButton((32, 20*16), TILE_CRATE, image_path=TILE_CRATE)
+        self.buttons.append(self.crate_button)
 
     def resume(self):
         self.screen = pygame.display.set_mode((800, 432))
@@ -68,19 +82,18 @@ class WesternMaker:
             self.GameMap.extend_map([tile_x, tile_y])
             self.GameMap.tile_map[tile_x][tile_y] = self.selected_object
 
+    def save_map(self):
+        name = self.filename_input.text
+        self.GameMap.save_map(name)
+        self.global_config.default_world = name
+
     def mainloop(self):
         while self.running:
             self.screen.fill((0, 255, 255))
             self.GameMap.render(self.screen, (self.x_offset, 0), debug=self.debug)
 
             # gui stuff
-            #self.screen.blit(self.gui_image, (0, 18*16))
-            for x in range(0, 50):
-                self.screen.blit(TILE_CRATE, (x*16, 18*16))
-                self.screen.blit(TILE_CRATE, (x*16, 26*16))
-            for y in range(18, 27):
-                self.screen.blit(TILE_CRATE, (0, y*16))
-                self.screen.blit(TILE_CRATE, (49*16, y*16))
+            self.screen.blit(self.gui_image, (0, 18*16))
 
             for button in self.buttons:
                 self.screen.blit(button.surf, button.rect)
@@ -124,6 +137,8 @@ class WesternMaker:
                                 name = self.filename_input.text
                                 self.GameMap.save_map(name)
                                 self.global_config.default_world = name
+                            elif obj_num == 2:
+                                pygame.image.save(self.screen, "testsc.png")
                 elif event.type == QUIT:
                     self.global_config.game_running = False
                     self.pause()
@@ -145,13 +160,15 @@ class WesternMaker:
                         self.filename_input.active = False
                     for button in self.buttons:
                         if button.rect.collidepoint(curs_pos):
-                            print(button.image_path)
-                            if pygame.mouse.get_pressed()[0]:
-                                self.selected_object = Tile(button.image_path, category="none")
-                                print("not interactable block")
+                            if button.image_path:
+                                if pygame.mouse.get_pressed()[0]:
+                                    self.selected_object = Tile(None, surf=button.surf, category="none")
+                                    print("not interactable block")
+                                else:
+                                    self.selected_object = Tile(None, surf=button.surf, category="none", interactable=True)
+                                    print("making blockinteractable")
                             else:
-                                self.selected_object = Tile(button.image_path, category="none", interactable=True)
-                                print("making blockinteractable")
+                                button.on_click()
             pygame.display.flip()
 
 

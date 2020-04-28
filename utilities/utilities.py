@@ -74,7 +74,7 @@ class GlobalSettings:
         self.game_running = True
         self.SoundSystem = soundsystem.SoundSystem()
         self.next_game = ""
-        self.default_world = ""
+        self.default_world = "menu_town.json"
 
 
 class GameState:

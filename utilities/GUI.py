@@ -2,21 +2,20 @@ import pygame
 from utilities.consts import *
 
 
-def file_loader(screen):
-    filename_input = TextInput(0, 0, "?")
+def file_loader(screen, filename="?"):
+    filename_input = TextInput(0, 0, filename)
     filename_input.colour = (255, 0, 0)
     filename_input.active = True
     while True:
         screen.fill((255, 255, 255))
-        screen.blit(filename_input.text_surface, filename_input.rect)
 
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
-                print("event triggered")
                 filename_input.update(event)
                 if event.key == pygame.K_RETURN:
                     return filename_input.text
 
+        screen.blit(filename_input.text_surface, filename_input.rect)
         pygame.display.flip()
 
 
@@ -78,7 +77,7 @@ class Button:
 
 
 class ImageButton(pygame.sprite.Sprite):
-    def __init__(self, position, image, image_path=None):
+    def __init__(self, position, image, image_path=None, on_click=None):
         super(ImageButton, self).__init__()
         self.name = "ImageButton"
 
@@ -87,3 +86,8 @@ class ImageButton(pygame.sprite.Sprite):
             topleft=position
         )
         self.image_path = image_path
+        self.on_click = on_click
+
+    def on_click(self):
+        if self.on_click:
+            self.on_click()

@@ -4,10 +4,13 @@ from utilities.consts import *
 
 
 class Tile:
-    def __init__(self, image_path, interactable=False, category="none", rect=None):
+    def __init__(self, image_path, interactable=False, category="none", rect=None, surf=None):
         self.image_path = image_path  # TODO make this universal so maps can work with changed directories
         if self.image_path:
             self.image = pygame.image.load(os.path.join(*image_path))
+            self.rect = self.image.get_rect()
+        elif surf:
+            self.image = surf
             self.rect = self.image.get_rect()
         else:
             self.image = None
