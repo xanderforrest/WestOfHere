@@ -44,19 +44,19 @@ class WesternMaker:
         self.save_button = ImageButton((19*16, 24*16), self.save_button_image, on_click=self.save_map)
         self.buttons.append(self.save_button)
 
-        self.grass_button = ImageButton((16, 19*16), TILE_GRASS, image_path=TILE_GRASS)
+        self.grass_button = ImageButton((16, 19*16), TILE_GRASS, image_path=[ASSETS_DIRECTORY, "grass.png"])
         self.buttons.append(self.grass_button)
 
-        self.dirt_variant_button = ImageButton((16, 20*16), TILE_DIRT_VARIANT, image_path=TILE_DIRT_VARIANT)
+        self.dirt_variant_button = ImageButton((16, 20*16), TILE_DIRT_VARIANT, image_path=[ASSETS_DIRECTORY, "dirt-variant.png"])
         self.buttons.append(self.grass_button)
 
-        self.dirt_button = ImageButton((16, 21*16), TILE_DIRT, image_path=TILE_DIRT)
+        self.dirt_button = ImageButton((16, 21*16), TILE_DIRT, image_path=[ASSETS_DIRECTORY, "dirt.png"])
         self.buttons.append(self.dirt_button)
 
-        self.barrel_button = ImageButton((32, 19*16), TILE_BARREL, image_path=TILE_BARREL)
+        self.barrel_button = ImageButton((32, 19*16), TILE_BARREL, image_path=[ASSETS_DIRECTORY, "barrel.png"])
         self.buttons.append(self.barrel_button)
 
-        self.crate_button = ImageButton((32, 20*16), TILE_CRATE, image_path=TILE_CRATE)
+        self.crate_button = ImageButton((32, 20*16), TILE_CRATE, image_path=[ASSETS_DIRECTORY, "crate.png"])
         self.buttons.append(self.crate_button)
 
     def resume(self):
@@ -162,10 +162,10 @@ class WesternMaker:
                         if button.rect.collidepoint(curs_pos):
                             if button.image_path:
                                 if pygame.mouse.get_pressed()[0]:
-                                    self.selected_object = Tile(None, surf=button.surf, category="none")
+                                    self.selected_object = Tile(button.image_path, surf=button.surf, category="none")
                                     print("not interactable block")
                                 else:
-                                    self.selected_object = Tile(None, surf=button.surf, category="none", interactable=True)
+                                    self.selected_object = Tile(button.image_path, surf=button.surf, category="none", interactable=True)
                                     print("making blockinteractable")
                             else:
                                 button.on_click()
