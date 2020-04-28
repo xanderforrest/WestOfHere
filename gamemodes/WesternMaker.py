@@ -15,6 +15,7 @@ from utilities.utilities import GameState, get_available_assets, num_from_keypre
 from utilities.GameMap import GameMap, Tile
 from utilities.consts import *
 from utilities.GUI import TextInput, Button, ImageButton
+from gamemodes.WorldRunner import WorldRunner
 import os
 
 
@@ -34,6 +35,7 @@ class WesternMaker:
 
         self.gui_image = pygame.image.load(os.path.join(ASSETS_DIRECTORY, GUI_DIRECTORY, "gui.png"))
         self.save_button_image = pygame.image.load(os.path.join(ASSETS_DIRECTORY, GUI_DIRECTORY, "save-button.png"))
+        self.play_button_image = pygame.image.load(os.path.join(ASSETS_DIRECTORY, GUI_DIRECTORY, "play-button.png"))
         self.screen = None
 
         # TODO unhardcode this
@@ -44,11 +46,14 @@ class WesternMaker:
         self.save_button = ImageButton((19*16, 24*16), self.save_button_image, on_click=self.save_map)
         self.buttons.append(self.save_button)
 
+        self.play_button = ImageButton((23*16, 24*16), self.play_button_image, on_click=self.quickplay)
+        self.buttons.append(self.play_button)
+
         self.grass_button = ImageButton((16, 19*16), TILE_GRASS, image_path=[ASSETS_DIRECTORY, "grass.png"])
         self.buttons.append(self.grass_button)
 
         self.dirt_variant_button = ImageButton((16, 20*16), TILE_DIRT_VARIANT, image_path=[ASSETS_DIRECTORY, "dirt-variant.png"])
-        self.buttons.append(self.grass_button)
+        self.buttons.append(self.dirt_variant_button)
 
         self.dirt_button = ImageButton((16, 21*16), TILE_DIRT, image_path=[ASSETS_DIRECTORY, "dirt.png"])
         self.buttons.append(self.dirt_button)
@@ -86,6 +91,10 @@ class WesternMaker:
         name = self.filename_input.text
         self.GameMap.save_map(name)
         self.global_config.default_world = name
+
+    def quickplay(self):
+        WorldRunner(self.screen, self.global_config).resume(gamemap=self.filename_input.text)
+        self.screen = pygame.display.set_mode((800, 432))
 
     def mainloop(self):
         while self.running:

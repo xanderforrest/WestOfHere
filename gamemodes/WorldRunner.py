@@ -28,13 +28,13 @@ class WorldRunner:  # TODO redo sound handling so sound settings can be changed
 
         self.soundtrack = pygame.mixer.Sound(os.path.join(ASSETS_DIRECTORY, SOUNDS_DIRECTORY, "soundtrack.wav"))
 
-    def resume(self, force=False):
-        if self.first_start and not force:
+    def resume(self, gamemap=None):
+        if self.first_start and not gamemap:
             map_file = file_loader(self.screen, self.global_config.default_world)
             self.GS.GameMap = GameMap(map_file)
             self.first_start = False
-        if force:
-            map_file = self.global_config.default_world
+        if gamemap:
+            map_file = gamemap
             self.GS.GameMap = GameMap(map_file)
             self.first_start = False
 
