@@ -46,7 +46,7 @@ class WesternMaker:
         self.save_button = ImageButton((19*16, 24*16), self.save_button_image, on_click=self.save_map)
         self.buttons.append(self.save_button)
 
-        self.play_button = ImageButton((23*16, 24*16), self.play_button_image, on_click=self.quickplay)
+        self.play_button = ImageButton((24*16, 24*16), self.play_button_image, on_click=self.quickplay)
         self.buttons.append(self.play_button)
 
         self.grass_button = ImageButton((16, 19*16), TILE_GRASS, image_path=[ASSETS_DIRECTORY, "grass.png"])
@@ -93,8 +93,10 @@ class WesternMaker:
         self.global_config.default_world = name
 
     def quickplay(self):
-        WorldRunner(self.screen, self.global_config).resume(gamemap=self.filename_input.text)
+        self.GameMap.save_map("tempmap.json")
+        WorldRunner(self.screen, self.global_config).resume(gamemap="tempmap.json")
         self.screen = pygame.display.set_mode((800, 432))
+        pygame.mixer.pause()
 
     def mainloop(self):
         while self.running:
