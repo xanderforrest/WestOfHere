@@ -22,6 +22,7 @@ CLINT_SPRITESHEET = "clint-spritesheet.png"
 SOUNDS_DIRECTORY = "sounds"
 BUILDINGS_DIRECTORY = "buildings"
 
+CRATE_BORDER = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "crateborder.png"))
 
 # Fonts
 FONT = pygame.font.Font(os.path.join(ASSETS_DIRECTORY, "fonts", "arcade-font.ttf"), 32)
