@@ -146,7 +146,7 @@ class WesternMaker:
                     self.filename_input.update(event)
 
                     if event.key == K_ESCAPE:
-                        self.global_config.next_game = "worldrunner"
+                        self.global_config.next_game = "mainmenu"
                         self.pause()
                     if event.key == K_UP:
                         self.debug = False if self.debug else True

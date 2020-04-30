@@ -148,7 +148,7 @@ class GameMap:
         self.map_size = (new_base_x, new_base_y)
         self.tile_map = base_map
 
-    def render(self, screen, offset, debug=False, fps=None):
+    def render(self, screen, offset=(0, 0), debug=False, fps=None):
         x_offset, y_offset = offset
         for x in range(0, len(self.tile_map)):  # loads map
             for y in range(0, len(self.tile_map[x])):
