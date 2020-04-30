@@ -91,3 +91,15 @@ class ImageButton(pygame.sprite.Sprite):
     def on_click(self):
         if self.on_click:
             self.on_click()
+
+
+class Interacter(pygame.sprite.Sprite):
+    def __init__(self, size, position, on_interact=None, name="default"):
+        super(Interacter, self).__init__()
+        self.rect = pygame.Rect(position, size)
+        self._on_interact = on_interact
+        self.name = name
+
+    def on_interact(self):
+        if self._on_interact:
+            self._on_interact(self.name)
