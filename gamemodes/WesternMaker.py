@@ -14,7 +14,7 @@ from entities import Player, Tumbleweed
 from utilities.utilities import GameState, get_available_assets, num_from_keypress
 from utilities.GameMap import GameMap, Tile
 from utilities.consts import *
-from utilities.GUI import TextInput, Button, ImageButton
+from utilities.GUI import TextInput, Button, ImageButton, Interacter
 from gamemodes.WorldRunner import WorldRunner
 import os
 
@@ -46,7 +46,7 @@ class WesternMaker:
         self.save_button = ImageButton((19*16, 24*16), self.save_button_image, on_click=self.save_map)
         self.buttons.append(self.save_button)
 
-        self.play_button = ImageButton((23*16, 24*16), self.play_button_image, on_click=self.quickplay)
+        self.play_button = ImageButton((24*16, 24*16), self.play_button_image, on_click=self.quickplay)
         self.buttons.append(self.play_button)
 
         self.grass_button = ImageButton((16, 19*16), TILE_GRASS, image_path=[ASSETS_DIRECTORY, "grass.png"])
@@ -63,6 +63,16 @@ class WesternMaker:
 
         self.crate_button = ImageButton((32, 20*16), TILE_CRATE, image_path=[ASSETS_DIRECTORY, "crate.png"])
         self.buttons.append(self.crate_button)
+
+        self.general_store = Interacter((4 * 16, 3 * 16), (7 * 16, 19 * 16), on_interact=self.building_select,
+                                        name="general-shop.png")
+        self.gun_store = Interacter((4 * 16, 3 * 16), (11 * 16, 19 * 16), on_interact=self.building_select,
+                                        name="gun-shop.png")
+        self.saloon = Interacter((3 * 16, 3 * 16), (15 * 16, 19 * 16), on_interact=self.building_select,
+                                        name="saloon.png")
+        self.side_store = Interacter((4 * 16, 3 * 16), (18 * 16, 19 * 16), on_interact=self.building_select,
+                                        name="side-shop.png")
+        self.interactors = [self.general_store, self.gun_store, self.saloon, self.side_store]
 
     def resume(self):
         self.screen = pygame.display.set_mode((800, 432))
@@ -93,8 +103,14 @@ class WesternMaker:
         self.global_config.default_world = name
 
     def quickplay(self):
-        WorldRunner(self.screen, self.global_config).resume(gamemap=self.filename_input.text)
+        self.GameMap.save_map("tempmap.json")
+        WorldRunner(self.screen, self.global_config).resume(gamemap="tempmap.json")
         self.screen = pygame.display.set_mode((800, 432))
+        pygame.mixer.pause()
+
+    def building_select(self, name):
+        fp = [ASSETS_DIRECTORY, BUILDINGS_DIRECTORY, name]
+        self.selected_object = Tile(fp, category="building")
 
     def mainloop(self):
         while self.running:
@@ -130,7 +146,7 @@ class WesternMaker:
                     self.filename_input.update(event)
 
                     if event.key == K_ESCAPE:
-                        self.global_config.next_game = "worldrunner"
+                        self.global_config.next_game = "mainmenu"
                         self.pause()
                     if event.key == K_UP:
                         self.debug = False if self.debug else True
@@ -178,6 +194,10 @@ class WesternMaker:
                                     print("making blockinteractable")
                             else:
                                 button.on_click()
+                    for interacter in self.interactors:
+                        if interacter.rect.collidepoint(curs_pos):
+                            interacter.on_interact()
+
             pygame.display.flip()
 
 

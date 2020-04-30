@@ -1,16 +1,14 @@
 import pygame
 import pygame.gfxdraw
 from pygame.locals import (
-    K_UP,
     K_ESCAPE,
     KEYDOWN,
     QUIT,
 )
-from entities import Player, Tumbleweed
-from utilities.utilities import GameState, Button
-from utilities.tilemap_handler import TileMapHandler, Tile
+
+from utilities.GameMap import GameMap
+from utilities.GUI import Button
 from utilities.consts import *
-import os
 
 
 class MainMenu:
@@ -18,33 +16,50 @@ class MainMenu:
         self.screen = screen
         self.global_config = global_config
         self.running = True
+        self.first_start = True
 
         self.buttons = []
-        self.start_button = Button("play", self.play_game)
+        self.start_button = Button("play", self.start_game)
         self.buttons.append(self.start_button)
-        self.settings_button = Button("config")
+        self.settings_button = Button("create", self.start_maker)
         self.buttons.append(self.settings_button)
+        self.selected_button = None
 
-        self.tile_map = TileMapHandler().load_map("menu_town.json")
+        self.GameMap = GameMap("menu_town.json")
 
+    def resume(self):
+        self.running = True
         self.mainloop()
+        return self.global_config
 
-    def play_game(self):
-        self.running = False  # kill this game state after this loop
+    def pause(self):
+        pygame.mixer.pause()
+        self.running = False
+
+    def start_maker(self):
+        self.global_config.next_game = "westernmaker"
+        self.pause()
+
+    def start_game(self):
+        self.global_config.next_game = "worldrunner"
+        self.pause()
+
+    def handle_event(self, event):
+        if event.type == KEYDOWN:
+            if event.key == K_ESCAPE:
+                self.running = False
+        elif event.type == QUIT:
+            self.global_config.game_running = False
+            self.running = False
+        elif event.type == pygame.MOUSEBUTTONUP:
+            if event.button == 1:
+                if self.selected_button:
+                    self.selected_button.on_hit()
 
     def mainloop(self):
         while self.running:
-            selected_button = None
+            self.GameMap.render(self.screen)
 
-            for x in range(0, len(self.tile_map)):  # loads map
-                for y in range(0, len(self.tile_map[x])):
-                    tile = self.tile_map[x][y]
-                    if tile.image:
-                        self.screen.blit(tile.image, (x * 16, y * 16))
-                        if tile.interactable:  # TODO move this into the tile class
-                            tile.rect = pygame.Rect(x * 16, y * 16, 16, 16)
-
-            # render a cursor
             pygame.mouse.set_visible(False)
             curs_pos = pygame.mouse.get_pos()
             self.screen.blit(CURSOR_IMG,
@@ -54,11 +69,11 @@ class MainMenu:
             for button in self.buttons:
                 if button.rect.collidepoint(curs_pos):
                     button.update_highlight("on")
-                    selected_button = button
+                    self.selected_button = button
                     break
                 else:
                     button.update_highlight("off")
-                    selected_button = None
+                    self.selected_button = None
 
             # menu rendering
             self.screen.blit(FONT_TITLE.render("West of Here", 1, (255, 255, 255)), (46, 60))
@@ -69,17 +84,6 @@ class MainMenu:
 
             # EVENT HANDLING
             for event in pygame.event.get():
-                if event.type == KEYDOWN:
-                    if event.key == K_ESCAPE:
-                        self.running = False
-                elif event.type == QUIT:
-                    self.global_config.game_running = False
-                    self.running = False
-                elif event.type == pygame.MOUSEBUTTONUP:
-                    if event.button == 1:
-                        # is the mouse currently colliding with a button?
-                        if selected_button:
-                            print("pressing button")
-                            selected_button.on_hit()
+                self.handle_event(event)
 
             pygame.display.flip()

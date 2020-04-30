@@ -3,18 +3,19 @@ from utilities.consts import *
 
 
 def file_loader(screen, filename="?"):
-    filename_input = TextInput(0, 0, filename)
-    filename_input.colour = (255, 0, 0)
+    title = FONT.render("Enter world name: ", True, (0, 0, 0))
+    filename_input = TextInput(32, 64, filename)
     filename_input.active = True
     while True:
-        screen.fill((255, 255, 255))
-
+        screen.fill((0, 255, 255))
+        screen.blit(CRATE_BORDER, (0, 0))
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 filename_input.update(event)
                 if event.key == pygame.K_RETURN:
                     return filename_input.text
 
+        screen.blit(title, (32, 16))
         screen.blit(filename_input.text_surface, filename_input.rect)
         pygame.display.flip()
 
@@ -91,3 +92,15 @@ class ImageButton(pygame.sprite.Sprite):
     def on_click(self):
         if self.on_click:
             self.on_click()
+
+
+class Interacter(pygame.sprite.Sprite):
+    def __init__(self, size, position, on_interact=None, name="default"):
+        super(Interacter, self).__init__()
+        self.rect = pygame.Rect(position, size)
+        self._on_interact = on_interact
+        self.name = name
+
+    def on_interact(self):
+        if self._on_interact:
+            self._on_interact(self.name)

@@ -49,6 +49,7 @@ class WorldRunner:  # TODO redo sound handling so sound settings can be changed
     def handle_event(self, event):
         if event.type == KEYDOWN:
             if event.key == K_ESCAPE:
+                self.global_config.next_game = "mainmenu"
                 self.pause()
             if event.key == K_UP:
                 self.GS.debug = False if self.GS.debug else True
