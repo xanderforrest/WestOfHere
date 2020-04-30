@@ -11,7 +11,7 @@ K_LEFT,
 K_RIGHT
 )
 from entities import Player, Tumbleweed
-from utilities.utilities import GameState, get_available_assets, num_from_keypress
+from utilities.utilities import GameState, num_from_keypress
 from utilities.GameMap import GameMap, Tile
 from utilities.consts import *
 from utilities.GUI import TextInput, Button, ImageButton, Interacter
@@ -25,10 +25,7 @@ class WesternMaker:
         self.global_config = global_config
         self.running = False
         self.debug = False
-        self.potential_objects = get_available_assets("assets")
         self.selected_object = Tile(["assets", "dirt.png"], interactable=True)
-        for i, obj in enumerate(self.potential_objects):
-            print(f"{i} - {obj[0]}")
 
         self.GameMap = GameMap()
         self.x_offset = 0
