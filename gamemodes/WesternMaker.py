@@ -6,15 +6,14 @@ from pygame.locals import (
     KEYDOWN,
     QUIT,
     K_6,
-K_7,
-K_LEFT,
-K_RIGHT
+    K_7,
+    K_LEFT,
+    K_RIGHT
 )
-from entities import Player, Tumbleweed
-from utilities.utilities import GameState, num_from_keypress
+from utilities.utilities import num_from_keypress
 from utilities.GameMap import GameMap, Tile
 from utilities.consts import *
-from utilities.GUI import TextInput, Button, ImageButton, Interacter
+from utilities.GUI import TextInput, ImageButton, Interacter
 from gamemodes.WorldRunner import WorldRunner
 import os
 
@@ -38,37 +37,38 @@ class WesternMaker:
         # TODO unhardcode this
 
         self.buttons = []
-        self.filename_input = TextInput(16, 24*16, "filename")
+        self.filename_input = TextInput(16, 24 * 16, "filename")
 
-        self.save_button = ImageButton((19*16, 24*16), self.save_button_image, on_click=self.save_map)
+        self.save_button = ImageButton((19 * 16, 24 * 16), self.save_button_image, on_click=self.save_map)
         self.buttons.append(self.save_button)
 
-        self.play_button = ImageButton((24*16, 24*16), self.play_button_image, on_click=self.quickplay)
+        self.play_button = ImageButton((24 * 16, 24 * 16), self.play_button_image, on_click=self.quickplay)
         self.buttons.append(self.play_button)
 
-        self.grass_button = ImageButton((16, 19*16), TILE_GRASS, image_path=[ASSETS_DIRECTORY, "grass.png"])
+        self.grass_button = ImageButton((16, 19 * 16), TILE_GRASS, image_path=[ASSETS_DIRECTORY, "grass.png"])
         self.buttons.append(self.grass_button)
 
-        self.dirt_variant_button = ImageButton((16, 20*16), TILE_DIRT_VARIANT, image_path=[ASSETS_DIRECTORY, "dirt-variant.png"])
+        self.dirt_variant_button = ImageButton((16, 20 * 16), TILE_DIRT_VARIANT,
+                                               image_path=[ASSETS_DIRECTORY, "dirt-variant.png"])
         self.buttons.append(self.dirt_variant_button)
 
-        self.dirt_button = ImageButton((16, 21*16), TILE_DIRT, image_path=[ASSETS_DIRECTORY, "dirt.png"])
+        self.dirt_button = ImageButton((16, 21 * 16), TILE_DIRT, image_path=[ASSETS_DIRECTORY, "dirt.png"])
         self.buttons.append(self.dirt_button)
 
-        self.barrel_button = ImageButton((32, 19*16), TILE_BARREL, image_path=[ASSETS_DIRECTORY, "barrel.png"])
+        self.barrel_button = ImageButton((32, 19 * 16), TILE_BARREL, image_path=[ASSETS_DIRECTORY, "barrel.png"])
         self.buttons.append(self.barrel_button)
 
-        self.crate_button = ImageButton((32, 20*16), TILE_CRATE, image_path=[ASSETS_DIRECTORY, "crate.png"])
+        self.crate_button = ImageButton((32, 20 * 16), TILE_CRATE, image_path=[ASSETS_DIRECTORY, "crate.png"])
         self.buttons.append(self.crate_button)
 
         self.general_store = Interacter((4 * 16, 3 * 16), (7 * 16, 19 * 16), on_interact=self.building_select,
                                         name="general-shop.png")
         self.gun_store = Interacter((4 * 16, 3 * 16), (11 * 16, 19 * 16), on_interact=self.building_select,
-                                        name="gun-shop.png")
+                                    name="gun-shop.png")
         self.saloon = Interacter((3 * 16, 3 * 16), (15 * 16, 19 * 16), on_interact=self.building_select,
-                                        name="saloon.png")
+                                 name="saloon.png")
         self.side_store = Interacter((4 * 16, 3 * 16), (18 * 16, 19 * 16), on_interact=self.building_select,
-                                        name="side-shop.png")
+                                     name="side-shop.png")
         self.interactors = [self.general_store, self.gun_store, self.saloon, self.side_store]
 
     def resume(self):
@@ -84,7 +84,7 @@ class WesternMaker:
 
     def place_object(self):
         pos = pygame.mouse.get_pos()
-        tile_x = (pos[0]+self.x_offset) // 16
+        tile_x = (pos[0] + self.x_offset) // 16
         tile_y = pos[1] // 16
         print(f"{tile_x}, {tile_y}")
 
@@ -115,7 +115,7 @@ class WesternMaker:
             self.GameMap.render(self.screen, (self.x_offset, 0), debug=self.debug)
 
             # gui stuff
-            self.screen.blit(self.gui_image, (0, 18*16))
+            self.screen.blit(self.gui_image, (0, 18 * 16))
 
             for button in self.buttons:
                 self.screen.blit(button.surf, button.rect)
@@ -128,8 +128,8 @@ class WesternMaker:
 
             # render in where the selected tile would be placed
             if curs_pos[1] < 288:  # don't want it interefering with the gui
-                tile_x = ((curs_posx+self.x_offset)//16)
-                self.screen.blit(self.selected_object.image, ((tile_x*16)-self.x_offset, (curs_pos[1]//16)*16))
+                tile_x = ((curs_posx + self.x_offset) // 16)
+                self.screen.blit(self.selected_object.image, ((tile_x * 16) - self.x_offset, (curs_pos[1] // 16) * 16))
 
             # render a cursor
             pygame.mouse.set_visible(False)
@@ -171,7 +171,6 @@ class WesternMaker:
             if keys[K_RIGHT]:
                 self.x_offset += 4
 
-
             if pygame.mouse.get_pressed()[0] or pygame.mouse.get_pressed()[2]:
                 if curs_pos[1] < 288:
                     self.place_object()
@@ -187,7 +186,8 @@ class WesternMaker:
                                     self.selected_object = Tile(button.image_path, surf=button.surf, category="none")
                                     print("not interactable block")
                                 else:
-                                    self.selected_object = Tile(button.image_path, surf=button.surf, category="none", interactable=True)
+                                    self.selected_object = Tile(button.image_path, surf=button.surf, category="none",
+                                                                interactable=True)
                                     print("making blockinteractable")
                             else:
                                 button.on_click()

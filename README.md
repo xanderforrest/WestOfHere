@@ -3,27 +3,33 @@ A Spaghetti Western inspired click'n'shoot platformer.
 
 ![The current state of the game](https://i.imgur.com/HV5F9hz.png)
 
-This project was started to get familiar with the Pygame library and game development in general. 
+West Of Here is an open source Western themed platformer with a built in level editor, designed to have gamemodes built
+upon itself. The only dependency (apart from the Python 3 standard library) is Pygame 1.9.6, with a backend for GUI
+management being expanded upon commit by commit. There is a [Discord Server](https://discord.gg/xepTmRg) 
+to keep up to date with development and to get help or support.
 <br><br>
-The focus has largely been on building a solid foundation for game modes to be built upon, and I plan to make that
-as easy for others as possible, by building tools to speed up development and make life easier (such as a tilemap maker/
-events system for the add-on minigames)
-<br><br>
-Originally I saw this becoming a Mario-esque platformer, but at the moment am leaning more towards having
-multiple types of 2d scroller games in one. This means there could be duck-hunter/space invaders minigame
-(with a western theme, of course) that can earn you upgrades and buffs in the "Mario-esque" part of the game.
+The project has been expanded upon over the past month to its current state in which gamemodes can be built and level
+editing is in place. However, there are still many features left to be implemented to make the experience more streamlined
+for users. 
+<h2>Quick Start</h2>
+You can clone/download this repo's master branch which is kept stable - dependencies can be installed by navigating
+to the downloaded directory and entering the command:
 
+>pip -r install requirements.txt
 
+From there, you can run the main.py file to launch the game. Take a look at the basic example of a game mode - WorldRunner.py
+in the gamemodes directory to see how they are structured. In the future more documentation will be added for creating and
+implementing your own gamemodes into West Of Here, for now, if you'd like to contribute, join our Discord server and I can
+help you get set up.
 
 <h2>Roadmap</h2>
-<li>Implement any gameplay aspect at all</li>
-<li>Rewrite Tilemap object to allow for more interaction + layering</li>
 <li><del>Tilemap Creator</del> (think Mario Maker, <del>with a smaller budget</del>)</li>
-<li><del>Background/Tileset</del> with Parallax</li>
+<li>Parallax</li>
 <li><del>Gun Animations</del> + Logic (reloading, <del>delays</del>)</li>
 <li>Enemy logic</li>
-
-<br><br>
+<li>More options in gamemode selection from Main Menu</li>
+<li>Documentation for setting up your own gamemodes and standard practises
+<br>
 <h2>Credits</h2>
 I've tried to do as much of the game myself as possible, but quickly realised I'm pretty bad at art.<br><br>
 I commissioned an artist to draw and animate the main character, and another to design the buildings and

@@ -1,14 +1,13 @@
 import pygame
-pygame.init()
 from pygame.locals import (
     KEYDOWN,
     QUIT,
 )
+from utilities.consts import *
 from gamemodes.WorldRunner import WorldRunner
 from gamemodes.WesternMaker import WesternMaker
 from gamemodes.MainMenu import MainMenu
 from utilities.utilities import GlobalSettings
-from utilities.consts import *
 
 pygame.display.set_icon(pygame.image.load(os.path.join(ASSETS_DIRECTORY, WINDOW_ICON)))
 pygame.display.set_caption(WINDOW_TITLE)

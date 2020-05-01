@@ -1,5 +1,6 @@
 import os
 import pygame
+pygame.init()
 
 # GAME SETTINGS
 WINDOW_TITLE = "West of Here"
