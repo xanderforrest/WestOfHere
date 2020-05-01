@@ -344,9 +344,10 @@ class Player(pygame.sprite.Sprite):
 
 
 class Bandit(pygame.sprite.Sprite):
-    def __init__(self, start_pos):
+    def __init__(self, start_pos, goal=None):
         super(Bandit, self).__init__()
         self.name = "bandit"
+        self.goal = goal
 
         self.Animation_Idle = Animation("bandit-spritesheet.png", [0, 4])
         self.Animation_Walk = Animation("bandit-spritesheet.png", [4, 10])
@@ -371,6 +372,12 @@ class Bandit(pygame.sprite.Sprite):
     def update(self, GS, keys_pressed):
         self.idle = True
         # TODO insert movement logic
+
+        if self.goal:  # will probably be updated to use a rect/target object
+            if self.rect.center[0] > self.goal[0]:
+                self.v[0] -= self.acceleration
+                self.update_direction("left")
+                self.idle = False
 
         # consider gravity
         self.v[1] += self.gravity
