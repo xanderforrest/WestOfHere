@@ -209,6 +209,12 @@ class Player(pygame.sprite.Sprite):
         self.gravity = 10
         self.max_v = [50, 200]
 
+        self.jumping = False
+        self.on_tile = False
+        self.jump_velocity = [-30, 0]
+        self.jump_start = self.rect.center
+        self.max_jump_height = 20
+
         self.animation_count = 0
         self.spawned_entities = []
 
@@ -223,6 +229,8 @@ class Player(pygame.sprite.Sprite):
                 self.v[0] += self.acceleration
                 self.update_direction("right")
                 self.idle = False
+            if keys_pressed[pygame.K_SPACE]:
+                self.trigger_jump()
         if not keys_pressed[K_RIGHT] and not keys_pressed[K_LEFT]:
             self.v[0] = 0
 
@@ -233,6 +241,9 @@ class Player(pygame.sprite.Sprite):
 
         # consider gravity
         self.v[1] += self.gravity
+        # consider jumping
+        if self.jumping:
+            self.v[1] += self.jump_velocity[0]
 
         self.update_movement(GS.dt, GS.GameMap.tile_map)
 
@@ -244,6 +255,9 @@ class Player(pygame.sprite.Sprite):
         return GS
 
     def update_movement(self, dt, tile_map):
+        if self.jumping and (self.jump_start[1] - self.rect.center[1]) >= self.max_jump_height:
+            self.jumping = False
+            self.v[1] = 0
 
         if self.v[0] > self.max_v[0]:
             self.v[0] = self.max_v[0]
@@ -264,6 +278,7 @@ class Player(pygame.sprite.Sprite):
         # print(f"The player is currently in block ({cx}, {cy})")
         # print(f"The x velocity is {self.v[0]}\nThe applied x velocity is {x}")
 
+        self.on_tile = False
         if x != 0:
             self.rect.move_ip(x, 0)
             collisions = get_collisions(self.rect, tile_map)
@@ -279,6 +294,7 @@ class Player(pygame.sprite.Sprite):
                 if y > 0:  # standing on top of a tile
                     self.v[1] = 0
                     self.rect.bottom = collide.rect.top
+                    self.on_tile = True
                 else:  # hitting bottom of tile
                     self.rect.top = collide.rect.bottom
 
@@ -302,6 +318,12 @@ class Player(pygame.sprite.Sprite):
                 self.gun_draw = False
             self.surf = self.Animation_GunDraw.get_frame(direction=self.direction)
         self.surf.set_colorkey((255, 255, 255))
+
+    def trigger_jump(self):
+        if self.on_tile:
+            self.jumping = True
+            self.v[1] = 0
+            self.jump_start = self.rect.center
 
     def fire_gun(self):
         spos = self.rect.center
