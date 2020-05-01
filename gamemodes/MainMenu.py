@@ -23,6 +23,8 @@ class MainMenu:
         self.buttons.append(self.start_button)
         self.settings_button = Button("create", self.start_maker)
         self.buttons.append(self.settings_button)
+        self.play_treasure = Button("treasure protect", self.start_treasure)
+        self.buttons.append(self.play_treasure)
         self.selected_button = None
 
         self.GameMap = GameMap("menu_town.json")
@@ -42,6 +44,10 @@ class MainMenu:
 
     def start_game(self):
         self.global_config.next_game = "worldrunner"
+        self.pause()
+
+    def start_treasure(self):
+        self.global_config.next_game = "treasureprotect"
         self.pause()
 
     def handle_event(self, event):
@@ -81,6 +87,8 @@ class MainMenu:
             self.screen.blit(self.start_button.button_surface, self.start_button.rect)
             self.settings_button.rect.center = (SCREEN_WIDTH * 0.25, SCREEN_HEIGHT - (SCREEN_HEIGHT * 0.08))
             self.screen.blit(self.settings_button.button_surface, self.settings_button.rect)
+            self.play_treasure.rect.center = (SCREEN_WIDTH * 0.5, SCREEN_HEIGHT*0.1)
+            self.screen.blit(self.play_treasure.button_surface, self.play_treasure.rect)
 
             # EVENT HANDLING
             for event in pygame.event.get():
