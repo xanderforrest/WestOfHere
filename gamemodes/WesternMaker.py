@@ -13,7 +13,7 @@ from pygame.locals import (
 from utilities.utilities import num_from_keypress
 from utilities.GameMap import GameMap, Tile
 from utilities.consts import *
-from utilities.GUI import TextInput, ImageButton, Interacter
+from utilities.GUI import TextInput, ImageButton, Interacter, file_loader
 from gamemodes.WorldRunner import WorldRunner
 import os
 
@@ -32,6 +32,7 @@ class WesternMaker:
         self.gui_image = pygame.image.load(os.path.join(ASSETS_DIRECTORY, GUI_DIRECTORY, "gui.png"))
         self.save_button_image = pygame.image.load(os.path.join(ASSETS_DIRECTORY, GUI_DIRECTORY, "save-button.png"))
         self.play_button_image = pygame.image.load(os.path.join(ASSETS_DIRECTORY, GUI_DIRECTORY, "play-button.png"))
+        self.load_button_image = pygame.image.load(os.path.join(ASSETS_DIRECTORY, GUI_DIRECTORY, "load-button.png"))
         self.screen = None
 
         # TODO unhardcode this
@@ -44,6 +45,9 @@ class WesternMaker:
 
         self.play_button = ImageButton((24 * 16, 24 * 16), self.play_button_image, on_click=self.quickplay)
         self.buttons.append(self.play_button)
+
+        self.load_button = ImageButton((24 * 16, 22 * 16), self.load_button_image, on_click=self.load_map)
+        self.buttons.append(self.load_button)
 
         self.grass_button = ImageButton((16, 19 * 16), TILE_GRASS, image_path=[ASSETS_DIRECTORY, "grass.png"])
         self.buttons.append(self.grass_button)
@@ -93,6 +97,12 @@ class WesternMaker:
         except IndexError:
             self.GameMap.extend_map([tile_x, tile_y])
             self.GameMap.tile_map[tile_x][tile_y] = self.selected_object
+
+    def load_map(self):
+        filename = file_loader(self.screen)
+        self.GameMap = GameMap(filename)
+        self.filename_input.text = filename
+        self.filename_input.refresh()
 
     def save_map(self):
         name = self.filename_input.text
