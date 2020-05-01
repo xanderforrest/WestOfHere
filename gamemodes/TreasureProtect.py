@@ -10,7 +10,7 @@ from entities import Player, Bandit
 from utilities.utilities import GameState
 from utilities.GameMap import GameMap
 from utilities.consts import *
-from utilities.GUI import file_loader
+import random
 import os
 
 
@@ -25,7 +25,7 @@ class TreasureProtect:  # TODO redo sound handling so sound settings can be chan
 
         self.goal = (14, 18)
         self.SPAWN_ENEMY = pygame.USEREVENT + 1
-        pygame.time.set_timer(self.SPAWN_ENEMY, 250)
+        pygame.time.set_timer(self.SPAWN_ENEMY, 750)
 
         self.GS.GameMap = GameMap("treasure.json")
         self.first_start = True
@@ -56,11 +56,12 @@ class TreasureProtect:  # TODO redo sound handling so sound settings can be chan
             if event.button == 1:
                 self.GS.player.trigger_gunfire()
         elif event.type == self.SPAWN_ENEMY:
-            pos = (SCREEN_WIDTH - 20, SCREEN_HEIGHT - 60)
-            entity = Bandit(pos, goal=self.goal)
-            self.GS.entities.add(entity)
-            self.GS.animated.add(entity)
-            self.GS.destroyables.add(entity)
+            if random.randint(0, 1) == 1:
+                pos = (SCREEN_WIDTH - 20, SCREEN_HEIGHT - 60)
+                entity = Bandit(pos, goal=self.goal)
+                self.GS.entities.add(entity)
+                self.GS.animated.add(entity)
+                self.GS.destroyables.add(entity)
 
     def mainloop(self):
         pygame.mixer.Channel(0).play(self.soundtrack, loops=-1)

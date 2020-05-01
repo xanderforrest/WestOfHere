@@ -1,0 +1,2571 @@
+{
+    "layers": {
+        "BASE": [
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    0,
+                    7
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    0,
+                    8
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    0,
+                    9
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    0,
+                    10
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    0,
+                    11
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    0,
+                    12
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    0,
+                    13
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    0,
+                    14
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    0,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    0,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    0,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    1,
+                    7
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    1,
+                    8
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    1,
+                    9
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    1,
+                    10
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    1,
+                    11
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    1,
+                    12
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    1,
+                    13
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    1,
+                    14
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    1,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    1,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    1,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    2,
+                    7
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    2,
+                    8
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    2,
+                    9
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    2,
+                    10
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    2,
+                    11
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    2,
+                    12
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    2,
+                    13
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    2,
+                    14
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    2,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    2,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    2,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    3,
+                    7
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    3,
+                    8
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    3,
+                    9
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    3,
+                    10
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    3,
+                    11
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    3,
+                    12
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    3,
+                    13
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    3,
+                    14
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    3,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    3,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    3,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    4,
+                    7
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    4,
+                    8
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    4,
+                    9
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    4,
+                    10
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    4,
+                    11
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    4,
+                    12
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    4,
+                    13
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    4,
+                    14
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    4,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    4,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    4,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    5,
+                    7
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    5,
+                    8
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    5,
+                    9
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    5,
+                    10
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    5,
+                    11
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    5,
+                    12
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    5,
+                    13
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    5,
+                    14
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    5,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    5,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    5,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    5,
+                    18
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    6,
+                    8
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    6,
+                    9
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    6,
+                    10
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    6,
+                    11
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    6,
+                    12
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    6,
+                    13
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    6,
+                    14
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    6,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    6,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    6,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    7,
+                    8
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    7,
+                    9
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    7,
+                    10
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    7,
+                    11
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    7,
+                    12
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    7,
+                    13
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    7,
+                    14
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    7,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    7,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    7,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    8,
+                    8
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    8,
+                    9
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    8,
+                    10
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    8,
+                    11
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    8,
+                    12
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    8,
+                    13
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    8,
+                    14
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    8,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    8,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    8,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    9,
+                    8
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    9,
+                    9
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    9,
+                    10
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    9,
+                    11
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    9,
+                    12
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    9,
+                    13
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    9,
+                    14
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    9,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    9,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    9,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    9,
+                    18
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    10,
+                    8
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    10,
+                    9
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    10,
+                    10
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    10,
+                    11
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    10,
+                    12
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    10,
+                    13
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    10,
+                    14
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    10,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    10,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    10,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    11,
+                    8
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    11,
+                    9
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    11,
+                    10
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    11,
+                    11
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    11,
+                    12
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    11,
+                    13
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    11,
+                    14
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    11,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    11,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    11,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    12,
+                    8
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    12,
+                    9
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    12,
+                    10
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    12,
+                    11
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    12,
+                    12
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    12,
+                    13
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    12,
+                    14
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    12,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    12,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    12,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    13,
+                    8
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    13,
+                    9
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    13,
+                    10
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    13,
+                    11
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    13,
+                    12
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    13,
+                    13
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    13,
+                    14
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    13,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    13,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    14,
+                    8
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    14,
+                    9
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    14,
+                    10
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    14,
+                    11
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "barrel.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    14,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    14,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    15,
+                    8
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    15,
+                    9
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    15,
+                    10
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "crate.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    15,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "crate.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    15,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    15,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    16,
+                    8
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    16,
+                    9
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    16,
+                    10
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "barrel.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    16,
+                    15
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "crate.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    16,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    16,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    17,
+                    8
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    17,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    18,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    19,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    20,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    21,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    22,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    23,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    24,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    25,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    25,
+                    18
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    26,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    27,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    28,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    29,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    30,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    31,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    32,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    33,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    34,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    35,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    36,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    37,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    38,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    39,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    39,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    40,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    40,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "buildings",
+                    "saloon.png"
+                ],
+                "interactable": false,
+                "category": "building",
+                "coords": [
+                    41,
+                    10
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    41,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    41,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    42,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    42,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    43,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    43,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    44,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    44,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    45,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    45,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    46,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    46,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "buildings",
+                    "gun-shop.png"
+                ],
+                "interactable": false,
+                "category": "building",
+                "coords": [
+                    47,
+                    11
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    47,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    47,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    48,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    48,
+                    17
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "grass.png"
+                ],
+                "interactable": true,
+                "category": "none",
+                "coords": [
+                    49,
+                    16
+                ]
+            },
+            {
+                "image": [
+                    "assets",
+                    "dirt-variant.png"
+                ],
+                "interactable": false,
+                "category": "none",
+                "coords": [
+                    49,
+                    17
+                ]
+            }
+        ]
+    },
+    "entities": {},
+    "meta": {
+        "size": [
+            50,
+            18
+        ]
+    }
+}
