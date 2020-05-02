@@ -23,7 +23,7 @@ class TreasureProtect:  # TODO redo sound handling so sound settings can be chan
         self.GS.player = Player()
         self.GS.entities.add(self.GS.player)
 
-        self.goal = (14, 18)
+        self.goal = (14*16, 18*16)
         self.SPAWN_ENEMY = pygame.USEREVENT + 1
         pygame.time.set_timer(self.SPAWN_ENEMY, 750)
 
@@ -58,6 +58,8 @@ class TreasureProtect:  # TODO redo sound handling so sound settings can be chan
         elif event.type == self.SPAWN_ENEMY:
             if random.randint(0, 1) == 1:
                 pos = (SCREEN_WIDTH - 20, SCREEN_HEIGHT - 60)
+                if random.randint(0, 5) == 5:
+                    pos = (16, 16)
                 entity = Bandit(pos, goal=self.goal)
                 self.GS.entities.add(entity)
                 self.GS.animated.add(entity)

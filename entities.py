@@ -378,6 +378,10 @@ class Bandit(pygame.sprite.Sprite):
                 self.v[0] -= self.acceleration
                 self.update_direction("left")
                 self.idle = False
+            else:
+                self.v[0] += self.acceleration
+                self.update_direction("right")
+                self.idle = False
 
         # consider gravity
         self.v[1] += self.gravity
