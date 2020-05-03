@@ -24,7 +24,7 @@ SOUNDS_DIRECTORY = "sounds"
 BUILDINGS_DIRECTORY = "buildings"
 
 CRATE_BORDER = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "crateborder.png"))
-
+TREASURE_SKY = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "treasurebackground.png"))
 # Fonts
 FONT = pygame.font.Font(os.path.join(ASSETS_DIRECTORY, "fonts", "arcade-font.ttf"), 32)
 FONT_TITLE = pygame.font.Font(os.path.join(ASSETS_DIRECTORY, "fonts", "arcade-font.ttf"), 60)

@@ -404,15 +404,17 @@ class Bandit(pygame.sprite.Sprite):
         self.idle = True
         # TODO insert movement logic
 
-        if self.goal:  # will probably be updated to use a rect/target object
-            if self.rect.center[0] > self.goal[0]:
-                self.v[0] -= self.acceleration
-                self.update_direction("left")
-                self.idle = False
-            else:
-                self.v[0] += self.acceleration
-                self.update_direction("right")
-                self.idle = False
+        if not self.gun_draw:
+            if self.goal:  # will probably be updated to use a rect/target object
+                if self.rect.center[0] > self.goal[0]:
+                    self.v[0] -= self.acceleration
+                    self.update_direction("left")
+                    self.idle = False
+                else:
+                    self.v[0] += self.acceleration
+                    self.update_direction("right")
+                    self.idle = False
+
         if self.hostile:
             target = GS.player.rect.center
             if int(time.time())-self.last_shot >= 3:
@@ -514,6 +516,7 @@ class Bandit(pygame.sprite.Sprite):
 
     def trigger_gunfire(self):
         self.gun_draw = True
+        self.v = [0, 0]
 
     def fire_gun(self):
         spos = self.rect.center
