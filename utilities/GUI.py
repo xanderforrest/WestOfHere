@@ -37,6 +37,9 @@ class TextInput:
                 self.text += event.unicode
             self.text_surface = FONT.render(self.text, True, self.colour)
 
+    def refresh(self):
+        self.text_surface = FONT.render(self.text, True, self.colour)
+
 
 class Button:
     def __init__(self, text, action=None):

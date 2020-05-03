@@ -73,6 +73,7 @@ class GameMap:
 
     @staticmethod
     def get_tiles(layer_data):
+        print(layer_data)
         tiles = []
         for x in range(0, len(layer_data)):  # loads map
             for y in range(0, len(layer_data[x])):
@@ -112,7 +113,10 @@ class GameMap:
     def save_map(self, filename, player_location=None):
         map_data = self.empty_save_data()
         for layer in self.layers:
-            map_data["layers"][layer.name] = self.get_tiles(layer.layer_data)
+            try:
+                map_data["layers"][layer.name] = self.get_tiles(layer.layer_data)
+            except KeyError:  # If the map has been saved before, this format is slightly different. TODO this
+                map_data["layers"][layer.name] = layer.layer_data
 
         # TODO REMOVE THIS AND INTRODUCE LAYERING IN GAME MODES PROPERLY
         map_data["layers"]["BASE"] = self.get_tiles(self.tile_map)

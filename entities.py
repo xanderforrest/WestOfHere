@@ -10,12 +10,16 @@ import math
 from utilities.animation import Animation
 from utilities.soundsystem import SoundSystem
 stero = SoundSystem()
+import uuid
+import time
+import random
 
 
 class Tumbleweed(pygame.sprite.Sprite):
     def __init__(self, position=None, direction="left"):
         super(Tumbleweed, self).__init__()
         self.name = "tumbleweed"
+        self.id = uuid.uuid4()
 
         self.animation_count = 0
         self.roll_angle = 10
@@ -104,6 +108,7 @@ class Target(pygame.sprite.Sprite):
     def __init__(self, location):
         super(Target, self).__init__()
         self.name = "target"
+        self.id = uuid.uuid4()
         self.surf = TILE_BARREL.convert()
         self.surf.set_colorkey((0, 0, 0))
         self.rect = self.surf.get_rect(
@@ -121,9 +126,12 @@ class Target(pygame.sprite.Sprite):
 
 
 class Bullet(pygame.sprite.Sprite):
-    def __init__(self, start_pos, end_pos):
+    def __init__(self, start_pos, end_pos, owner_id=None):
         super(Bullet, self).__init__()
         self.name = "bullet"
+        self.id = uuid.uuid4()
+
+        self.owner = owner_id
         self.start_pos = start_pos
         self.end_pos = end_pos
         self.surf = pygame.Surface((5, 5))
@@ -159,10 +167,11 @@ class Bullet(pygame.sprite.Sprite):
 
             test_coords = (self.last_point[0] + x, self.last_point[1] + y_add)
             self.rect.center = test_coords
-            for e in GS.destroyables:
+            for e in GS.entities:
                 if self.rect.colliderect(e.rect):
-                    self.kill()
-                    e.on_hit()
+                    if e.id != self.owner and e.id != self.id:
+                        e.on_hit()
+                        self.kill()
         self.rect.center = self.current_point
 
         collisions = get_collisions(self.rect, GS.GameMap.tile_map)
@@ -184,11 +193,15 @@ class Bullet(pygame.sprite.Sprite):
 
         return direction_vector
 
+    def on_hit(self):
+        pass
+
 
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super(Player, self).__init__()
         self.name = "player"
+        self.id = uuid.uuid4()
 
         self.idle = True
         self.gun_draw = False
@@ -209,6 +222,12 @@ class Player(pygame.sprite.Sprite):
         self.gravity = 10
         self.max_v = [50, 200]
 
+        self.jumping = False
+        self.on_tile = False
+        self.jump_velocity = [-30, 0]
+        self.jump_start = self.rect.center
+        self.max_jump_height = 20
+
         self.animation_count = 0
         self.spawned_entities = []
 
@@ -223,6 +242,8 @@ class Player(pygame.sprite.Sprite):
                 self.v[0] += self.acceleration
                 self.update_direction("right")
                 self.idle = False
+            if keys_pressed[pygame.K_SPACE]:
+                self.trigger_jump()
         if not keys_pressed[K_RIGHT] and not keys_pressed[K_LEFT]:
             self.v[0] = 0
 
@@ -233,6 +254,9 @@ class Player(pygame.sprite.Sprite):
 
         # consider gravity
         self.v[1] += self.gravity
+        # consider jumping
+        if self.jumping:
+            self.v[1] += self.jump_velocity[0]
 
         self.update_movement(GS.dt, GS.GameMap.tile_map)
 
@@ -244,6 +268,9 @@ class Player(pygame.sprite.Sprite):
         return GS
 
     def update_movement(self, dt, tile_map):
+        if self.jumping and (self.jump_start[1] - self.rect.center[1]) >= self.max_jump_height:
+            self.jumping = False
+            self.v[1] = 0
 
         if self.v[0] > self.max_v[0]:
             self.v[0] = self.max_v[0]
@@ -264,6 +291,7 @@ class Player(pygame.sprite.Sprite):
         # print(f"The player is currently in block ({cx}, {cy})")
         # print(f"The x velocity is {self.v[0]}\nThe applied x velocity is {x}")
 
+        self.on_tile = False
         if x != 0:
             self.rect.move_ip(x, 0)
             collisions = get_collisions(self.rect, tile_map)
@@ -279,6 +307,7 @@ class Player(pygame.sprite.Sprite):
                 if y > 0:  # standing on top of a tile
                     self.v[1] = 0
                     self.rect.bottom = collide.rect.top
+                    self.on_tile = True
                 else:  # hitting bottom of tile
                     self.rect.top = collide.rect.bottom
 
@@ -303,6 +332,12 @@ class Player(pygame.sprite.Sprite):
             self.surf = self.Animation_GunDraw.get_frame(direction=self.direction)
         self.surf.set_colorkey((255, 255, 255))
 
+    def trigger_jump(self):
+        if self.on_tile:
+            self.jumping = True
+            self.v[1] = 0
+            self.jump_start = self.rect.center
+
     def fire_gun(self):
         spos = self.rect.center
         epos = pygame.mouse.get_pos()
@@ -314,24 +349,43 @@ class Player(pygame.sprite.Sprite):
 
         stero.play_sound(self.gunshot_sound)
 
-        bullet = Bullet(spos, epos)
+        bullet = Bullet(spos, epos, owner_id=self.id)
         self.spawned_entities.append(bullet)
 
     def trigger_gunfire(self):
         self.gun_draw = True
 
+    def on_hit(self):
+        print("PLAYER HIT")
+
 
 class Bandit(pygame.sprite.Sprite):
-    def __init__(self, start_pos):
+    def __init__(self, start_pos, goal=None, hostile=True):
         super(Bandit, self).__init__()
+        self.id = uuid.uuid4()
         self.name = "bandit"
+        self.goal = goal
+        self.hostile = hostile
 
         self.Animation_Idle = Animation("bandit-spritesheet.png", [0, 4])
         self.Animation_Walk = Animation("bandit-spritesheet.png", [4, 10])
+        self.Animation_GunDraw = Animation("bandit_gun_draw.png", [0, 6])
 
         self.idle = True
+        self.gun_draw = False
+        self.gun_target = (0, 0)
+        self.draw_speed = random.randint(0, 6)
+        self.c_draw = 0
 
         self.gunshot_sound = pygame.mixer.Sound(os.path.join(ASSETS_DIRECTORY, SOUNDS_DIRECTORY, "gunshot.wav"))
+        self.spawned_entities = []
+        self.last_shot = int(time.time())
+
+        self.gun_cooldown = random.randint(0, 2)
+        self.accuracy = random.randint(-20, 20)
+        print(self.gun_cooldown)
+        print(self.accuracy)
+        print(self.draw_speed)
 
         self.direction = "left"
         self.surf = self.Animation_Idle.get_frame(position=0, direction=self.direction)
@@ -349,6 +403,28 @@ class Bandit(pygame.sprite.Sprite):
     def update(self, GS, keys_pressed):
         self.idle = True
         # TODO insert movement logic
+
+        if not self.gun_draw:
+            if self.goal:  # will probably be updated to use a rect/target object
+                if self.rect.center[0] > self.goal[0]:
+                    self.v[0] -= self.acceleration
+                    self.update_direction("left")
+                    self.idle = False
+                else:
+                    self.v[0] += self.acceleration
+                    self.update_direction("right")
+                    self.idle = False
+
+        if self.hostile:
+            target = GS.player.rect.center
+            if int(time.time())-self.last_shot >= 3:
+                self.gun_target = target
+                self.trigger_gunfire()
+                self.last_shot = int(time.time())
+
+        for entity in self.spawned_entities:
+            GS.entities.add(entity)
+        self.spawned_entities = []
 
         # consider gravity
         self.v[1] += self.gravity
@@ -410,14 +486,94 @@ class Bandit(pygame.sprite.Sprite):
                 else:  # hitting bottom of tile
                     self.rect.top = collide.rect.bottom
 
-    def update_animation(self):
-        if self.idle:
-            self.Animation_Idle.increment_frame()
-            self.surf = self.Animation_Idle.get_frame(direction=self.direction)
+    def update_animation(self):  # TODO swap frame increment and display so that the first frame is displayed
+        if not self.gun_draw:
+            if self.idle:
+                self.Animation_Idle.increment_frame()
+                self.surf = self.Animation_Idle.get_frame(direction=self.direction)
+            else:
+                self.Animation_Walk.increment_frame()
+                self.surf = self.Animation_Walk.get_frame(direction=self.direction)
         else:
-            self.Animation_Walk.increment_frame()
-            self.surf = self.Animation_Walk.get_frame(direction=self.direction)
+            if self.Animation_GunDraw.finished:
+                self.c_draw += 1
+                if self.c_draw <= self.draw_speed:
+                    self.surf = self.Animation_GunDraw.get_frame(position=self.Animation_GunDraw.held_frame,
+                                                                 direction=self.direction)
+                else:
+                    self.c_draw = 0
+                    self.fire_gun()
+                    self.gun_draw = False
+                    self.Animation_GunDraw.increment_frame()
+            else:
+                self.Animation_GunDraw.increment_frame()
+                self.surf = self.Animation_GunDraw.get_frame(direction=self.direction)
         self.surf.set_colorkey((255, 255, 255))
 
     def on_hit(self):
+        print("BANDIT HIT")
         self.kill()
+
+    def trigger_gunfire(self):
+        self.gun_draw = True
+        self.v = [0, 0]
+
+    def fire_gun(self):
+        spos = self.rect.center
+        epos = self.gun_target
+
+        epos = (epos[0]+self.accuracy, epos[1]+self.accuracy)
+
+        if epos[0] > spos[0]:
+            self.update_direction("right")
+        else:
+            self.update_direction("left")
+
+        stero.play_sound(self.gunshot_sound)
+
+        bullet = Bullet(spos, epos, owner_id=self.id)
+        self.spawned_entities.append(bullet)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

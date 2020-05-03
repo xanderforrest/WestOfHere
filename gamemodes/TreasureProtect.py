@@ -6,15 +6,15 @@ from pygame.locals import (
     KEYDOWN,
     QUIT,
 )
-from entities import Player, Tumbleweed, Bandit
+from entities import Player, Bandit
 from utilities.utilities import GameState
 from utilities.GameMap import GameMap
 from utilities.consts import *
-from utilities.GUI import file_loader
+import random
 import os
 
 
-class WorldRunner:  # TODO redo sound handling so sound settings can be changed
+class TreasureProtect:  # TODO redo sound handling so sound settings can be changed
     def __init__(self, screen, global_config, GS=None):
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.global_config = global_config
@@ -23,21 +23,16 @@ class WorldRunner:  # TODO redo sound handling so sound settings can be changed
         self.GS.player = Player()
         self.GS.entities.add(self.GS.player)
 
-        self.GS.GameMap = None
+        self.goal = (14*16, 18*16)
+        self.SPAWN_ENEMY = pygame.USEREVENT + 1
+        pygame.time.set_timer(self.SPAWN_ENEMY, 750)
+
+        self.GS.GameMap = GameMap("treasure.json")
         self.first_start = True
 
         self.soundtrack = pygame.mixer.Sound(os.path.join(ASSETS_DIRECTORY, SOUNDS_DIRECTORY, "soundtrack.wav"))
 
-    def resume(self, gamemap=None):
-        if self.first_start and not gamemap:
-            map_file = file_loader(self.screen, self.global_config.default_world)
-            self.GS.GameMap = GameMap(map_file)
-            self.first_start = False
-        if gamemap:
-            map_file = gamemap
-            self.GS.GameMap = GameMap(map_file)
-            self.first_start = False
-
+    def resume(self):
         self.GS.running = True
         self.mainloop()
         return self.global_config
@@ -54,23 +49,29 @@ class WorldRunner:  # TODO redo sound handling so sound settings can be changed
             if event.key == K_UP:
                 self.GS.debug = False if self.GS.debug else True
                 # this will become "interact" key for entering doors
+            if event.key == pygame.K_2:
+                pygame.image.save(self.screen, "testsc.png")
         elif event.type == QUIT:
             self.global_config.game_running = False
             self.GS.running = False
         elif event.type == pygame.MOUSEBUTTONUP:
             if event.button == 1:
                 self.GS.player.trigger_gunfire()
-            else:
-                target = Bandit(pygame.mouse.get_pos(), hostile=True)
-                # GS.destroyables.add(target)
-                # GS.animated.add(target)
-                self.GS.entities.add(target)
+        elif event.type == self.SPAWN_ENEMY:
+            if random.randint(0, 1) == 1:
+                pos = (SCREEN_WIDTH - 20, SCREEN_HEIGHT - 60)
+                if random.randint(0, 5) == 5:
+                    pos = (16, 16)
+                entity = Bandit(pos, goal=self.goal, hostile=True)
+                self.GS.entities.add(entity)
+                self.GS.animated.add(entity)
+                self.GS.destroyables.add(entity)
 
     def mainloop(self):
         pygame.mixer.Channel(0).play(self.soundtrack, loops=-1)
         while self.GS.running:
             self.GS.dt = self.GS.clock.tick(60) / 1000
-            self.screen.fill((255, 255, 255))
+            self.screen.blit(TREASURE_SKY, (0, 0))
 
             self.GS.GameMap.render(self.screen, (0, 0), self.GS.debug)
 

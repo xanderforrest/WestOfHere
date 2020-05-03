@@ -9,6 +9,7 @@ class Animation:
         self.frames = []
         self.frame_count = 0
         self.current_frame = 0
+        self.held_frame = positions[1]-1
         self.finished = False
 
         self.load_frames(positions)
