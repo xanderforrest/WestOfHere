@@ -6,7 +6,7 @@ from pygame.locals import (
     KEYDOWN,
     QUIT,
 )
-from entities import Player, Tumbleweed
+from entities import Player, Tumbleweed, Bandit
 from utilities.utilities import GameState
 from utilities.GameMap import GameMap
 from utilities.consts import *
@@ -61,7 +61,7 @@ class WorldRunner:  # TODO redo sound handling so sound settings can be changed
             if event.button == 1:
                 self.GS.player.trigger_gunfire()
             else:
-                target = Tumbleweed(pygame.mouse.get_pos())
+                target = Bandit(pygame.mouse.get_pos(), hostile=True)
                 # GS.destroyables.add(target)
                 # GS.animated.add(target)
                 self.GS.entities.add(target)

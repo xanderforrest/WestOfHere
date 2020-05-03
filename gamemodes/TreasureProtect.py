@@ -60,7 +60,7 @@ class TreasureProtect:  # TODO redo sound handling so sound settings can be chan
                 pos = (SCREEN_WIDTH - 20, SCREEN_HEIGHT - 60)
                 if random.randint(0, 5) == 5:
                     pos = (16, 16)
-                entity = Bandit(pos, goal=self.goal)
+                entity = Bandit(pos, goal=self.goal, hostile=True)
                 self.GS.entities.add(entity)
                 self.GS.animated.add(entity)
                 self.GS.destroyables.add(entity)

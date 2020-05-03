@@ -10,12 +10,14 @@ import math
 from utilities.animation import Animation
 from utilities.soundsystem import SoundSystem
 stero = SoundSystem()
-
+import uuid
+import time
 
 class Tumbleweed(pygame.sprite.Sprite):
     def __init__(self, position=None, direction="left"):
         super(Tumbleweed, self).__init__()
         self.name = "tumbleweed"
+        self.id = uuid.uuid4()
 
         self.animation_count = 0
         self.roll_angle = 10
@@ -104,6 +106,7 @@ class Target(pygame.sprite.Sprite):
     def __init__(self, location):
         super(Target, self).__init__()
         self.name = "target"
+        self.id = uuid.uuid4()
         self.surf = TILE_BARREL.convert()
         self.surf.set_colorkey((0, 0, 0))
         self.rect = self.surf.get_rect(
@@ -121,9 +124,12 @@ class Target(pygame.sprite.Sprite):
 
 
 class Bullet(pygame.sprite.Sprite):
-    def __init__(self, start_pos, end_pos):
+    def __init__(self, start_pos, end_pos, owner_id=None):
         super(Bullet, self).__init__()
         self.name = "bullet"
+        self.id = uuid.uuid4()
+
+        self.owner = owner_id
         self.start_pos = start_pos
         self.end_pos = end_pos
         self.surf = pygame.Surface((5, 5))
@@ -159,10 +165,17 @@ class Bullet(pygame.sprite.Sprite):
 
             test_coords = (self.last_point[0] + x, self.last_point[1] + y_add)
             self.rect.center = test_coords
-            for e in GS.destroyables:
+            for e in GS.entities:
                 if self.rect.colliderect(e.rect):
-                    self.kill()
-                    e.on_hit()
+                    print("NEW COLLISION")
+                    print(f"THE ENTITY'S ID: {e.id}")
+                    print(f"THE ENTITY's NAME: {e.name}")
+                    print(f"THE BULLET'S ID IS: {self.owner}")
+                    if e.id != self.owner and e.id != self.id:
+                        print("SYSTEM THINKS THE ENTITY SHOULD BE HIT AND BULLET DESTROYED")
+                        e.on_hit()
+                        self.kill()
+                    print("END OF COLLISION")
         self.rect.center = self.current_point
 
         collisions = get_collisions(self.rect, GS.GameMap.tile_map)
@@ -184,11 +197,14 @@ class Bullet(pygame.sprite.Sprite):
 
         return direction_vector
 
+    def on_hit(self):
+        pass
 
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super(Player, self).__init__()
         self.name = "player"
+        self.id = uuid.uuid4()
 
         self.idle = True
         self.gun_draw = False
@@ -336,18 +352,23 @@ class Player(pygame.sprite.Sprite):
 
         stero.play_sound(self.gunshot_sound)
 
-        bullet = Bullet(spos, epos)
+        bullet = Bullet(spos, epos, owner_id=self.id)
         self.spawned_entities.append(bullet)
 
     def trigger_gunfire(self):
         self.gun_draw = True
 
+    def on_hit(self):
+        print("PLAYER HIT")
+
 
 class Bandit(pygame.sprite.Sprite):
-    def __init__(self, start_pos, goal=None):
+    def __init__(self, start_pos, goal=None, hostile=False):
         super(Bandit, self).__init__()
+        self.id = uuid.uuid4()
         self.name = "bandit"
         self.goal = goal
+        self.hostile = hostile
 
         self.Animation_Idle = Animation("bandit-spritesheet.png", [0, 4])
         self.Animation_Walk = Animation("bandit-spritesheet.png", [4, 10])
@@ -355,6 +376,8 @@ class Bandit(pygame.sprite.Sprite):
         self.idle = True
 
         self.gunshot_sound = pygame.mixer.Sound(os.path.join(ASSETS_DIRECTORY, SOUNDS_DIRECTORY, "gunshot.wav"))
+        self.spawned_entities = []
+        self.last_shot = int(time.time())
 
         self.direction = "left"
         self.surf = self.Animation_Idle.get_frame(position=0, direction=self.direction)
@@ -382,6 +405,15 @@ class Bandit(pygame.sprite.Sprite):
                 self.v[0] += self.acceleration
                 self.update_direction("right")
                 self.idle = False
+        if self.hostile:
+            target = GS.player.rect.center
+            if int(time.time())-self.last_shot >= 3:
+                self.fire_gun(target)
+                self.last_shot = int(time.time())
+
+        for entity in self.spawned_entities:
+            GS.entities.add(entity)
+        self.spawned_entities = []
 
         # consider gravity
         self.v[1] += self.gravity
@@ -453,4 +485,18 @@ class Bandit(pygame.sprite.Sprite):
         self.surf.set_colorkey((255, 255, 255))
 
     def on_hit(self):
+        print("BANDIT HIT")
         self.kill()
+
+    def fire_gun(self, epos):
+        spos = self.rect.center
+
+        if epos[0] > spos[0]:
+            self.update_direction("right")
+        else:
+            self.update_direction("left")
+
+        stero.play_sound(self.gunshot_sound)
+
+        bullet = Bullet(spos, epos, owner_id=self.id)
+        self.spawned_entities.append(bullet)
