@@ -6,10 +6,10 @@ import random
 from utilities import soundsystem
 
 
-def get_collisions(rect, tile_map):
+def get_collisions(rect, tile_map, offset=[0, 0]):  # TODO update this to use new GameMap system instead of hacky solutions
     collisions = []
 
-    cx, cy = [rect.center[0] // 16, rect.center[1] // 16]  # get the tile the rect is currently in
+    cx, cy = [(rect.center[0]+offset[0]) // 16, (rect.center[1]+offset[1]) // 16]  # get the tile the rect is currently in
     tiles = []
 
     subetc = {}
@@ -53,8 +53,26 @@ def num_from_keypress(key):
 
 class Camera:
     def __init__(self, target):
-        pass  # TODO this
+        self.target = target
+        self.offset = [0, 0]
 
+    def update(self, GS):
+        updated = False
+        dif = 0
+        if self.target.rect.center[0] > SCREEN_WIDTH//2:
+            dif = (self.target.rect.center[0] - SCREEN_WIDTH//2)
+            self.offset[0] = self.offset[0] + dif
+            updated = True
+            if self.target.rect.center[0] < SCREEN_WIDTH // 4: # TODO fix going left
+                dif = (SCREEN_WIDTH//4 - self.target.rect.center[0])
+                self.offset[0] = self.offset[0] - dif
+                updated = True
+        if updated:
+            for entity in GS.entities:
+                entity.rect.move_ip((-1 * dif, 0))
+
+        print(f"UPDATING OFFSET TO {self.offset}")
+        return GS
 
 class GlobalSettings:
     def __init__(self):

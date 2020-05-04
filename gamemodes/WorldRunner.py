@@ -7,7 +7,7 @@ from pygame.locals import (
     QUIT,
 )
 from entities import Player, Tumbleweed, Bandit
-from utilities.utilities import GameState
+from utilities.utilities import GameState, Camera
 from utilities.GameMap import GameMap
 from utilities.consts import *
 from utilities.GUI import file_loader
@@ -21,6 +21,7 @@ class WorldRunner:  # TODO redo sound handling so sound settings can be changed
         self.GS = GameState()
 
         self.GS.player = Player()
+        self.GS.Camera = Camera(self.GS.player)
         self.GS.entities.add(self.GS.player)
 
         self.GS.GameMap = None
@@ -72,7 +73,7 @@ class WorldRunner:  # TODO redo sound handling so sound settings can be changed
             self.GS.dt = self.GS.clock.tick(60) / 1000
             self.screen.fill((255, 255, 255))
 
-            self.GS.GameMap.render(self.screen, (0, 0), self.GS.debug)
+            self.GS.GameMap.render(self.screen, self.GS.Camera.offset, self.GS.debug)
 
             self.GS.curs_pos = pygame.mouse.get_pos()
             pygame.mouse.set_visible(False)
@@ -89,4 +90,5 @@ class WorldRunner:  # TODO redo sound handling so sound settings can be changed
             for entity in self.GS.entities:
                 self.screen.blit(entity.surf, entity.rect)
 
+            self.GS = self.GS.Camera.update(self.GS)
             pygame.display.flip()

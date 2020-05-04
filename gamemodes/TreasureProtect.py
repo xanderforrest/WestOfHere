@@ -16,7 +16,7 @@ import os
 
 class TreasureProtect:  # TODO redo sound handling so sound settings can be changed
     def __init__(self, screen, global_config, GS=None):
-        self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+        self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), flags=pygame.RESIZABLE)
         self.global_config = global_config
         self.GS = GameState()
 
