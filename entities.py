@@ -226,7 +226,7 @@ class Player(pygame.sprite.Sprite):
         self.on_tile = False
         self.jump_velocity = [-30, 0]
         self.jump_start = self.rect.center
-        self.max_jump_height = 20
+        self.max_jump_height = 24
 
         self.animation_count = 0
         self.spawned_entities = []

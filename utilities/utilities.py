@@ -63,16 +63,12 @@ class Camera:
             dif = (self.target.rect.center[0] - SCREEN_WIDTH//2)
             self.offset[0] = self.offset[0] + dif
             updated = True
-            if self.target.rect.center[0] < SCREEN_WIDTH // 4: # TODO fix going left
-                dif = (SCREEN_WIDTH//4 - self.target.rect.center[0])
-                self.offset[0] = self.offset[0] - dif
-                updated = True
         if updated:
             for entity in GS.entities:
                 entity.rect.move_ip((-1 * dif, 0))
 
-        print(f"UPDATING OFFSET TO {self.offset}")
         return GS
+
 
 class GlobalSettings:
     def __init__(self):
