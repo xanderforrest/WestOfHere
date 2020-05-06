@@ -25,6 +25,7 @@ class WesternMaker:
         self.running = False
         self.debug = False
         self.selected_object = Tile(["assets", "dirt.png"], interactable=True)
+        self.selected_layer = "BASE"
 
         self.GameMap = GameMap()
         self.x_offset = 0
@@ -33,6 +34,7 @@ class WesternMaker:
         self.save_button_image = pygame.image.load(os.path.join(ASSETS_DIRECTORY, GUI_DIRECTORY, "save-button.png"))
         self.play_button_image = pygame.image.load(os.path.join(ASSETS_DIRECTORY, GUI_DIRECTORY, "play-button.png"))
         self.load_button_image = pygame.image.load(os.path.join(ASSETS_DIRECTORY, GUI_DIRECTORY, "load-button.png"))
+        self.newl_button_image = pygame.image.load(os.path.join(ASSETS_DIRECTORY, GUI_DIRECTORY, "new-button.png"))
         self.screen = None
 
         # TODO unhardcode this
@@ -48,6 +50,9 @@ class WesternMaker:
 
         self.load_button = ImageButton((24 * 16, 22 * 16), self.load_button_image, on_click=self.load_map)
         self.buttons.append(self.load_button)
+
+        self.newlayer_button = ImageButton((24 * 16, 22 * 16), self.newl_button_image, on_click=self.new_layer)
+        self.buttons.append(self.newlayer_button)
 
         self.grass_button = ImageButton((16, 19 * 16), TILE_GRASS, image_path=[ASSETS_DIRECTORY, "grass.png"])
         self.buttons.append(self.grass_button)
@@ -108,6 +113,8 @@ class WesternMaker:
         name = self.filename_input.text
         self.GameMap.save_map(name)
         self.global_config.default_world = name
+
+    def new_layer(self):
 
     def quickplay(self):
         self.GameMap.save_map("tempmap.json")

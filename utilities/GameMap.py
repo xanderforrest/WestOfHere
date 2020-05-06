@@ -2,6 +2,15 @@ import pygame
 import json
 from utilities.consts import *
 
+def empty_map(size=(50, 18)):
+    tile_map = []
+    for x in range(0, size[0]):
+        row = []
+        for y in range(0, size[1]):
+            row.append(Tile(None))
+        tile_map.append(row)
+    return tile_map
+
 
 class Tile:
     def __init__(self, image_path, interactable=False, category="none", rect=None, surf=None):
@@ -33,34 +42,54 @@ class Layer:
         self.layer_data = layers_data[layer_name]
         self.name = layer_name
 
+    def extend_map(self, xy):
+        x, y = xy
+        cur_x = len(self.layer_data)
+        cur_y = len(self.layer_data[0])
+
+        if x+1 > cur_x:
+            new_base_x = x + 1
+        else:
+            new_base_x = cur_x
+        if y+1 > cur_y:
+            new_base_y = y+1
+        else:
+            new_base_y = cur_y
+
+        base_map = empty_map((new_base_x, new_base_y))
+        for x in range(0, len(self.layer_data)):
+            for y in range(0, len(self.layer_data[x])):
+                if self.layer_data[x][y].image:
+                    base_map[x][y] = self.layer_data[x][y]
+
+        self.layer_data = base_map
+
     def get_tile(self, xy):
         for tile in self.layer_data:
             if tile["coords"] == xy:
                 return tile
         return None
 
+    def add_tile(self, pos, tile):
+        x, y = pos
+        try:
+            self.layer_data[x][y] = tile
+        except KeyError:
+            self.extend_map(pos)
+            self.add_tile(pos, tile)
+
 
 class GameMap:
     def __init__(self, filename=None):
         self.tile_map = []
-        self.map_size = (50, 18)
+        self.map_size = [50, 18]
         self.player_location = None
         self.layers = []
 
         if filename:
             self.load_map(filename)
         else:
-            self.tile_map = self.empty_map()
-
-    @staticmethod
-    def empty_map(size=(50, 18)):
-        tile_map = []
-        for x in range(0, size[0]):
-            row = []
-            for y in range(0, size[1]):
-                row.append(Tile(None))
-            tile_map.append(row)
-        return tile_map
+            self.tile_map = empty_map()
 
     @staticmethod
     def empty_save_data():
@@ -88,27 +117,23 @@ class GameMap:
     def load_tile(tile_data):
         return Tile(tile_data["image"], tile_data["interactable"], tile_data["category"])
 
+    def get_layer(self, layer_name):
+        for pos in self.layers:
+            if pos.name == layer_name:
+                return pos
+        return None
+
     def load_map(self, filename):
         with open(os.path.join(MAPS_DIRECTORY, filename), "r") as f:
             map_data = json.load(f)
 
-        base_map = self.empty_map(map_data["meta"]["size"])
+        base_map = empty_map(map_data["meta"]["size"])
         self.layers = [Layer(map_data["layers"], layer) for layer in map_data["layers"]]
-
-        width, height = map_data["meta"]["size"]
-        for x in range(width):
-            for y in range(height):
-                for layer in self.layers:
-                    tile_data = layer.get_tile([x, y])
-                    if tile_data:
-                        base_map[x][y] = self.load_tile(tile_data)
 
         try:
             self.player_location = map_data["entities"]["player"]["location"]
         except KeyError:
             self.player_location = None
-
-        self.tile_map = base_map
 
     def save_map(self, filename, player_location=None):
         map_data = self.empty_save_data()
@@ -118,51 +143,32 @@ class GameMap:
             except KeyError:  # If the map has been saved before, this format is slightly different. TODO this
                 map_data["layers"][layer.name] = layer.layer_data
 
-        # TODO REMOVE THIS AND INTRODUCE LAYERING IN GAME MODES PROPERLY
-        map_data["layers"]["BASE"] = self.get_tiles(self.tile_map)
-
         if player_location:
             map_data["entities"]["player"] = player_location
-
-        map_data["meta"]["size"] = self.map_size
 
         with open(os.path.join(MAPS_DIRECTORY, filename), "w") as f:
             json.dump(map_data, f, indent=4)
 
-    def extend_map(self, xy):
-        x, y = xy
-        cur_x = len(self.tile_map)
-        cur_y = len(self.tile_map[0])
-
-        if x+1 > cur_x:
-            new_base_x = x + 1
+    def place_tile(self, position, tile, layer_name):
+        layer = self.get_layer(layer_name)
+        if layer:
+            layer.add_tile(position, tile)
         else:
-            new_base_x = cur_x
-        if y+1 > cur_y:
-            new_base_y = y+1
-        else:
-            new_base_y = cur_y
-
-        base_map = self.empty_map((new_base_x, new_base_y))
-        for x in range(0, len(self.tile_map)):
-            for y in range(0, len(self.tile_map[x])):
-                if self.tile_map[x][y].image:
-                    base_map[x][y] = self.tile_map[x][y]
-
-        self.map_size = (new_base_x, new_base_y)
-        self.tile_map = base_map
+            print(f"Layer '{layer_name}' not found")
 
     def render(self, screen, offset=(0, 0), debug=False, fps=None):
         x_offset, y_offset = offset
-        for x in range(0, len(self.tile_map)):  # loads map
-            for y in range(0, len(self.tile_map[x])):
-                tile = self.tile_map[x][y]
-                if tile.image:
-                    screen.blit(tile.image, ((x * 16) - x_offset, y * 16))
-                    if tile.interactable:
-                        tile.rect = pygame.Rect((x * 16) - x_offset, y * 16, 16, 16)
 
-        if debug:
+        for layer in self.layers:
+            tile_map = layer.layer_data
+            for x in range(0, len(tile_map)):  # loads map
+                for y in range(0, len(tile_map[x])):
+                    tile = tile_map[x][y]
+                    if tile.image:
+                        screen.blit(tile.image, ((x * 16) - x_offset, y * 16))
+                        if tile.interactable:
+                            tile.rect = pygame.Rect((x * 16) - x_offset, y * 16, 16, 16)
+        if debug:  # TODO change this to use a layer or combination of layers
             for y in range(0, len(self.tile_map[0])):
                 for x in range(0, len(self.tile_map)):
                     rect = pygame.Rect((x*16)-x_offset, (y*16)-y_offset, 16, 16)

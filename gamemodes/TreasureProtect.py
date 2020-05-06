@@ -7,7 +7,7 @@ from pygame.locals import (
     QUIT,
 )
 from entities import Player, Bandit
-from utilities.utilities import GameState
+from utilities.utilities import GameState, Camera
 from utilities.GameMap import GameMap
 from utilities.consts import *
 import random
@@ -21,6 +21,7 @@ class TreasureProtect:  # TODO redo sound handling so sound settings can be chan
         self.GS = GameState()
 
         self.GS.player = Player()
+        self.GS.Camera = Camera(self.GS.player)
         self.GS.entities.add(self.GS.player)
 
         self.goal = (14*16, 18*16)
@@ -73,7 +74,7 @@ class TreasureProtect:  # TODO redo sound handling so sound settings can be chan
             self.GS.dt = self.GS.clock.tick(60) / 1000
             self.screen.blit(TREASURE_SKY, (0, 0))
 
-            self.GS.GameMap.render(self.screen, (0, 0), self.GS.debug)
+            self.GS.GameMap.render(self.screen, self.GS.Camera.offset, self.GS.debug)
 
             self.GS.curs_pos = pygame.mouse.get_pos()
             pygame.mouse.set_visible(False)
@@ -90,4 +91,5 @@ class TreasureProtect:  # TODO redo sound handling so sound settings can be chan
             for entity in self.GS.entities:
                 self.screen.blit(entity.surf, entity.rect)
 
+            self.GS = self.GS.Camera.update(self.GS)
             pygame.display.flip()

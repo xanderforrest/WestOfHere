@@ -71,7 +71,7 @@ class WorldRunner:  # TODO redo sound handling so sound settings can be changed
         pygame.mixer.Channel(0).play(self.soundtrack, loops=-1)
         while self.GS.running:
             self.GS.dt = self.GS.clock.tick(60) / 1000
-            self.screen.fill((255, 255, 255))
+            self.screen.blit(pygame.image.load(os.path.join(ASSETS_DIRECTORY, "stitched-bg.png")), (-self.GS.Camera.offset[0], 0))
 
             self.GS.GameMap.render(self.screen, self.GS.Camera.offset, self.GS.debug)
 
