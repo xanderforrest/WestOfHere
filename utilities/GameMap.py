@@ -1,6 +1,7 @@
 import pygame
 import json
 from utilities.consts import *
+from utilities.utilities import get_collisions
 
 
 def empty_map(size=(50, 18)):
@@ -145,6 +146,13 @@ class GameMap:
         map_data["meta"] = {}
 
         return map_data
+
+    def get_collisions(self, rect, offset):
+        collisions = []
+        for layer in self.layers:
+            layer_collisions = get_collisions(rect, layer.tile_map, offset)
+            collisions.extend(layer_collisions)
+        return collisions
 
     def get_layer(self, layer_name):
         for pos in self.layers:

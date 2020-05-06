@@ -258,7 +258,7 @@ class Player(pygame.sprite.Sprite):
         if self.jumping:
             self.v[1] += self.jump_velocity[0]
 
-        self.update_movement(GS.dt, GS.GameMap.tile_map, GS)
+        self.update_movement(GS)
 
         self.animation_count += 1
         if self.animation_count == 5:
@@ -267,7 +267,8 @@ class Player(pygame.sprite.Sprite):
 
         return GS
 
-    def update_movement(self, dt, tile_map, GS): # TODO update all of this to just use gamestate
+    def update_movement(self, GS): # TODO update all of this to just use gamestate
+        dt = GS.dt
         if self.jumping and (self.jump_start[1] - self.rect.center[1]) >= self.max_jump_height:
             self.jumping = False
             self.v[1] = 0
@@ -294,7 +295,7 @@ class Player(pygame.sprite.Sprite):
         self.on_tile = False
         if x != 0:
             self.rect.move_ip(x, 0)
-            collisions = get_collisions(self.rect, tile_map, GS.Camera.offset)
+            collisions = GS.GameMap.get_collisions(self.rect, GS.Camera.offset)
             for collide in collisions:
                 if x < 0:  # colliding with the right of a tile
                     self.rect.left = collide.rect.right
@@ -302,7 +303,7 @@ class Player(pygame.sprite.Sprite):
                     self.rect.right = collide.rect.left
         if y != 0:
             self.rect.move_ip(0, y)
-            collisions = get_collisions(self.rect, tile_map, GS.Camera.offset)
+            collisions = GS.GameMap.get_collisions(self.rect, GS.Camera.offset)
             for collide in collisions:
                 if y > 0:  # standing on top of a tile
                     self.v[1] = 0
