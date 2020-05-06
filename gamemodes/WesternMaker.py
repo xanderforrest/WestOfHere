@@ -115,6 +115,7 @@ class WesternMaker:
         self.global_config.default_world = name
 
     def new_layer(self):
+        pass
 
     def quickplay(self):
         self.GameMap.save_map("tempmap.json")

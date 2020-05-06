@@ -2,6 +2,7 @@ import pygame
 import json
 from utilities.consts import *
 
+
 def empty_map(size=(50, 18)):
     tile_map = []
     for x in range(0, size[0]):
@@ -102,7 +103,6 @@ class GameMap:
 
     @staticmethod
     def get_tiles(layer_data):
-        print(layer_data)
         tiles = []
         for x in range(0, len(layer_data)):  # loads map
             for y in range(0, len(layer_data[x])):
@@ -161,13 +161,14 @@ class GameMap:
 
         for layer in self.layers:
             tile_map = layer.layer_data
-            for x in range(0, len(tile_map)):  # loads map
-                for y in range(0, len(tile_map[x])):
-                    tile = tile_map[x][y]
-                    if tile.image:
-                        screen.blit(tile.image, ((x * 16) - x_offset, y * 16))
-                        if tile.interactable:
-                            tile.rect = pygame.Rect((x * 16) - x_offset, y * 16, 16, 16)
+            for tile_data in tile_map:
+                x, y = tile_data["coords"]
+                tile = self.load_tile(tile_data)
+                if tile.image:
+                    screen.blit(tile.image, ((x * 16) - x_offset, y * 16))
+                    if tile.interactable:
+                        tile.rect = pygame.Rect((x * 16) - x_offset, y * 16, 16, 16)
+
         if debug:  # TODO change this to use a layer or combination of layers
             for y in range(0, len(self.tile_map[0])):
                 for x in range(0, len(self.tile_map)):
