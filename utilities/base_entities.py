@@ -9,7 +9,7 @@ class Entity(pygame.sprite.Sprite):
         self.id = uuid.uuid4()
 
     def update(self, GS, keys_pressed):
-        pass
+        return GS
 
     def update_animation(self):
         pass
