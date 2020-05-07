@@ -83,8 +83,6 @@ class GameState:
         self.GameMap = None
 
         self.entities = pygame.sprite.Group()
-        self.destroyables = pygame.sprite.Group()
-        self.animated = pygame.sprite.Group()
         self.player = None
         self.curs_pos = (0, 0)
 
