@@ -5,7 +5,6 @@ from pygame.locals import (
     KEYDOWN,
     QUIT,
 )
-
 from utilities.GameMap import GameMap
 from utilities.GUI import Button
 from utilities.consts import *

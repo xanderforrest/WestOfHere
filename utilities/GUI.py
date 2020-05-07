@@ -19,6 +19,8 @@ def file_loader(screen, filename="?"):
         pygame.display.flip()
 
 
+
+
 class TextInput:
     def __init__(self, x, y, text="input here"):
         self.rect = pygame.Rect((x, y), FONT.size(text))

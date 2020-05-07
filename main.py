@@ -13,7 +13,7 @@ from utilities.utilities import GlobalSettings
 pygame.display.set_icon(pygame.image.load(os.path.join(ASSETS_DIRECTORY, WINDOW_ICON)))
 pygame.display.set_caption(WINDOW_TITLE)
 pygame.event.set_allowed([KEYDOWN, QUIT, pygame.MOUSEBUTTONUP])
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), flags=pygame.RESIZABLE)
 screen.set_alpha(None)
 
 global_config = GlobalSettings()
