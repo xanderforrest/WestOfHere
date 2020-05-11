@@ -11,6 +11,7 @@ SCREEN_HEIGHT = 288
 
 MAPS_DIRECTORY = "maps"
 GUI_DIRECTORY = "gui"
+
 # ASSETS VARIABLES
 ASSETS_DIRECTORY = "assets"
 
@@ -23,9 +24,11 @@ CLINT_SPRITESHEET = "clint-spritesheet.png"
 SOUNDS_DIRECTORY = "sounds"
 BUILDINGS_DIRECTORY = "buildings"
 
+WESTERN_MAKER_GUI = pygame.image.load(os.path.join(ASSETS_DIRECTORY, GUI_DIRECTORY, "gui.png"))
 CRATE_BORDER = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "crateborder.png"))
 TREASURE_SKY = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "treasurebackground.png"))
 # Fonts
+FONT_SMALL = pygame.font.Font(os.path.join(ASSETS_DIRECTORY, "fonts", "arcade-font.ttf"), 16)
 FONT = pygame.font.Font(os.path.join(ASSETS_DIRECTORY, "fonts", "arcade-font.ttf"), 32)
 FONT_TITLE = pygame.font.Font(os.path.join(ASSETS_DIRECTORY, "fonts", "arcade-font.ttf"), 60)
 
