@@ -4,6 +4,7 @@ from pygame.locals import (
     K_RIGHT,
 )
 from utilities.consts import *
+from user_config import *
 import math
 from utilities.animation import Animation
 from utilities.soundsystem import SoundSystem
@@ -166,17 +167,17 @@ class Player(Human):
     def update(self, GS, keys_pressed):
         self.idle = True
         if not self.gun_draw:
-            if keys_pressed[K_LEFT]:
+            if keys_pressed[MOVE_LEFT]:
                 self.v[0] -= self.acceleration
                 self.update_direction("left")
                 self.idle = False
-            if keys_pressed[K_RIGHT]:
+            if keys_pressed[MOVE_RIGHT]:
                 self.v[0] += self.acceleration
                 self.update_direction("right")
                 self.idle = False
-            if keys_pressed[pygame.K_SPACE]:
+            if keys_pressed[JUMP]:
                 self.trigger_jump()
-        if not keys_pressed[K_RIGHT] and not keys_pressed[K_LEFT]:
+        if not keys_pressed[MOVE_RIGHT] and not keys_pressed[MOVE_LEFT]:
             self.v[0] = 0
 
         # update the gamestate with changes made
