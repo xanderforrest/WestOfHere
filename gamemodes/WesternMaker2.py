@@ -22,41 +22,41 @@ class WesternMakerGUI:
         self.setup_buttons()
 
     def setup_buttons(self):
-        self.save_button = ImageButton((19 * 16, 24 * 16), self.save_button_image, on_click=self.save_map)
+        self.save_button = ImageButton((19 * 16, 6 * 16), self.save_button_image, on_click=self.save_map)
         self.buttons.append(self.save_button)
 
-        self.play_button = ImageButton((24 * 16, 24 * 16), self.play_button_image, on_click=self.quickplay)
+        self.play_button = ImageButton((24 * 16, 6 * 16), self.play_button_image, on_click=self.quickplay)
         self.buttons.append(self.play_button)
 
-        self.load_button = ImageButton((24 * 16, 22 * 16), self.load_button_image, on_click=self.load_map)
+        self.load_button = ImageButton((24 * 16, 4 * 16), self.load_button_image, on_click=self.load_map)
         self.buttons.append(self.load_button)
 
-        self.newlayer_button = ImageButton((24 * 16, 22 * 16), self.new_button_image, on_click=self.new_layer)
+        self.newlayer_button = ImageButton((29 * 16, 6 * 16), self.new_button_image, on_click=self.new_layer)
         self.buttons.append(self.newlayer_button)
 
-        self.grass_button = ImageButton((16, 19 * 16), TILE_GRASS, image_path=[ASSETS_DIRECTORY, "grass.png"])
+        self.grass_button = ImageButton((16, 1 * 16), TILE_GRASS, image_path=[ASSETS_DIRECTORY, "grass.png"])
         self.buttons.append(self.grass_button)
 
-        self.dirt_variant_button = ImageButton((16, 20 * 16), TILE_DIRT_VARIANT,
+        self.dirt_variant_button = ImageButton((16, 2 * 16), TILE_DIRT_VARIANT,
                                                image_path=[ASSETS_DIRECTORY, "dirt-variant.png"])
         self.buttons.append(self.dirt_variant_button)
 
-        self.dirt_button = ImageButton((16, 21 * 16), TILE_DIRT, image_path=[ASSETS_DIRECTORY, "dirt.png"])
+        self.dirt_button = ImageButton((16, 3 * 16), TILE_DIRT, image_path=[ASSETS_DIRECTORY, "dirt.png"])
         self.buttons.append(self.dirt_button)
 
-        self.barrel_button = ImageButton((32, 19 * 16), TILE_BARREL, image_path=[ASSETS_DIRECTORY, "barrel.png"])
+        self.barrel_button = ImageButton((32, 1 * 16), TILE_BARREL, image_path=[ASSETS_DIRECTORY, "barrel.png"])
         self.buttons.append(self.barrel_button)
 
-        self.crate_button = ImageButton((32, 20 * 16), TILE_CRATE, image_path=[ASSETS_DIRECTORY, "crate.png"])
+        self.crate_button = ImageButton((32, 2 * 16), TILE_CRATE, image_path=[ASSETS_DIRECTORY, "crate.png"])
         self.buttons.append(self.crate_button)
 
-        self.general_store = Interacter((4 * 16, 3 * 16), (7 * 16, 19 * 16), on_interact=self.building_select,
+        self.general_store = Interacter((4 * 16, 3 * 16), (7 * 16, 1 * 16), on_interact=self.building_select,
                                         name="general-shop.png")
-        self.gun_store = Interacter((4 * 16, 3 * 16), (11 * 16, 19 * 16), on_interact=self.building_select,
+        self.gun_store = Interacter((4 * 16, 3 * 16), (11 * 16, 1 * 16), on_interact=self.building_select,
                                     name="gun-shop.png")
-        self.saloon = Interacter((3 * 16, 3 * 16), (15 * 16, 19 * 16), on_interact=self.building_select,
+        self.saloon = Interacter((3 * 16, 3 * 16), (15 * 16, 1 * 16), on_interact=self.building_select,
                                  name="saloon.png")
-        self.side_store = Interacter((4 * 16, 3 * 16), (18 * 16, 19 * 16), on_interact=self.building_select,
+        self.side_store = Interacter((4 * 16, 3 * 16), (18 * 16, 1 * 16), on_interact=self.building_select,
                                      name="side-shop.png")
         self.interactors = [self.general_store, self.gun_store, self.saloon, self.side_store]
 
@@ -67,8 +67,14 @@ class WesternMakerGUI:
         self.gui_surf.blit(self.filename_input.text_surface, self.filename_input.rect)
 
     def on_click_gui(self):
-        curs_pos = pygame.mouse.get_pos()
+        temp_cp = pygame.mouse.get_pos()
+        curs_pos = (temp_cp[0], temp_cp[1]-SCREEN_HEIGHT)
+        print(temp_cp)
+        print(curs_pos)
+        print(self.filename_input.rect.y)
         if self.filename_input.rect.collidepoint(curs_pos):
+            print("collided")
+            print(self.filename_input.text)
             self.filename_input.active = True
         else:
             self.filename_input.active = False
@@ -109,6 +115,16 @@ class WesternMaker(WesternMakerGUI):
         self.render_gui()
         self.GameMap = GameMap()
 
+    def get_adjusted_mouse_pos(self):
+        """ Returns the mouse position adjusted for the offset of the screen """
+        real_pos = pygame.mouse.get_pos()
+        adjusted = (real_pos[0] + self.offset[0], real_pos[1] + self.offset[1])
+        return adjusted
+
+    def get_tile_positions(self, coords):
+        """ Returns the X and Y tile coordinates are inside of """
+        return coords[0]//16, coords[1]//16
+
     def resume(self):
         self.screen = pygame.display.set_mode((800, 432))
         self.running = True
@@ -121,6 +137,8 @@ class WesternMaker(WesternMakerGUI):
 
     def handle_event(self, event):
         if event.type == pygame.KEYDOWN:
+            self.filename_input.update(event)
+
             if event.key == pygame.K_ESCAPE:
                 self.global_config.next_game = "mainmenu"
                 self.pause()
@@ -129,11 +147,18 @@ class WesternMaker(WesternMakerGUI):
             self.running = False
 
     def on_click_screen(self):
-        pass
+        curs_pos = self.get_adjusted_mouse_pos()
+        tilepos = self.get_tile_positions(curs_pos)
+
+        self.GameMap.place_tile(tilepos, self.selected_object, "BASE")  # replace this with layer selection later
 
     def mainloop(self):
         while self.running:
+            self.screen.fill((0, 255, 255))
+
             self.GameMap.render(self.screen, self.offset)
+            self.render_gui()
+
             self.screen.blit(self.gui_surf, (0, SCREEN_HEIGHT))
 
             curs_pos = pygame.mouse.get_pos()
@@ -158,6 +183,7 @@ class WesternMaker(WesternMakerGUI):
                     self.on_click_screen()
                 else:
                     self.on_click_gui()
+                print(self.selected_object)
 
             pygame.display.flip()
 

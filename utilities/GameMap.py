@@ -112,7 +112,7 @@ class Layer:
         x, y = pos
         try:
             self.tile_map[x][y] = tile
-        except KeyError:
+        except IndexError:
             self.extend_map(pos)
             self.add_tile(pos, tile)
 
