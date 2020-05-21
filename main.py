@@ -5,7 +5,7 @@ from pygame.locals import (
 )
 from utilities.consts import *
 from gamemodes.WorldRunner import WorldRunner
-from gamemodes.WesternMaker import WesternMaker
+from gamemodes.WesternMaker2 import WesternMaker
 from gamemodes.TreasureProtect import TreasureProtect
 from gamemodes.MainMenu import MainMenu
 from utilities.utilities import GlobalSettings

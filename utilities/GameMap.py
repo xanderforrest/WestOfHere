@@ -136,7 +136,7 @@ class GameMap:
         if filename:
             self.load_map(filename)
         else:
-            self.layers.append(Layer([], "BASE"))
+            self.layers.append(Layer({"BASE": []}, "BASE"))
 
     @staticmethod
     def empty_save_data():

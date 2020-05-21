@@ -1,12 +1,13 @@
 import pygame
 from utilities.consts import *
-from utilities.GameMap import GameMap
-from utilities.GUI import TextInput, ImageButton, Interacter
+from utilities.GameMap import GameMap, Tile
+from utilities.GUI import TextInput, ImageButton, Interacter, Button
 
 
 class WesternMakerGUI:
     def __init__(self):
-        self.surf = WESTERN_MAKER_GUI
+        self.gui_surf = WESTERN_MAKER_GUI
+        self.selected_object = None
 
         self.buttons = []
         self.interactors = []
@@ -59,21 +60,53 @@ class WesternMakerGUI:
                                      name="side-shop.png")
         self.interactors = [self.general_store, self.gun_store, self.saloon, self.side_store]
 
-    def render(self):
+    def render_gui(self):
         for button in self.buttons:
-            self.surf.blit(button.surf, button.rect)
+            self.gui_surf.blit(button.surf, button.rect)
 
-    def on_click(self):
+        self.gui_surf.blit(self.filename_input.text_surface, self.filename_input.rect)
+
+    def on_click_gui(self):
+        curs_pos = pygame.mouse.get_pos()
+        if self.filename_input.rect.collidepoint(curs_pos):
+            self.filename_input.active = True
+        else:
+            self.filename_input.active = False
+
+        for button in self.buttons:
+            if button.rect.collidepoint(curs_pos):
+                self.selected_object = Tile(button.image_path, surf=button.surf, category="none")
+
+        for interacter in self.interactors:
+            if interacter.rect.collidepoint(curs_pos):
+                interacter.on_interact()
+
+    def save_map(self):
         pass
 
+    def quickplay(self):
+        pass
 
-class WesternMaker:
+    def load_map(self):
+        pass
+
+    def new_layer(self):
+        pass
+
+    def building_select(self, name):
+        filepath = [ASSETS_DIRECTORY, BUILDINGS_DIRECTORY, name]
+        self.selected_object = Tile(filepath, category="building")
+
+
+class WesternMaker(WesternMakerGUI):
     def __init__(self, screen, global_config):
+        super(WesternMaker, self).__init__()
         self.screen = None
         self.global_config = global_config
         self.running = False
         self.offset = [0, 0]
 
+        self.render_gui()
         self.GameMap = GameMap()
 
     def resume(self):
@@ -95,9 +128,13 @@ class WesternMaker:
             self.global_config.game_running = False
             self.running = False
 
+    def on_click_screen(self):
+        pass
+
     def mainloop(self):
         while self.running:
             self.GameMap.render(self.screen, self.offset)
+            self.screen.blit(self.gui_surf, (0, SCREEN_HEIGHT))
 
             curs_pos = pygame.mouse.get_pos()
             pygame.mouse.set_visible(False)
@@ -118,8 +155,10 @@ class WesternMaker:
             mouse_state = pygame.mouse.get_pressed()
             if mouse_state[0]:
                 if curs_pos[1] < SCREEN_HEIGHT:
-                    pass  # on screen, so handle placing the objec
+                    self.on_click_screen()
                 else:
-                    pass # in GUI, so handle whatever is going on
+                    self.on_click_gui()
 
             pygame.display.flip()
+
+
