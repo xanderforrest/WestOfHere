@@ -134,7 +134,6 @@ class GameMap:
     def __init__(self, filename=None):
         self.player_location = None
         self.layers = []
-        self.loaded_entities = []
         self.entities = []
 
         if filename:
@@ -147,6 +146,7 @@ class GameMap:
         map_data = {}
         map_data["layers"] = {}
         map_data["entities"] = {}
+        map_data["entities"]["other"] = []
         map_data["meta"] = {}
 
         return map_data
@@ -184,6 +184,10 @@ class GameMap:
         if player_location:
             map_data["entities"]["player"] = player_location
 
+        for entity in self.entities:
+            if entity.name != "player":  # separate behaviour
+                map_data["entities"]["other"].append(entity.serialise())  # TODO make sure this is implemented
+
         with open(os.path.join(MAPS_DIRECTORY, filename), "w") as f:
             json.dump(map_data, f, indent=4)
 
@@ -196,13 +200,12 @@ class GameMap:
 
     def add_entity(self, Entity, pos):
         instance = Entity()
-        instance.rect = pos
+        instance.rect.topleft = pos
 
         if instance.name == "player":
             self.player_location = pos
 
-        self.loaded_entities.append(instance)
-        self.entities.append([Entity, pos])
+        self.entities.append(instance)
 
     def render(self, screen, offset=(0, 0), debug=False, fps=None):
         x_offset, y_offset = offset
@@ -216,7 +219,7 @@ class GameMap:
                         if tile.interactable:
                             tile.rect = pygame.Rect((x * 16) - x_offset, y * 16, 16, 16)
 
-        for entity in self.loaded_entities:
+        for entity in self.entities:
             screen.blit(entity.surf, entity.rect)
 
         if debug:  # TODO change this to use a layer or combination of layers

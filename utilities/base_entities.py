@@ -8,6 +8,9 @@ class Entity(pygame.sprite.Sprite):
         super(Entity, self).__init__()
         self.id = "ENTITY" + str(uuid.uuid4())
 
+    def serialise(self):
+        pass
+
     def update(self, GS, keys_pressed):
         return GS
 
