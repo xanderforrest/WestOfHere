@@ -7,7 +7,7 @@ from utilities.GUI import TextInput, ImageButton, Interacter, Button
 class WesternMakerGUI:
     def __init__(self):
         self.gui_surf = WESTERN_MAKER_GUI
-        self.selected_object = None
+        self.selected_object = Tile(None)
 
         self.buttons = []
         self.interactors = []
@@ -69,12 +69,7 @@ class WesternMakerGUI:
     def on_click_gui(self):
         temp_cp = pygame.mouse.get_pos()
         curs_pos = (temp_cp[0], temp_cp[1]-SCREEN_HEIGHT)
-        print(temp_cp)
-        print(curs_pos)
-        print(self.filename_input.rect.y)
         if self.filename_input.rect.collidepoint(curs_pos):
-            print("collided")
-            print(self.filename_input.text)
             self.filename_input.active = True
         else:
             self.filename_input.active = False
@@ -115,15 +110,16 @@ class WesternMaker(WesternMakerGUI):
         self.render_gui()
         self.GameMap = GameMap()
 
+    @staticmethod
+    def get_tile_positions(coords):
+        """ Returns the X and Y tile coordinates are inside of """
+        return coords[0]//16, coords[1]//16
+
     def get_adjusted_mouse_pos(self):
         """ Returns the mouse position adjusted for the offset of the screen """
         real_pos = pygame.mouse.get_pos()
         adjusted = (real_pos[0] + self.offset[0], real_pos[1] + self.offset[1])
         return adjusted
-
-    def get_tile_positions(self, coords):
-        """ Returns the X and Y tile coordinates are inside of """
-        return coords[0]//16, coords[1]//16
 
     def resume(self):
         self.screen = pygame.display.set_mode((800, 432))
@@ -162,6 +158,11 @@ class WesternMaker(WesternMakerGUI):
             self.screen.blit(self.gui_surf, (0, SCREEN_HEIGHT))
 
             curs_pos = pygame.mouse.get_pos()
+
+            if curs_pos[1] < 288 and self.selected_object.image:  # render where the tile would go if placed
+                tile_x = ((curs_pos[0] + self.offset[0]) // 16)
+                self.screen.blit(self.selected_object.image, ((tile_x * 16) - self.offset[0], (curs_pos[1] // 16) * 16))
+
             pygame.mouse.set_visible(False)
             self.screen.blit(CURSOR_IMG,
                              (curs_pos[0] - 3,
@@ -183,7 +184,6 @@ class WesternMaker(WesternMakerGUI):
                     self.on_click_screen()
                 else:
                     self.on_click_gui()
-                print(self.selected_object)
 
             pygame.display.flip()
 

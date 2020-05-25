@@ -27,6 +27,9 @@ BUILDINGS_DIRECTORY = "buildings"
 WESTERN_MAKER_GUI = pygame.image.load(os.path.join(ASSETS_DIRECTORY, GUI_DIRECTORY, "gui.png"))
 CRATE_BORDER = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "crateborder.png"))
 TREASURE_SKY = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "treasurebackground.png"))
+UNTICKED_BOX = pygame.image.load(os.path.join(ASSETS_DIRECTORY, GUI_DIRECTORY, "unticked.png"))
+TICKED_BOX = pygame.image.load(os.path.join(ASSETS_DIRECTORY, GUI_DIRECTORY, "ticked.png"))
+
 # Fonts
 FONT_SMALL = pygame.font.Font(os.path.join(ASSETS_DIRECTORY, "fonts", "arcade-font.ttf"), 16)
 FONT = pygame.font.Font(os.path.join(ASSETS_DIRECTORY, "fonts", "arcade-font.ttf"), 32)
