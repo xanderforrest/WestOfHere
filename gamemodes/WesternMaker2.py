@@ -2,7 +2,7 @@ import pygame
 from utilities.consts import *
 from utilities.GameMap import GameMap, Tile
 from utilities.GUI import TextInput, ImageButton, Interacter, Button
-
+from entities import Player, Bandit
 
 class WesternMakerGUI:
     def __init__(self):
@@ -58,7 +58,12 @@ class WesternMakerGUI:
                                  name="saloon.png")
         self.side_store = Interacter((4 * 16, 3 * 16), (18 * 16, 1 * 16), on_interact=self.building_select,
                                      name="side-shop.png")
-        self.interactors = [self.general_store, self.gun_store, self.saloon, self.side_store]
+
+        self.player_select = Interacter((16, 32), (24 * 16, 1 * 16), on_interact=self.entity_select, name="player")
+        self.bandit_select = Interacter((16, 32), (25 * 16, 1 * 16), on_interact=self.entity_select, name="bandit")
+
+        self.interactors = [self.general_store, self.gun_store, self.saloon, self.side_store, self.player_select,
+                            self.bandit_select]
 
     def render_gui(self):
         for button in self.buttons:
@@ -93,6 +98,12 @@ class WesternMakerGUI:
 
     def new_layer(self):
         pass
+
+    def entity_select(self, name):
+        if name == "player":
+            self.selected_object = Player()
+        else:
+            self.selected_object = Bandit()
 
     def building_select(self, name):
         filepath = [ASSETS_DIRECTORY, BUILDINGS_DIRECTORY, name]
@@ -146,7 +157,10 @@ class WesternMaker(WesternMakerGUI):
         curs_pos = self.get_adjusted_mouse_pos()
         tilepos = self.get_tile_positions(curs_pos)
 
-        self.GameMap.place_tile(tilepos, self.selected_object, "BASE")  # replace this with layer selection later
+        if "TILE" in self.selected_object.id:
+            self.GameMap.place_tile(tilepos, self.selected_object, "BASE")  # replace this with layer selection later
+        else:
+            self.GameMap.add_entity(Player, pygame.mouse.get_pos())  # give more options to pass stuff here
 
     def mainloop(self):
         while self.running:
@@ -159,7 +173,7 @@ class WesternMaker(WesternMakerGUI):
 
             curs_pos = pygame.mouse.get_pos()
 
-            if curs_pos[1] < 288 and self.selected_object.image:  # render where the tile would go if placed
+            if curs_pos[1] < 288 and "TILE" in self.selected_object.id and self.selected_object.image:  # render where the tile would go if placed
                 tile_x = ((curs_pos[0] + self.offset[0]) // 16)
                 self.screen.blit(self.selected_object.image, ((tile_x * 16) - self.offset[0], (curs_pos[1] // 16) * 16))
 
@@ -186,5 +200,3 @@ class WesternMaker(WesternMakerGUI):
                     self.on_click_gui()
 
             pygame.display.flip()
-
-

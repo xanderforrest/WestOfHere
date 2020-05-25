@@ -235,7 +235,7 @@ class Player(Human):
 
 
 class Bandit(Human):
-    def __init__(self, start_pos, goal=None, hostile=True):
+    def __init__(self, start_pos=(0, 0), goal=None, hostile=True):
         super(Bandit, self).__init__()
         self.name = "bandit"
         self.goal = goal

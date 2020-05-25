@@ -2,6 +2,7 @@ import pygame
 import json
 from utilities.consts import *
 from utilities.utilities import get_collisions
+import uuid
 
 
 def empty_map(size=(50, 18)):
@@ -22,6 +23,7 @@ def load_tile(tile_data):
 
 class Tile:
     def __init__(self, image_path, interactable=False, category="none", rect=None, surf=None):
+        self.id = "TILE" + str(uuid.uuid4())
         self.image_path = image_path  # TODO make this universal so maps can work with changed directories
         if self.image_path:
             self.image = pygame.image.load(os.path.join(*image_path))
@@ -132,6 +134,8 @@ class GameMap:
     def __init__(self, filename=None):
         self.player_location = None
         self.layers = []
+        self.loaded_entities = []
+        self.entities = []
 
         if filename:
             self.load_map(filename)
@@ -190,6 +194,16 @@ class GameMap:
         else:
             print(f"Layer '{layer_name}' not found")
 
+    def add_entity(self, Entity, pos):
+        instance = Entity()
+        instance.rect = pos
+
+        if instance.name == "player":
+            self.player_location = pos
+
+        self.loaded_entities.append(instance)
+        self.entities.append([Entity, pos])
+
     def render(self, screen, offset=(0, 0), debug=False, fps=None):
         x_offset, y_offset = offset
 
@@ -201,6 +215,9 @@ class GameMap:
                         screen.blit(tile.image, ((x * 16) - x_offset, y * 16))
                         if tile.interactable:
                             tile.rect = pygame.Rect((x * 16) - x_offset, y * 16, 16, 16)
+
+        for entity in self.loaded_entities:
+            screen.blit(entity.surf, entity.rect)
 
         if debug:  # TODO change this to use a layer or combination of layers
             for y in range(0, len(self.tile_map[0])):

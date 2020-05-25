@@ -6,7 +6,7 @@ import math
 class Entity(pygame.sprite.Sprite):
     def __init__(self):
         super(Entity, self).__init__()
-        self.id = uuid.uuid4()
+        self.id = "ENTITY" + str(uuid.uuid4())
 
     def update(self, GS, keys_pressed):
         return GS
