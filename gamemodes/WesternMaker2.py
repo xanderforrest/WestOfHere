@@ -3,6 +3,7 @@ from utilities.consts import *
 from utilities.GameMap import GameMap, Tile
 from utilities.GUI import TextInput, ImageButton, Interacter, Button, TickBox
 from entities import Player, Bandit
+from gamemodes.WorldRunner import WorldRunner
 
 
 class WesternMakerGUI:
@@ -185,6 +186,12 @@ class WesternMaker(WesternMakerGUI):
         name = self.filename_input.text
         self.GameMap.save_map(name)
         self.global_config.default_world = name
+
+    def quickplay(self):
+        self.GameMap.save_map("tempmap.json")
+        WorldRunner(self.screen, self.global_config).resume(gamemap="tempmap.json")
+        self.screen = pygame.display.set_mode((800, 432))
+        pygame.mixer.pause()
 
     def mainloop(self):
         while self.running:

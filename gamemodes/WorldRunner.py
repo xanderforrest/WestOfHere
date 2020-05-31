@@ -39,6 +39,10 @@ class WorldRunner:  # TODO redo sound handling so sound settings can be changed
             self.GS.GameMap = GameMap(map_file)
             self.first_start = False
 
+        print(self.GS.GameMap.player_location)
+        if self.GS.GameMap.player_location:
+            self.GS.player.rect.topleft = self.GS.GameMap.player_location
+
         self.GS.running = True
         self.mainloop()
         return self.global_config

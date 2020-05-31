@@ -170,7 +170,7 @@ class GameMap:
         self.layers = [Layer(map_data["layers"], layer) for layer in map_data["layers"]]
 
         try:
-            self.player_location = map_data["entities"]["player"]["location"]
+            self.player_location = map_data["entities"]["player"]
         except (KeyError, TypeError):
             self.player_location = None
 
