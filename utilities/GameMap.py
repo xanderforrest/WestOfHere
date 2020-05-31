@@ -167,12 +167,11 @@ class GameMap:
         with open(os.path.join(MAPS_DIRECTORY, filename), "r") as f:
             map_data = json.load(f)
 
-        base_map = empty_map(map_data["meta"]["size"])
         self.layers = [Layer(map_data["layers"], layer) for layer in map_data["layers"]]
 
         try:
             self.player_location = map_data["entities"]["player"]["location"]
-        except KeyError:
+        except (KeyError, TypeError):
             self.player_location = None
 
     def save_map(self, filename):
