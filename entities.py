@@ -357,3 +357,12 @@ class Bandit(Human):
 
         bullet = Bullet(spos, epos, owner_id=self.id)
         self.spawned_entities.append(bullet)
+
+
+named_entities = {
+    "bandit": Bandit,
+    "player": Player,
+    "tumbleweed": Tumbleweed,
+    "bullet": Bullet,
+    "target": Target
+}

@@ -1,7 +1,7 @@
 import pygame
 import json
 from utilities.consts import *
-from utilities.utilities import get_collisions
+from utilities.utilities import get_collisions, get_entity_by_name
 import uuid
 
 
@@ -199,10 +199,10 @@ class GameMap:
         if name == "player":
             self.player_location = pos
 
-
+        instance = get_entity_by_name(name)()  # get ref and instantiate it
+        instance.rect.topleft = pos
 
         self.entities.append(instance)
-        print(self.entities)
 
     def render(self, screen, offset=(0, 0), debug=False, fps=None):
         x_offset, y_offset = offset
