@@ -1,8 +1,9 @@
 import pygame
 from utilities.consts import *
 from utilities.GameMap import GameMap, Tile
-from utilities.GUI import TextInput, ImageButton, Interacter, Button
+from utilities.GUI import TextInput, ImageButton, Interacter, Button, TickBox
 from entities import Player, Bandit
+
 
 class WesternMakerGUI:
     def __init__(self):
@@ -12,7 +13,7 @@ class WesternMakerGUI:
         self.buttons = []
         self.interactors = []
 
-        self.filename_input = TextInput(16, 6*16, "filename")
+        self.filename_input = TextInput(16, 6 * 16, "filename")
 
         self.save_button_image = pygame.image.load(os.path.join(ASSETS_DIRECTORY, GUI_DIRECTORY, "save-button.png"))
         self.play_button_image = pygame.image.load(os.path.join(ASSETS_DIRECTORY, GUI_DIRECTORY, "play-button.png"))
@@ -50,6 +51,9 @@ class WesternMakerGUI:
         self.crate_button = ImageButton((32, 2 * 16), TILE_CRATE, image_path=[ASSETS_DIRECTORY, "crate.png"])
         self.buttons.append(self.crate_button)
 
+        self.interactable_check = TickBox((33 * 16, 6 * 16), on_interact=self.toggle_interactable)
+        self.buttons.append(self.interactable_check)
+
         self.general_store = Interacter((4 * 16, 3 * 16), (7 * 16, 1 * 16), on_interact=self.building_select,
                                         name="general-shop.png")
         self.gun_store = Interacter((4 * 16, 3 * 16), (11 * 16, 1 * 16), on_interact=self.building_select,
@@ -79,7 +83,7 @@ class WesternMakerGUI:
 
     def on_click_gui(self):
         temp_cp = pygame.mouse.get_pos()
-        curs_pos = (temp_cp[0], temp_cp[1]-SCREEN_HEIGHT)
+        curs_pos = (temp_cp[0], temp_cp[1] - SCREEN_HEIGHT)
         if self.filename_input.rect.collidepoint(curs_pos):
             self.filename_input.active = True
         else:
@@ -87,8 +91,11 @@ class WesternMakerGUI:
 
         for button in self.buttons:
             if button.rect.collidepoint(curs_pos):
-                if button.image_path:
-                    self.selected_object = Tile(button.image_path, surf=button.surf, category="none")
+                if button.name == "ImageButton":
+                    if button.image_path:  # TODO move tile selects to their own object so this doesn't have to be here
+                        self.selected_object = Tile(button.image_path, surf=button.surf, category="none")
+                    else:
+                        button.on_click()
                 else:
                     button.on_click()
 
@@ -107,6 +114,9 @@ class WesternMakerGUI:
 
     def new_layer(self):
         pass
+
+    def toggle_interactable(self):
+        self.selected_object.interactable = self.interactable_check.ticked
 
     def entity_select(self, name):
         if name == "player":
@@ -132,7 +142,7 @@ class WesternMaker(WesternMakerGUI):
     @staticmethod
     def get_tile_positions(coords):
         """ Returns the X and Y tile coordinates are inside of """
-        return coords[0]//16, coords[1]//16
+        return coords[0] // 16, coords[1] // 16
 
     def get_adjusted_mouse_pos(self):
         """ Returns the mouse position adjusted for the offset of the screen """
@@ -168,7 +178,8 @@ class WesternMaker(WesternMakerGUI):
         if "TILE" in self.selected_object.id:
             self.GameMap.place_tile(tilepos, self.selected_object, "BASE")  # replace this with layer selection later
         else:
-            self.GameMap.add_entity(self.selected_object.name, self.get_adjusted_mouse_pos())  # give more options to pass stuff here
+            self.GameMap.add_entity(self.selected_object.name,
+                                    self.get_adjusted_mouse_pos())  # give more options to pass stuff here
 
     def save_map(self):
         name = self.filename_input.text
@@ -186,7 +197,8 @@ class WesternMaker(WesternMakerGUI):
 
             curs_pos = pygame.mouse.get_pos()
 
-            if curs_pos[1] < 288 and "TILE" in self.selected_object.id and self.selected_object.image:  # render where the tile would go if placed
+            if curs_pos[
+                1] < 288 and "TILE" in self.selected_object.id and self.selected_object.image:  # render where the tile would go if placed
                 tile_x = ((curs_pos[0] + self.offset[0]) // 16)
                 self.screen.blit(self.selected_object.image, ((tile_x * 16) - self.offset[0], (curs_pos[1] // 16) * 16))
 

@@ -109,7 +109,7 @@ class Interacter(pygame.sprite.Sprite):
 
 
 class TickBox(pygame.sprite.Sprite):
-    def __init__(self, position, on_interact=None, name="tickbox"):
+    def __init__(self, position, on_interact=None, name="TickBox"):
         super(TickBox, self).__init__()
         self.ticked = False
         self.name = name
@@ -117,11 +117,15 @@ class TickBox(pygame.sprite.Sprite):
         self.rect = self.surf.get_rect(
             topleft=position
         )
+        self._on_interact = on_interact
 
-    def on_interact(self):
+    def on_click(self):
         if self.ticked:
             self.ticked = False
             self.surf = UNTICKED_BOX
         else:
             self.ticked = True
             self.surf = TICKED_BOX
+
+        if self._on_interact:
+            self._on_interact()
