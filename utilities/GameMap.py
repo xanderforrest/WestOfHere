@@ -83,7 +83,6 @@ class Layer:
 
         for tile in self.layer_data:
             x, y = tile["coords"]
-            print(f"Trying to assign {x}, {y}")
             try:
                 base[x][y] = load_tile(tile)
             except IndexError:
@@ -92,16 +91,16 @@ class Layer:
         return base
 
     def get_size(self):
-        lx = ly = 0
+        lx = 50
+        ly = 18
         for tile in self.layer_data:
-            print(self.name)
+
             x, y = tile["coords"]
-            print(tile["coords"])
+
             if x > lx:
                 lx = x
             if y > ly:
                 ly = y
-        print(f"Returning x {lx} and y {ly} as layer size")
         return [lx+1, ly+1]
 
     def get_tile(self, xy):
@@ -122,7 +121,7 @@ class Layer:
         tiles = []
         for x in range(0, len(self.tile_map)):  # loads map
             for y in range(0, len(self.tile_map[x])):
-                tile = self.layer_data[x][y]
+                tile = self.tile_map[x][y]
                 if tile.image:
                     tile_json = tile.get_json_save_data()
                     tile_json["coords"] = [x, y]
@@ -176,13 +175,12 @@ class GameMap:
         except KeyError:
             self.player_location = None
 
-    def save_map(self, filename, player_location=None):
+    def save_map(self, filename):
         map_data = self.empty_save_data()
         for layer in self.layers:
             map_data["layers"][layer.name] = layer.get_layer_data()
 
-        if player_location:
-            map_data["entities"]["player"] = player_location
+        map_data["entities"]["player"] = self.player_location
 
         for entity in self.entities:
             if entity.name != "player":  # separate behaviour
@@ -198,14 +196,14 @@ class GameMap:
         else:
             print(f"Layer '{layer_name}' not found")
 
-    def add_entity(self, Entity, pos):
-        instance = Entity()
-        instance.rect.topleft = pos
-
-        if instance.name == "player":
+    def add_entity(self, name, pos):
+        if name == "player":
             self.player_location = pos
 
+
+
         self.entities.append(instance)
+        print(self.entities)
 
     def render(self, screen, offset=(0, 0), debug=False, fps=None):
         x_offset, y_offset = offset

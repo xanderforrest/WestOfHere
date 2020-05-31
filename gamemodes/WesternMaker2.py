@@ -65,11 +65,17 @@ class WesternMakerGUI:
         self.interactors = [self.general_store, self.gun_store, self.saloon, self.side_store, self.player_select,
                             self.bandit_select]
 
-    def render_gui(self):
+    def get_gui_surf(self):
+        self.gui_surf = pygame.Surface((800, 144))
+        self.gui_surf.fill((0, 255, 255))
+        self.gui_surf.blit(WESTERN_MAKER_GUI, (0, 0))
+
         for button in self.buttons:
             self.gui_surf.blit(button.surf, button.rect)
 
         self.gui_surf.blit(self.filename_input.text_surface, self.filename_input.rect)
+
+        return self.gui_surf
 
     def on_click_gui(self):
         temp_cp = pygame.mouse.get_pos()
@@ -81,7 +87,10 @@ class WesternMakerGUI:
 
         for button in self.buttons:
             if button.rect.collidepoint(curs_pos):
-                self.selected_object = Tile(button.image_path, surf=button.surf, category="none")
+                if button.image_path:
+                    self.selected_object = Tile(button.image_path, surf=button.surf, category="none")
+                else:
+                    button.on_click()
 
         for interacter in self.interactors:
             if interacter.rect.collidepoint(curs_pos):
@@ -118,7 +127,6 @@ class WesternMaker(WesternMakerGUI):
         self.running = False
         self.offset = [0, 0]
 
-        self.render_gui()
         self.GameMap = GameMap()
 
     @staticmethod
@@ -160,16 +168,21 @@ class WesternMaker(WesternMakerGUI):
         if "TILE" in self.selected_object.id:
             self.GameMap.place_tile(tilepos, self.selected_object, "BASE")  # replace this with layer selection later
         else:
-            self.GameMap.add_entity(Player, pygame.mouse.get_pos())  # give more options to pass stuff here
+            self.GameMap.add_entity(self.selected_object.name, self.get_adjusted_mouse_pos())  # give more options to pass stuff here
+
+    def save_map(self):
+        name = self.filename_input.text
+        self.GameMap.save_map(name)
+        self.global_config.default_world = name
 
     def mainloop(self):
         while self.running:
             self.screen.fill((0, 255, 255))
 
             self.GameMap.render(self.screen, self.offset)
-            self.render_gui()
+            gui_surf = self.get_gui_surf()
 
-            self.screen.blit(self.gui_surf, (0, SCREEN_HEIGHT))
+            self.screen.blit(gui_surf, (0, SCREEN_HEIGHT))
 
             curs_pos = pygame.mouse.get_pos()
 
