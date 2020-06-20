@@ -102,6 +102,8 @@ class GameModeSelect:
         self.buttons.append(self.settings_button)
         self.play_treasure = Button("Treasure Protect", self.start_treasure)
         self.buttons.append(self.play_treasure)
+        self.play_typeduel = Button("Type Duel!", self.start_typeduel)
+        self.buttons.append(self.play_typeduel)
         self.selected_button = None
 
         self.setup_buttons()
@@ -136,6 +138,10 @@ class GameModeSelect:
 
     def start_treasure(self):
         self.global_config.next_game = "treasureprotect"
+        self.pause()
+
+    def start_typeduel(self):
+        self.global_config.next_game = "typeduel"
         self.pause()
 
     def handle_event(self, event):
