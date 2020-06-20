@@ -1,12 +1,17 @@
 import pygame
 import uuid
 import math
+from utilities.cereal import Cereal
 
 
 class Entity(pygame.sprite.Sprite):
     def __init__(self):
         super(Entity, self).__init__()
-        self.id = uuid.uuid4()
+        self.id = "ENTITY" + str(uuid.uuid4())
+        self.class_ref = Entity
+
+    def serialise(self):
+        return Cereal.serialise(self, self.class_ref())
 
     def update(self, GS, keys_pressed):
         return GS
@@ -21,6 +26,7 @@ class Entity(pygame.sprite.Sprite):
 class Human(Entity):
     def __init__(self):
         super(Human, self).__init__()
+        self.class_ref = Human
         self.rect = None
         self.surf = None
 

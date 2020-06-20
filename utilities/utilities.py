@@ -4,6 +4,15 @@ import pygame.locals
 from utilities.consts import *
 import random
 from utilities import soundsystem
+from entities import named_entities
+
+
+def get_entity_by_name(name):
+    """ Returns ref to class of entity by name (string) """
+    try:
+        return named_entities[name]
+    except KeyError:
+        return None
 
 
 def get_collisions(rect, tile_map, offset=[0, 0]):  # TODO update this to use new GameMap system instead of hacky solutions
@@ -83,8 +92,6 @@ class GameState:
         self.GameMap = None
 
         self.entities = pygame.sprite.Group()
-        self.destroyables = pygame.sprite.Group()
-        self.animated = pygame.sprite.Group()
         self.player = None
         self.curs_pos = (0, 0)
 

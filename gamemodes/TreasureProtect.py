@@ -60,13 +60,11 @@ class TreasureProtect:  # TODO redo sound handling so sound settings can be chan
                 self.GS.player.trigger_gunfire()
         elif event.type == self.SPAWN_ENEMY:
             if random.randint(0, 1) == 1:
-                pos = (SCREEN_WIDTH - 20, SCREEN_HEIGHT - 60)
+                pos = (SCREEN_WIDTH - 20 - self.GS.Camera.offset[0], SCREEN_HEIGHT - 60 - self.GS.Camera.offset[0])
                 if random.randint(0, 5) == 5:
                     pos = (16, 16)
                 entity = Bandit(pos, goal=self.goal, hostile=True)
                 self.GS.entities.add(entity)
-                self.GS.animated.add(entity)
-                self.GS.destroyables.add(entity)
 
     def mainloop(self):
         pygame.mixer.Channel(0).play(self.soundtrack, loops=-1)

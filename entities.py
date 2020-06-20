@@ -4,6 +4,7 @@ from pygame.locals import (
     K_RIGHT,
 )
 from utilities.consts import *
+from user_config import *
 import math
 from utilities.animation import Animation
 from utilities.soundsystem import SoundSystem
@@ -17,6 +18,7 @@ class Target(Entity):
     def __init__(self, location):
         super(Target, self).__init__()
         self.name = "target"
+        self.class_ref = Target
 
         self.surf = TILE_BARREL.convert()
         self.surf.set_colorkey((0, 0, 0))
@@ -34,6 +36,7 @@ class Bullet(Entity):
     def __init__(self, start_pos, end_pos, owner_id=None):
         super(Bullet, self).__init__()
         self.name = "bullet"
+        self.class_ref = Bullet
 
         self.owner = owner_id
         self.start_pos = start_pos
@@ -102,6 +105,7 @@ class Tumbleweed(Human):
     def __init__(self, position=None, direction="left"):
         super(Tumbleweed, self).__init__()
         self.name = "tumbleweed"
+        self.class_ref = Tumbleweed
 
         self.animation_count = 0
         self.roll_angle = 10
@@ -151,6 +155,7 @@ class Player(Human):
     def __init__(self):
         super(Player, self).__init__()
         self.name = "player"
+        self.class_ref = Player
 
         self.gun_draw = False
 
@@ -166,17 +171,17 @@ class Player(Human):
     def update(self, GS, keys_pressed):
         self.idle = True
         if not self.gun_draw:
-            if keys_pressed[K_LEFT]:
+            if keys_pressed[MOVE_LEFT]:
                 self.v[0] -= self.acceleration
                 self.update_direction("left")
                 self.idle = False
-            if keys_pressed[K_RIGHT]:
+            if keys_pressed[MOVE_RIGHT]:
                 self.v[0] += self.acceleration
                 self.update_direction("right")
                 self.idle = False
-            if keys_pressed[pygame.K_SPACE]:
+            if keys_pressed[JUMP]:
                 self.trigger_jump()
-        if not keys_pressed[K_RIGHT] and not keys_pressed[K_LEFT]:
+        if not keys_pressed[MOVE_RIGHT] and not keys_pressed[MOVE_LEFT]:
             self.v[0] = 0
 
         # update the gamestate with changes made
@@ -234,9 +239,10 @@ class Player(Human):
 
 
 class Bandit(Human):
-    def __init__(self, start_pos, goal=None, hostile=True):
+    def __init__(self, start_pos=(0, 0), goal=None, hostile=True):
         super(Bandit, self).__init__()
         self.name = "bandit"
+        self.class_ref = Bandit
         self.goal = goal
         self.hostile = hostile
 
@@ -351,3 +357,12 @@ class Bandit(Human):
 
         bullet = Bullet(spos, epos, owner_id=self.id)
         self.spawned_entities.append(bullet)
+
+
+named_entities = {
+    "bandit": Bandit,
+    "player": Player,
+    "tumbleweed": Tumbleweed,
+    "bullet": Bullet,
+    "target": Target
+}

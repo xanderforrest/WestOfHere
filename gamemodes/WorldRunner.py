@@ -39,6 +39,10 @@ class WorldRunner:  # TODO redo sound handling so sound settings can be changed
             self.GS.GameMap = GameMap(map_file)
             self.first_start = False
 
+        print(self.GS.GameMap.player_location)
+        if self.GS.GameMap.player_location:
+            self.GS.player.rect.topleft = self.GS.GameMap.player_location
+
         self.GS.running = True
         self.mainloop()
         return self.global_config
@@ -54,7 +58,6 @@ class WorldRunner:  # TODO redo sound handling so sound settings can be changed
                 self.pause()
             if event.key == K_UP:
                 self.GS.debug = False if self.GS.debug else True
-                # this will become "interact" key for entering doors
         elif event.type == QUIT:
             self.global_config.game_running = False
             self.GS.running = False
@@ -63,8 +66,6 @@ class WorldRunner:  # TODO redo sound handling so sound settings can be changed
                 self.GS.player.trigger_gunfire()
             else:
                 target = Bandit(pygame.mouse.get_pos(), hostile=True)
-                # GS.destroyables.add(target)
-                # GS.animated.add(target)
                 self.GS.entities.add(target)
 
     def mainloop(self):

@@ -19,8 +19,6 @@ def file_loader(screen, filename="?"):
         pygame.display.flip()
 
 
-
-
 class TextInput:
     def __init__(self, x, y, text="input here"):
         self.rect = pygame.Rect((x, y), FONT.size(text))
@@ -108,3 +106,26 @@ class Interacter(pygame.sprite.Sprite):
     def on_interact(self):
         if self._on_interact:
             self._on_interact(self.name)
+
+
+class TickBox(pygame.sprite.Sprite):
+    def __init__(self, position, on_interact=None, name="TickBox"):
+        super(TickBox, self).__init__()
+        self.ticked = False
+        self.name = name
+        self.surf = UNTICKED_BOX
+        self.rect = self.surf.get_rect(
+            topleft=position
+        )
+        self._on_interact = on_interact
+
+    def on_click(self):
+        if self.ticked:
+            self.ticked = False
+            self.surf = UNTICKED_BOX
+        else:
+            self.ticked = True
+            self.surf = TICKED_BOX
+
+        if self._on_interact:
+            self._on_interact()
