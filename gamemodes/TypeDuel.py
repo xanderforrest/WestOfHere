@@ -12,6 +12,7 @@ from utilities.GameMap import GameMap
 from utilities.consts import *
 from utilities.GUI import file_loader
 import os
+import random
 
 
 class TypistPlayer(Player):
@@ -48,6 +49,46 @@ class TypistPlayer(Player):
         return GS
 
 
+class DuelText:
+    def __init__(self, pos, text=None):
+        if text:
+            self.text = text
+        else:
+            self.text = self.get_text()
+        self.typed_text = ""
+        self.completed = False
+
+        self.STD_COLOUR = (255, 255, 255)
+        self.ALT_COLOUR = (255, 0, 0)
+
+        self.rect = pygame.Rect(pos, FONT.size(self.text))
+        self.background_surf = FONT_SMALL.render(self.text, True, self.STD_COLOUR)
+        self.surf = self.background_surf
+
+    @staticmethod
+    def get_text():
+        with open(os.path.join(GAME_DATA_DIRECTORY, "typeduelclean.txt")) as f:
+            return random.choice(f.read().splitlines())
+
+    def update(self, event): # update on key press
+        if self.typed_text == self.text:
+            self.completed = True
+            return
+
+        if event.type == KEYDOWN:
+            character = event.unicode
+            if self.text[len(self.typed_text)] == character:
+                # the len should give the index of the next character
+                # so we can check if the person has typed correctly
+                self.typed_text += character
+
+        self.refresh()
+
+    def refresh(self):
+        top_surf = FONT_SMALL.render(self.typed_text, True, self.ALT_COLOUR)
+        self.surf.blit(top_surf, (0, 0))
+
+
 class TypeDuel:
     def __init__(self, screen, global_config, GS=None):
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -57,6 +98,8 @@ class TypeDuel:
         self.GS.player = TypistPlayer((250, 0))
         self.GS.Camera = Camera(self.GS.player)
         self.GS.entities.add(self.GS.player)
+
+        self.DuelText = DuelText((100, 100))
 
         self.GS.GameMap = None
         self.first_start = True
@@ -69,7 +112,7 @@ class TypeDuel:
             self.GS.GameMap = GameMap(map_file)
             self.first_start = False
 
-        self.GS.player.rect.topleft = (0, 192)
+        self.GS.player.rect.topleft = (250, 192)
 
         self.GS.running = True
         self.mainloop()
@@ -80,6 +123,8 @@ class TypeDuel:
         self.GS.running = False
 
     def handle_event(self, event):
+        self.DuelText.update(event)
+
         if event.type == KEYDOWN:
             if event.key == K_ESCAPE:
                 self.global_config.next_game = "mainmenu"
@@ -107,6 +152,8 @@ class TypeDuel:
 
             for entity in self.GS.entities:
                 self.screen.blit(entity.surf, entity.rect)
+
+            self.screen.blit(self.DuelText.surf, self.DuelText.rect)
 
             self.GS = self.GS.Camera.update(self.GS)
             pygame.display.flip()
