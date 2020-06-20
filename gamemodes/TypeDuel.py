@@ -6,7 +6,7 @@ from pygame.locals import (
     KEYDOWN,
     QUIT,
 )
-from entities import Player, Tumbleweed, Bandit
+from entities import Player, Tumbleweed, Bandit, Bullet
 from utilities.utilities import GameState, Camera
 from utilities.GameMap import GameMap
 from utilities.consts import *
@@ -19,6 +19,7 @@ class TypistPlayer(Player):
     def __init__(self, goal):
         super(TypistPlayer, self).__init__()
         self.goal = goal
+        self.gunfire_target = None
 
     def update(self, GS, keys_pressed):
         self.idle = True
@@ -48,9 +49,63 @@ class TypistPlayer(Player):
 
         return GS
 
+    def fire_gun(self):
+        spos = self.rect.center
+        epos = self.gunfire_target
+
+        if epos[0] > spos[0]:
+            self.update_direction("right")
+        else:
+            self.update_direction("left")
+
+        pygame.mixer.Channel(1).play(self.gunshot_sound)
+
+        bullet = Bullet(spos, epos, owner_id=self.id)
+        self.spawned_entities.append(bullet)
+
+    def trigger_gunfire(self, target):
+        self.gunfire_target = target
+        self.gun_draw = True
+
+
+class TypistEnemy(Bandit):
+    def __init__(self, pos):
+        super(TypistEnemy, self).__init__(start_pos=pos)
+        self.hostile = False
+        self.DuelText = DuelText()
+        self.dead = False
+
+    def update(self, GS, keys_pressed):
+        self.idle = True
+
+        for entity in self.spawned_entities:
+            GS.entities.add(entity)
+        self.spawned_entities = []
+
+        # consider gravity
+        self.v[1] += self.gravity
+
+        player_location = GS.player.rect.center
+        if player_location[0] > self.rect.center[0]:
+            self.update_direction("right")
+        else:
+            self.update_direction("left")
+        self.update_movement(GS)
+
+        self.animation_count += 1
+        if self.animation_count == 5:
+            self.animation_count = 0
+            self.update_animation()
+
+        return GS
+
+    def on_hit(self):
+        self.dead = True
+        self.kill()
+
 
 class DuelText:
-    def __init__(self, pos, text=None):
+    def __init__(self, pos=(20, 100), text=None):
         if text:
             self.text = text
         else:
@@ -99,7 +154,9 @@ class TypeDuel:
         self.GS.Camera = Camera(self.GS.player)
         self.GS.entities.add(self.GS.player)
 
-        self.DuelText = DuelText((100, 100))
+        self.GS.CurrentEnemy = None
+        self.SPAWN_ENEMY = pygame.USEREVENT + 1
+        pygame.time.set_timer(self.SPAWN_ENEMY, 3000)
 
         self.GS.GameMap = None
         self.first_start = True
@@ -123,7 +180,8 @@ class TypeDuel:
         self.GS.running = False
 
     def handle_event(self, event):
-        self.DuelText.update(event)
+        if self.GS.CurrentEnemy:
+            self.GS.CurrentEnemy.DuelText.update(event)
 
         if event.type == KEYDOWN:
             if event.key == K_ESCAPE:
@@ -134,6 +192,10 @@ class TypeDuel:
         elif event.type == QUIT:
             self.global_config.game_running = False
             self.GS.running = False
+        elif event.type == self.SPAWN_ENEMY:
+            if not self.GS.CurrentEnemy:
+                self.GS.CurrentEnemy = TypistEnemy((300, 192))
+                self.GS.entities.add(self.GS.CurrentEnemy)
 
     def mainloop(self):
         # pygame.mixer.Channel(0).play(self.soundtrack, loops=-1)
@@ -153,7 +215,14 @@ class TypeDuel:
             for entity in self.GS.entities:
                 self.screen.blit(entity.surf, entity.rect)
 
-            self.screen.blit(self.DuelText.surf, self.DuelText.rect)
+            if self.GS.CurrentEnemy:
+                if self.GS.CurrentEnemy.DuelText.completed:
+                    self.GS.player.trigger_gunfire(self.GS.CurrentEnemy.rect.center)
+                    self.GS.CurrentEnemy = None
+                else:
+                    self.GS = self.GS.CurrentEnemy.update(self.GS, pygame.key.get_pressed())
+                    self.screen.blit(self.GS.CurrentEnemy.surf, self.GS.CurrentEnemy.rect)
+                    self.screen.blit(self.GS.CurrentEnemy.DuelText.surf, self.GS.CurrentEnemy.DuelText.rect)
 
             self.GS = self.GS.Camera.update(self.GS)
             pygame.display.flip()
