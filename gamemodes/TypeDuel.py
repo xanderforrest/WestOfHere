@@ -13,6 +13,7 @@ from utilities.consts import *
 from utilities.GUI import file_loader
 import os
 import random
+import time
 
 
 class TypistPlayer(Player):
@@ -113,6 +114,10 @@ class DuelText:
         self.typed_text = ""
         self.completed = False
 
+        self.start_time = None
+        self.end_time = None
+        self.wpm = 0
+
         self.STD_COLOUR = (255, 255, 255)
         self.ALT_COLOUR = (255, 0, 0)
 
@@ -125,22 +130,34 @@ class DuelText:
         with open(os.path.join(GAME_DATA_DIRECTORY, "typeduelclean.txt")) as f:
             return random.choice(f.read().splitlines())
 
+    def get_wpm(self):
+        dif = self.end_time - self.start_time
+        wps = len(self.text.split()) / dif
+        self.wpm = wps * 60
+        print(self.wpm)
+
     def update(self, event): # update on key press
         if self.typed_text == self.text:
             self.completed = True
+            self.get_wpm()
             return
 
         if event.type == KEYDOWN:
             character = event.unicode
             if self.text[len(self.typed_text)] == character:
+                if self.typed_text == "":
+                    self.start_time = time.time()
                 # the len should give the index of the next character
                 # so we can check if the person has typed correctly
                 self.typed_text += character
 
+                if self.typed_text == self.text:
+                    self.end_time = time.time()
+
         self.refresh()
 
     def refresh(self):
-        top_surf = FONT_SMALL.render(self.typed_text, True, self.ALT_COLOUR)
+        top_surf = FONT_SMALL.render(self.typed_text.replace(" ", "-"), True, self.ALT_COLOUR)
         self.surf.blit(top_surf, (0, 0))
 
 
@@ -198,11 +215,18 @@ class TypeDuel:
                 self.GS.entities.add(self.GS.CurrentEnemy)
 
     def mainloop(self):
-        # pygame.mixer.Channel(0).play(self.soundtrack, loops=-1)
+        wpms = []
+        pygame.mixer.Channel(0).play(self.soundtrack, loops=-1)
         while self.GS.running:
             self.GS.dt = self.GS.clock.tick(60) / 1000
 
             self.GS.GameMap.render(self.screen, self.GS.Camera.offset, self.GS.debug)
+
+            if wpms:
+                avg = sum(wpms) // len(wpms)
+                last = int(wpms[-1])
+                display_text = f"Avg: {avg} | Last: {last}"
+                self.screen.blit(FONT_SMALL.render(display_text, True, (255, 255, 255)), (0, 0))
 
             self.GS.curs_pos = pygame.mouse.get_pos()
 
@@ -217,11 +241,10 @@ class TypeDuel:
 
             if self.GS.CurrentEnemy:
                 if self.GS.CurrentEnemy.DuelText.completed:
+                    wpms.append(self.GS.CurrentEnemy.DuelText.wpm)
                     self.GS.player.trigger_gunfire(self.GS.CurrentEnemy.rect.center)
                     self.GS.CurrentEnemy = None
                 else:
-                    self.GS = self.GS.CurrentEnemy.update(self.GS, pygame.key.get_pressed())
-                    self.screen.blit(self.GS.CurrentEnemy.surf, self.GS.CurrentEnemy.rect)
                     self.screen.blit(self.GS.CurrentEnemy.DuelText.surf, self.GS.CurrentEnemy.DuelText.rect)
 
             self.GS = self.GS.Camera.update(self.GS)
