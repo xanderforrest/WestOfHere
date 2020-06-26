@@ -14,6 +14,15 @@ from utilities.GUI import file_loader
 import os
 
 
+class Clint(Player):
+    def __init__(self):
+        super(Clint, self).__init__()
+        self.acceleration = 15
+        self.max_v = [100, 200]
+        self.max_jump_height = 40
+        self.jump_velocity = [-20, 0]
+
+
 class WesternRunner:  # TODO redo sound handling so sound settings can be changed
     def __init__(self, screen, global_config, GS=None):
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -21,7 +30,7 @@ class WesternRunner:  # TODO redo sound handling so sound settings can be change
         self.GS = GameState()
         self.name = "westernrunner"
 
-        self.GS.player = Player()
+        self.GS.player = Clint()
         self.GS.Camera = Camera(self.GS.player)
         self.GS.entities.add(self.GS.player)
 
