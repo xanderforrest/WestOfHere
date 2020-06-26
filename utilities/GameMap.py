@@ -130,13 +130,13 @@ class Layer:
 
 
 class GameMap:
-    def __init__(self, filename=None):
+    def __init__(self, filename=None, filelocation=MAPS_DIRECTORY):
         self.player_location = None
         self.layers = []
         self.entities = []
 
         if filename:
-            self.load_map(filename)
+            self.load_map(filename, filelocation)
         else:
             self.layers.append(Layer({"BASE": []}, "BASE"))
 
@@ -163,8 +163,8 @@ class GameMap:
                 return pos
         return None
 
-    def load_map(self, filename):
-        with open(os.path.join(MAPS_DIRECTORY, filename), "r") as f:
+    def load_map(self, filename, filelocation):
+        with open(os.path.join(filelocation, filename), "r") as f:
             map_data = json.load(f)
 
         self.layers = [Layer(map_data["layers"], layer) for layer in map_data["layers"]]
