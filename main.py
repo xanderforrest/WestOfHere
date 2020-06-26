@@ -7,6 +7,7 @@ from utilities.consts import *
 from gamemodes.WorldRunner import WorldRunner
 from gamemodes.WesternMaker2 import WesternMaker
 from gamemodes.TreasureProtect import TreasureProtect
+from gamemodes.TypeDuel import TypeDuel
 from utilities.MenuSystem import MainMenu, GameModeSelect
 from utilities.utilities import GlobalSettings
 
@@ -20,7 +21,7 @@ global_config = GlobalSettings()
 
 games = {"worldrunner": WorldRunner, "westernmaker": WesternMaker,
          "mainmenu": MainMenu, "treasureprotect": TreasureProtect,
-         "gameselect": GameModeSelect}
+         "gameselect": GameModeSelect, "typeduel": TypeDuel}
 global_config.next_game = "mainmenu"
 
 while global_config.game_running:
