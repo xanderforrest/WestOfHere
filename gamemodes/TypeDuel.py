@@ -46,9 +46,32 @@ class TypistPlayer(Player):
         self.animation_count += 1
         if self.animation_count == 5:
             self.animation_count = 0
-            self.update_animation()
+            self.update_animation(GS)
 
         return GS
+
+    def update_animation(self, GS):
+        if not self.gun_draw:
+            if self.idle:
+                self.Animation_Idle.increment_frame()
+                self.surf = self.Animation_Idle.get_frame(direction=self.direction)
+            else:
+                self.Animation_Walk.increment_frame()
+                self.surf = self.Animation_Walk.get_frame(direction=self.direction)
+        else:
+            if GS.CurrentEnemy:
+                percent_done = GS.CurrentEnemy.DuelText.percent_complete
+                if int(self.Animation_GunDraw.current_frame/len(self.Animation_GunDraw.frames)*100) < percent_done:
+                    if self.Animation_GunDraw.current_frame == len(self.Animation_GunDraw.frames)-1:
+                        if percent_done == 100:
+                            self.Animation_GunDraw.increment_frame()
+                    else:
+                        self.Animation_GunDraw.increment_frame()
+            if self.Animation_GunDraw.finished:
+                self.fire_gun()
+                self.gun_draw = False
+            self.surf = self.Animation_GunDraw.get_frame(direction=self.direction)
+        self.surf.set_colorkey((255, 255, 255))
 
     def fire_gun(self):
         spos = self.rect.center
@@ -117,6 +140,7 @@ class DuelText:
         self.start_time = None
         self.end_time = None
         self.wpm = 0
+        self.percent_complete = 0
 
         self.STD_COLOUR = (255, 255, 255)
         self.ALT_COLOUR = (255, 0, 0)
@@ -134,11 +158,11 @@ class DuelText:
         dif = self.end_time - self.start_time
         wps = len(self.text.split()) / dif
         self.wpm = wps * 60
-        print(self.wpm)
 
-    def update(self, event): # update on key press
+    def update(self, event):  # update on key press
         if self.typed_text == self.text:
             self.completed = True
+            self.percent_complete = 100
             self.get_wpm()
             return
 
@@ -154,6 +178,7 @@ class DuelText:
                 if self.typed_text == self.text:
                     self.end_time = time.time()
 
+        self.percent_complete = int(len(self.typed_text)/len(self.text) * 100)
         self.refresh()
 
     def refresh(self):
@@ -167,13 +192,13 @@ class TypeDuel:
         self.global_config = global_config
         self.GS = GameState()
 
-        self.GS.player = TypistPlayer((250, 0))
+        self.GS.player = TypistPlayer((380, 0))
         self.GS.Camera = Camera(self.GS.player)
         self.GS.entities.add(self.GS.player)
 
         self.GS.CurrentEnemy = None
         self.SPAWN_ENEMY = pygame.USEREVENT + 1
-        pygame.time.set_timer(self.SPAWN_ENEMY, 3000)
+        pygame.time.set_timer(self.SPAWN_ENEMY, 1500)
 
         self.GS.GameMap = None
         self.first_start = True
@@ -211,7 +236,7 @@ class TypeDuel:
             self.GS.running = False
         elif event.type == self.SPAWN_ENEMY:
             if not self.GS.CurrentEnemy:
-                self.GS.CurrentEnemy = TypistEnemy((300, 192))
+                self.GS.CurrentEnemy = TypistEnemy((random.randint(300, 600), 192))
                 self.GS.entities.add(self.GS.CurrentEnemy)
 
     def mainloop(self):
@@ -240,9 +265,11 @@ class TypeDuel:
                 self.screen.blit(entity.surf, entity.rect)
 
             if self.GS.CurrentEnemy:
+                percent = self.GS.CurrentEnemy.DuelText.percent_complete
+                if percent > 0:
+                    self.GS.player.trigger_gunfire(self.GS.CurrentEnemy.rect.center)
                 if self.GS.CurrentEnemy.DuelText.completed:
                     wpms.append(self.GS.CurrentEnemy.DuelText.wpm)
-                    self.GS.player.trigger_gunfire(self.GS.CurrentEnemy.rect.center)
                     self.GS.CurrentEnemy = None
                 else:
                     self.screen.blit(self.GS.CurrentEnemy.DuelText.surf, self.GS.CurrentEnemy.DuelText.rect)
