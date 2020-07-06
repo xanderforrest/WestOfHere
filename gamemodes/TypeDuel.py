@@ -6,11 +6,10 @@ from pygame.locals import (
     KEYDOWN,
     QUIT,
 )
-from entities import Player, Tumbleweed, Bandit, Bullet
+from entities import Player, Bandit, Bullet
 from utilities.utilities import GameState, Camera
 from utilities.GameMap import GameMap
 from utilities.consts import *
-from utilities.GUI import file_loader
 import os
 import random
 import time

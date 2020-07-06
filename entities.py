@@ -156,6 +156,7 @@ class Player(Human):
         super(Player, self).__init__()
         self.name = "player"
         self.class_ref = Player
+        self.health = 100
 
         self.gun_draw = False
 
@@ -236,6 +237,12 @@ class Player(Human):
 
     def trigger_gunfire(self):
         self.gun_draw = True
+
+    def on_hit(self):
+        self.health -= 5
+        print(self.health)
+        if self.health <= 0:
+            self.kill()
 
 
 class Bandit(Human):
