@@ -32,24 +32,30 @@ class WorldRunner:  # TODO redo sound handling so sound settings can be changed
     def resume(self, gamemap=None):
         if self.first_start and not gamemap:
             map_file = file_loader(self.screen, self.global_config.default_world)
-            self.GS.GameMap = GameMap(map_file)
-            self.first_start = False
-        if gamemap:
-            map_file = gamemap
-            self.GS.GameMap = GameMap(map_file)
-            self.first_start = False
+            if not map_file:
+                self.pause()
+            else:
+                self.GS.GameMap = GameMap(map_file)
+                self.first_start = False
 
-        print(self.GS.GameMap.player_location)
-        if self.GS.GameMap.player_location:
-            self.GS.player.rect.topleft = self.GS.GameMap.player_location
+                if gamemap:
+                    map_file = gamemap
+                    self.GS.GameMap = GameMap(map_file)
+                    self.first_start = False
 
-        self.GS.running = True
-        self.mainloop()
-        return self.global_config
+                print(self.GS.GameMap.player_location)
+                if self.GS.GameMap.player_location:
+                    self.GS.player.rect.topleft = self.GS.GameMap.player_location
+
+                self.GS.running = True
+                self.mainloop()
+
+                return self.global_config
 
     def pause(self):
         pygame.mixer.pause()
         self.GS.running = False
+        return self.global_config
 
     def handle_event(self, event):
         if event.type == KEYDOWN:

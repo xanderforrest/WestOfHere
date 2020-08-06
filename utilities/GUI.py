@@ -1,3 +1,5 @@
+from pygame.constants import QUIT, K_ESCAPE
+
 from utilities.consts import *
 
 
@@ -10,10 +12,13 @@ def file_loader(screen, filename="?"):
         screen.blit(CRATE_BORDER, (0, 0))
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
+                if event.key == K_ESCAPE:
+                    return None
                 filename_input.update(event)
                 if event.key == pygame.K_RETURN:
                     return filename_input.text
-
+            elif event.type == QUIT:
+                return None
         screen.blit(title, (32, 16))
         screen.blit(filename_input.text_surface, filename_input.rect)
         pygame.display.flip()
