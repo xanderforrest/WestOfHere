@@ -47,7 +47,7 @@ class Human(Entity):
         self.animation_count = 0
         self.spawned_entities = []
 
-    def update_movement(self, GS): # TODO update all of this to just use gamestate
+    def update_movement(self, GS):
         dt = GS.dt
         if self.jumping and (self.jump_start[1] - self.rect.center[1]) >= self.max_jump_height:
             self.jumping = False

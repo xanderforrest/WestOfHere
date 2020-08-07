@@ -6,7 +6,7 @@ from pygame.locals import (
     KEYDOWN,
     QUIT,
 )
-from entities import Player, Tumbleweed, Bandit
+from entities import Player, Tumbleweed, Bandit, Horse
 from utilities.utilities import GameState, Camera
 from utilities.GameMap import GameMap
 from utilities.consts import *
@@ -73,7 +73,7 @@ class WorldRunner:  # TODO redo sound handling so sound settings can be changed
             if event.button == 1:
                 self.GS.player.trigger_gunfire()
             else:
-                target = Bandit(pygame.mouse.get_pos(), hostile=True)
+                target = Horse(spawn_point=pygame.mouse.get_pos())
                 self.GS.entities.add(target)
 
     def mainloop(self):

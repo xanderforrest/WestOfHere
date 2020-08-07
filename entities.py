@@ -366,10 +366,104 @@ class Bandit(Human):
         self.spawned_entities.append(bullet)
 
 
+class Horse(Entity):
+    def __init__(self, spawn_point=(10, 10)):
+        super(Horse, self).__init__()
+        self.surf = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "temp-horse.png"))
+        self.surf.set_colorkey((255, 255, 255))
+        self.rect = self.surf.get_rect(
+            center=spawn_point
+        )
+
+        self.direction = "right"
+        self.idle = True
+
+        self.v = [0, 0]
+        self.acceleration = 20
+        self.gravity = 10
+        self.max_v = [100, 200]
+
+        self.jumping = False
+        self.on_tile = False
+        self.jump_velocity = [-42, 0]
+        self.jump_start = None
+        self.max_jump_height = 36
+
+        self.animation_count = 0
+
+    def update(self, GS, keys_pressed):
+        self.idle = True
+
+        # consider gravity
+        self.v[1] += self.gravity
+
+        self.update_movement(GS)
+
+        self.animation_count += 1
+        if self.animation_count == 5:
+            self.animation_count = 0
+            self.update_animation()
+
+        return GS
+
+    def update_movement(self, GS):
+        dt = GS.dt
+        if self.jumping and (self.jump_start[1] - self.rect.center[1]) >= self.max_jump_height:
+            self.jumping = False
+            self.v[1] = 0
+
+        if self.v[0] > self.max_v[0]:
+            self.v[0] = self.max_v[0]
+        elif self.v[0] < -self.max_v[0]:
+            self.v[0] = -self.max_v[0]
+        if self.v[1] > self.max_v[1]:
+            self.v[1] = self.max_v[1]
+        elif self.v[1] < -self.max_v[1]:
+            self.v[1] = -self.max_v[1]
+
+        if self.v[0] < 0:
+            x = -math.ceil((self.v[0] * -1) * dt)
+        else:
+            x = math.ceil(self.v[0] * dt)
+        y = math.ceil(self.v[1] * dt)
+
+        self.on_tile = False
+        if x != 0:
+            self.rect.move_ip(x, 0)
+            collisions = GS.GameMap.get_collisions(self.rect, GS.Camera.offset)
+            for collide in collisions:
+                if x < 0:  # colliding with the right of a tile
+                    self.rect.left = collide.rect.right
+                else:  # colliding with the left of a tile
+                    self.rect.right = collide.rect.left
+        if y != 0:
+            self.rect.move_ip(0, y)
+            collisions = GS.GameMap.get_collisions(self.rect, GS.Camera.offset)
+            for collide in collisions:
+                if y > 0:  # standing on top of a tile
+                    self.v[1] = 0
+                    self.rect.bottom = collide.rect.top
+                    self.on_tile = True
+                else:  # hitting bottom of tile
+                    self.rect.top = collide.rect.bottom
+
+    def update_direction(self, direction="right"):
+        if self.direction != direction:
+            self.direction = direction
+            self.surf = pygame.transform.flip(self.surf, True, False)  # horizontal flip: true, vertical: false
+
+    def trigger_jump(self):
+        if self.on_tile:
+            self.jumping = True
+            self.v[1] = 0
+            self.jump_start = self.rect.center
+
+
 named_entities = {
     "bandit": Bandit,
     "player": Player,
     "tumbleweed": Tumbleweed,
     "bullet": Bullet,
-    "target": Target
+    "target": Target,
+    "horse": Horse
 }
