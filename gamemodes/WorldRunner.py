@@ -46,6 +46,8 @@ class WorldRunner:  # TODO redo sound handling so sound settings can be changed
                 print(self.GS.GameMap.player_location)
                 if self.GS.GameMap.player_location:
                     self.GS.player.rect.topleft = self.GS.GameMap.player_location
+                else:
+                    self.GS.player.rect.topleft = (10, 10)
 
                 self.GS.running = True
                 self.mainloop()
@@ -78,9 +80,14 @@ class WorldRunner:  # TODO redo sound handling so sound settings can be changed
         pygame.mixer.Channel(0).play(self.soundtrack, loops=-1)
         while self.GS.running:
             self.GS.dt = self.GS.clock.tick(60) / 1000
-            self.screen.blit(pygame.image.load(os.path.join(ASSETS_DIRECTORY, "stitched-bg.png")), (-self.GS.Camera.offset[0], 0))
 
-            self.GS.GameMap.render(self.screen, self.GS.Camera.offset, self.GS.debug)
+            if self.GS.debug:
+                fps_value = int(self.GS.clock.get_fps())
+                self.GS.GameMap.render(self.screen, self.GS.Camera.offset, self.GS.debug,
+                                       fps=fps_value, inf_background=True)
+            else:
+                self.GS.GameMap.render(self.screen, self.GS.Camera.offset, self.GS.debug, inf_background=True)
+
 
             self.GS.curs_pos = pygame.mouse.get_pos()
             pygame.mouse.set_visible(False)

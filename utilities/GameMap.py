@@ -204,8 +204,21 @@ class GameMap:
 
         self.entities.append(instance)
 
-    def render(self, screen, offset=(0, 0), debug=False, fps=None):
+    def render(self, screen, offset=(0, 0), debug=False, fps=None, inf_background=False):
         x_offset, y_offset = offset
+
+        offset_layers = {"sky": [16, SKY2], "bg": [16, BG2], "cloud": [2, CLOUD2], "fg": [8, FG2]}
+
+        if inf_background:  # 850 is inf background width, there must be two blits when each half of background is on screen
+            for layer in offset_layers:
+                used_offset = offset[0] // offset_layers[layer][0]
+                corrected_offset = ((used_offset) % 850)
+                second_blit = corrected_offset + -850
+
+                for valuee in [corrected_offset, second_blit]:
+                    print(f"blitting at {valuee}")
+                    screen.blit(offset_layers[layer][1],
+                                 (-valuee, 0))
 
         for layer in self.layers:
             for x in range(0, len(layer.tile_map)):  # loads map
@@ -219,7 +232,7 @@ class GameMap:
         for entity in self.entities:
             screen.blit(entity.surf, entity.rect)
 
-        if debug:  # TODO change this to use a layer or combination of layers
+        if debug and False:  # TODO change this to use a layer or combination of layers
             for y in range(0, len(self.tile_map[0])):
                 for x in range(0, len(self.tile_map)):
                     rect = pygame.Rect((x*16)-x_offset, (y*16)-y_offset, 16, 16)

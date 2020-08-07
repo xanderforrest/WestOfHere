@@ -42,6 +42,12 @@ TILE_GRASS = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "grass.png"))
 TILE_CRATE = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "crate.png"))
 TILE_BARREL = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "barrel.png"))
 
+BG2 = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "background", "BG2.png"))
+FG2 = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "background", "FG2.png"))
+SKY2 = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "background", "Sky2.png"))
+CLOUD2 = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "background", "Cloud2.png"))
+
+
 # Other
 CURSOR_IMG = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "cursor.png"))
 TUMBLEWEED_IMG = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "tumbleweed.png"))
