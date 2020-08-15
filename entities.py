@@ -370,11 +370,6 @@ class Bandit(Human):
 class Horse(Entity):
     def __init__(self, spawn_point=(10, 10)):
         super(Horse, self).__init__()
-        self.surf = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "temp-horse.png"))
-        self.surf.set_colorkey((255, 255, 255))
-        self.rect = self.surf.get_rect(
-            center=spawn_point
-        )
 
         self.direction = "right"
         self.idle = True
@@ -391,6 +386,13 @@ class Horse(Entity):
         self.max_jump_height = 36
 
         self.animation_count = 0
+        self.Animation_Run = Animation("horse-spritesheet.png", [0, 20], size=[48, 32])
+        self.surf = self.Animation_Run.get_frame(position=0, direction=self.direction)
+
+        self.surf.set_colorkey((0, 0, 0))
+        self.rect = self.surf.get_rect(
+            center=spawn_point
+        )
 
     def update(self, GS, keys_pressed):
         self.idle = True
@@ -401,11 +403,16 @@ class Horse(Entity):
         self.update_movement(GS)
 
         self.animation_count += 1
-        if self.animation_count == 5:
+        if self.animation_count == 2:
             self.animation_count = 0
             self.update_animation()
 
         return GS
+
+    def update_animation(self):  # TODO swap frame increment and display so that the first frame is displayed
+        self.Animation_Run.increment_frame()
+        self.surf = self.Animation_Run.get_frame(direction=self.direction)
+        self.surf.set_colorkey((0, 0, 0))
 
     def update_movement(self, GS):
         dt = GS.dt
