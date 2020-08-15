@@ -171,6 +171,10 @@ class Player(Human):
         self.rect = self.surf.get_rect()
 
     def update(self, GS, keys_pressed):
+        if self.mount:
+            self.rect.center = (self.mount.rect.center[0], self.mount.rect.center[1]-15)
+            return self.mount.update_mount(GS, keys_pressed)
+
         self.idle = True
         if not self.gun_draw:
             if keys_pressed[MOVE_LEFT]:
@@ -185,6 +189,12 @@ class Player(Human):
                 self.trigger_jump()
         if not keys_pressed[MOVE_RIGHT] and not keys_pressed[MOVE_LEFT]:
             self.v[0] = 0
+
+        if keys_pressed[INTERACT]:
+            for e in GS.entities:
+                if e.mountable:
+                    print("mounting")
+                    self.mount = e
 
         # update the gamestate with changes made
         for entity in self.spawned_entities:
@@ -371,6 +381,7 @@ class Horse(Entity):
     def __init__(self, spawn_point=(10, 10)):
         super(Horse, self).__init__()
 
+        self.mountable = True
         self.direction = "right"
         self.idle = True
 
@@ -393,6 +404,23 @@ class Horse(Entity):
         self.rect = self.surf.get_rect(
             center=spawn_point
         )
+
+    def update_mount(self, GS, keys_pressed):
+        self.idle = True
+        if keys_pressed[MOVE_LEFT]:
+            self.v[0] -= self.acceleration
+            self.update_direction("left")
+            self.idle = False
+        if keys_pressed[MOVE_RIGHT]:
+            self.v[0] += self.acceleration
+            self.update_direction("right")
+            self.idle = False
+        if keys_pressed[JUMP]:
+            self.trigger_jump()
+        if not keys_pressed[MOVE_RIGHT] and not keys_pressed[MOVE_LEFT]:
+            self.v[0] = 0
+
+        return GS
 
     def update(self, GS, keys_pressed):
         self.idle = True

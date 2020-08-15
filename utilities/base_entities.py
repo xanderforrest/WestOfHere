@@ -9,6 +9,7 @@ class Entity(pygame.sprite.Sprite):
         super(Entity, self).__init__()
         self.id = "ENTITY" + str(uuid.uuid4())
         self.class_ref = Entity
+        self.mountable = False
 
     def serialise(self):
         return Cereal.serialise(self, self.class_ref())
