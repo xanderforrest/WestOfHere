@@ -157,6 +157,7 @@ class Player(Human):
         self.name = "player"
         self.class_ref = Player
         self.health = 100
+        self.mount = None
 
         self.gun_draw = False
 
