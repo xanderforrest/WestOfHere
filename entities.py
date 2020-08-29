@@ -423,7 +423,6 @@ class Horse(Entity):
         return GS
 
     def update(self, GS, keys_pressed):
-        self.idle = True
 
         # consider gravity
         self.v[1] += self.gravity
@@ -438,8 +437,11 @@ class Horse(Entity):
         return GS
 
     def update_animation(self):  # TODO swap frame increment and display so that the first frame is displayed
-        self.Animation_Run.increment_frame()
-        self.surf = self.Animation_Run.get_frame(direction=self.direction)
+        if not self.idle:
+            self.Animation_Run.increment_frame()
+            self.surf = self.Animation_Run.get_frame(direction=self.direction)
+        else:
+            self.surf = self.Animation_Run.get_frame(direction=self.direction, position=0)
         self.surf.set_colorkey((0, 0, 0))
 
     def update_movement(self, GS):
