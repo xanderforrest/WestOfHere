@@ -6,7 +6,7 @@ from pygame.locals import (
     KEYDOWN,
     QUIT,
 )
-from entities import Player, Tumbleweed, Bandit
+from entities import Player, Tumbleweed, Bandit, Horse
 from utilities.utilities import GameState, Camera
 from utilities.GameMap import GameMap
 from utilities.consts import *
@@ -32,24 +32,32 @@ class WorldRunner:  # TODO redo sound handling so sound settings can be changed
     def resume(self, gamemap=None):
         if self.first_start and not gamemap:
             map_file = file_loader(self.screen, self.global_config.default_world)
-            self.GS.GameMap = GameMap(map_file)
-            self.first_start = False
-        if gamemap:
-            map_file = gamemap
-            self.GS.GameMap = GameMap(map_file)
-            self.first_start = False
+            if not map_file:
+                self.pause()
+            else:
+                self.GS.GameMap = GameMap(map_file)
+                self.first_start = False
 
-        print(self.GS.GameMap.player_location)
-        if self.GS.GameMap.player_location:
-            self.GS.player.rect.topleft = self.GS.GameMap.player_location
+                if gamemap:
+                    map_file = gamemap
+                    self.GS.GameMap = GameMap(map_file)
+                    self.first_start = False
 
-        self.GS.running = True
-        self.mainloop()
-        return self.global_config
+                print(self.GS.GameMap.player_location)
+                if self.GS.GameMap.player_location:
+                    self.GS.player.rect.topleft = self.GS.GameMap.player_location
+                else:
+                    self.GS.player.rect.topleft = (10, 10)
+
+                self.GS.running = True
+                self.mainloop()
+
+                return self.global_config
 
     def pause(self):
         pygame.mixer.pause()
         self.GS.running = False
+        return self.global_config
 
     def handle_event(self, event):
         if event.type == KEYDOWN:
@@ -65,16 +73,21 @@ class WorldRunner:  # TODO redo sound handling so sound settings can be changed
             if event.button == 1:
                 self.GS.player.trigger_gunfire()
             else:
-                target = Bandit(pygame.mouse.get_pos(), hostile=True)
+                target = Horse(spawn_point=pygame.mouse.get_pos())
                 self.GS.entities.add(target)
 
     def mainloop(self):
         pygame.mixer.Channel(0).play(self.soundtrack, loops=-1)
         while self.GS.running:
             self.GS.dt = self.GS.clock.tick(60) / 1000
-            self.screen.blit(pygame.image.load(os.path.join(ASSETS_DIRECTORY, "stitched-bg.png")), (-self.GS.Camera.offset[0], 0))
 
-            self.GS.GameMap.render(self.screen, self.GS.Camera.offset, self.GS.debug)
+            if self.GS.debug:
+                fps_value = int(self.GS.clock.get_fps())
+                self.GS.GameMap.render(self.screen, self.GS.Camera.offset, self.GS.debug,
+                                       fps=fps_value, inf_background=True)
+            else:
+                self.GS.GameMap.render(self.screen, self.GS.Camera.offset, self.GS.debug, inf_background=True)
+
 
             self.GS.curs_pos = pygame.mouse.get_pos()
             pygame.mouse.set_visible(False)

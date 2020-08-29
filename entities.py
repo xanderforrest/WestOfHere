@@ -156,6 +156,8 @@ class Player(Human):
         super(Player, self).__init__()
         self.name = "player"
         self.class_ref = Player
+        self.health = 100
+        self.mount = None
 
         self.gun_draw = False
 
@@ -169,6 +171,10 @@ class Player(Human):
         self.rect = self.surf.get_rect()
 
     def update(self, GS, keys_pressed):
+        if self.mount:
+            self.rect.center = (self.mount.rect.center[0], self.mount.rect.center[1]-15)
+            return self.mount.update_mount(GS, keys_pressed)
+
         self.idle = True
         if not self.gun_draw:
             if keys_pressed[MOVE_LEFT]:
@@ -183,6 +189,12 @@ class Player(Human):
                 self.trigger_jump()
         if not keys_pressed[MOVE_RIGHT] and not keys_pressed[MOVE_LEFT]:
             self.v[0] = 0
+
+        if keys_pressed[INTERACT]:
+            for e in GS.entities:
+                if e.mountable:
+                    print("mounting")
+                    self.mount = e
 
         # update the gamestate with changes made
         for entity in self.spawned_entities:
@@ -236,6 +248,12 @@ class Player(Human):
 
     def trigger_gunfire(self):
         self.gun_draw = True
+
+    def on_hit(self):
+        self.health -= 5
+        print(self.health)
+        if self.health <= 0:
+            self.kill()
 
 
 class Bandit(Human):
@@ -359,10 +377,131 @@ class Bandit(Human):
         self.spawned_entities.append(bullet)
 
 
+class Horse(Entity):
+    def __init__(self, spawn_point=(10, 10)):
+        super(Horse, self).__init__()
+
+        self.mountable = True
+        self.direction = "right"
+        self.idle = True
+
+        self.v = [0, 0]
+        self.acceleration = 20
+        self.gravity = 10
+        self.max_v = [100, 200]
+
+        self.jumping = False
+        self.on_tile = False
+        self.jump_velocity = [-42, 0]
+        self.jump_start = None
+        self.max_jump_height = 36
+
+        self.animation_count = 0
+        self.Animation_Run = Animation("horse-spritesheet.png", [0, 20], size=[48, 32])
+        self.surf = self.Animation_Run.get_frame(position=0, direction=self.direction)
+
+        self.surf.set_colorkey((0, 0, 0))
+        self.rect = self.surf.get_rect(
+            center=spawn_point
+        )
+
+    def update_mount(self, GS, keys_pressed):
+        self.idle = True
+        if keys_pressed[MOVE_LEFT]:
+            self.v[0] -= self.acceleration
+            self.update_direction("left")
+            self.idle = False
+        if keys_pressed[MOVE_RIGHT]:
+            self.v[0] += self.acceleration
+            self.update_direction("right")
+            self.idle = False
+        if keys_pressed[JUMP]:
+            self.trigger_jump()
+        if not keys_pressed[MOVE_RIGHT] and not keys_pressed[MOVE_LEFT]:
+            self.v[0] = 0
+
+        return GS
+
+    def update(self, GS, keys_pressed):
+
+        # consider gravity
+        self.v[1] += self.gravity
+
+        self.update_movement(GS)
+
+        self.animation_count += 1
+        if self.animation_count == 2:
+            self.animation_count = 0
+            self.update_animation()
+
+        return GS
+
+    def update_animation(self):  # TODO swap frame increment and display so that the first frame is displayed
+        if not self.idle:
+            self.Animation_Run.increment_frame()
+            self.surf = self.Animation_Run.get_frame(direction=self.direction)
+        else:
+            self.surf = self.Animation_Run.get_frame(direction=self.direction, position=0)
+        self.surf.set_colorkey((0, 0, 0))
+
+    def update_movement(self, GS):
+        dt = GS.dt
+        if self.jumping and (self.jump_start[1] - self.rect.center[1]) >= self.max_jump_height:
+            self.jumping = False
+            self.v[1] = 0
+
+        if self.v[0] > self.max_v[0]:
+            self.v[0] = self.max_v[0]
+        elif self.v[0] < -self.max_v[0]:
+            self.v[0] = -self.max_v[0]
+        if self.v[1] > self.max_v[1]:
+            self.v[1] = self.max_v[1]
+        elif self.v[1] < -self.max_v[1]:
+            self.v[1] = -self.max_v[1]
+
+        if self.v[0] < 0:
+            x = -math.ceil((self.v[0] * -1) * dt)
+        else:
+            x = math.ceil(self.v[0] * dt)
+        y = math.ceil(self.v[1] * dt)
+
+        self.on_tile = False
+        if x != 0:
+            self.rect.move_ip(x, 0)
+            collisions = GS.GameMap.get_collisions(self.rect, GS.Camera.offset)
+            for collide in collisions:
+                if x < 0:  # colliding with the right of a tile
+                    self.rect.left = collide.rect.right
+                else:  # colliding with the left of a tile
+                    self.rect.right = collide.rect.left
+        if y != 0:
+            self.rect.move_ip(0, y)
+            collisions = GS.GameMap.get_collisions(self.rect, GS.Camera.offset)
+            for collide in collisions:
+                if y > 0:  # standing on top of a tile
+                    self.v[1] = 0
+                    self.rect.bottom = collide.rect.top
+                    self.on_tile = True
+                else:  # hitting bottom of tile
+                    self.rect.top = collide.rect.bottom
+
+    def update_direction(self, direction="right"):
+        if self.direction != direction:
+            self.direction = direction
+            self.surf = pygame.transform.flip(self.surf, True, False)  # horizontal flip: true, vertical: false
+
+    def trigger_jump(self):
+        if self.on_tile:
+            self.jumping = True
+            self.v[1] = 0
+            self.jump_start = self.rect.center
+
+
 named_entities = {
     "bandit": Bandit,
     "player": Player,
     "tumbleweed": Tumbleweed,
     "bullet": Bullet,
-    "target": Target
+    "target": Target,
+    "horse": Horse
 }
