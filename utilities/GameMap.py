@@ -216,7 +216,6 @@ class GameMap:
                 second_blit = corrected_offset + -850
 
                 for valuee in [corrected_offset, second_blit]:
-                    print(f"blitting at {valuee}")
                     screen.blit(offset_layers[layer][1],
                                  (-valuee, 0))
 

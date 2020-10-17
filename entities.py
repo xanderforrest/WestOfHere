@@ -173,6 +173,13 @@ class Player(Human):
     def update(self, GS, keys_pressed):
         if self.mount:
             self.rect.center = (self.mount.rect.center[0], self.mount.rect.center[1]-15)
+            self.direction = self.mount.direction
+
+            self.animation_count += 1
+            if self.animation_count == 5:
+                self.animation_count = 0
+                self.update_animation()
+
             return self.mount.update_mount(GS, keys_pressed)
 
         self.idle = True

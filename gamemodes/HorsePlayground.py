@@ -43,7 +43,6 @@ class HorsePlayground:  # TODO redo sound handling so sound settings can be chan
                     self.GS.GameMap = GameMap(map_file)
                     self.first_start = False
 
-                print(self.GS.GameMap.player_location)
                 if self.GS.GameMap.player_location:
                     self.GS.player.rect.topleft = self.GS.GameMap.player_location
                 else:
@@ -77,7 +76,7 @@ class HorsePlayground:  # TODO redo sound handling so sound settings can be chan
                 self.GS.entities.add(target)
 
     def mainloop(self):
-        pygame.mixer.Channel(0).play(self.soundtrack, loops=-1)
+        # pygame.mixer.Channel(0).play(self.soundtrack, loops=-1)
         while self.GS.running:
             self.GS.dt = self.GS.clock.tick(60) / 1000
 
