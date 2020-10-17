@@ -104,6 +104,8 @@ class GameModeSelect:
         self.buttons.append(self.play_treasure)
         self.play_typeduel = Button("Type Duel!", self.start_typeduel)
         self.buttons.append(self.play_typeduel)
+        self.play_horse = Button("Horse Test!", self.start_horse)
+        self.buttons.append(self.play_horse)
         self.selected_button = None
 
         self.setup_buttons()
@@ -135,6 +137,11 @@ class GameModeSelect:
     def start_game(self):
         self.global_config.next_game = "worldrunner"
         self.pause()
+
+    def start_horse(self):
+        self.global_config.next_game = "horseplayground"
+        self.pause()
+
 
     def start_treasure(self):
         self.global_config.next_game = "treasureprotect"
