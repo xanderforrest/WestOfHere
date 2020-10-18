@@ -33,12 +33,16 @@ class Target(Entity):
 
 
 class Bullet(Entity):
-    def __init__(self, start_pos, end_pos, owner_id=None):
+    def __init__(self, start_pos, end_pos, owner=None):
         super(Bullet, self).__init__()
         self.name = "bullet"
         self.class_ref = Bullet
 
-        self.owner = owner_id
+        self.owner = owner
+        self.safe_id = [owner.id, self.id]
+        if self.owner.mount:
+            self.safe_id.append(self.owner.mount.id)
+
         self.start_pos = start_pos
         self.end_pos = end_pos
         self.surf = pygame.Surface((5, 5))
@@ -76,7 +80,7 @@ class Bullet(Entity):
             self.rect.center = test_coords
             for e in GS.entities:
                 if self.rect.colliderect(e.rect):
-                    if e.id != self.owner and e.id != self.id:
+                    if not (e.id in self.safe_id):
                         e.on_hit()
                         self.kill()
         self.rect.center = self.current_point
@@ -173,6 +177,7 @@ class Player(Human):
     def update(self, GS, keys_pressed):
         if self.mount:
             self.rect.center = (self.mount.rect.center[0], self.mount.rect.center[1]-15)
+
             self.direction = self.mount.direction
 
             self.animation_count += 1
@@ -250,7 +255,7 @@ class Player(Human):
 
         stero.play_sound(self.gunshot_sound)
 
-        bullet = Bullet(spos, epos, owner_id=self.id)
+        bullet = Bullet(spos, epos, owner=self)
         self.spawned_entities.append(bullet)
 
     def trigger_gunfire(self):

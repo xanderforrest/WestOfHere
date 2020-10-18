@@ -103,5 +103,8 @@ class HorsePlayground:  # TODO redo sound handling so sound settings can be chan
             for entity in self.GS.entities:
                 self.screen.blit(entity.surf, entity.rect)
 
+            if self.GS.player.mount:  # horrible, temporary fix.
+                self.screen.blit(CLINT_LEG, self.GS.player.rect)
+
             self.GS = self.GS.Camera.update(self.GS)
             pygame.display.flip()

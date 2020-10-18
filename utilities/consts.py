@@ -20,6 +20,7 @@ GRASS_IMG = "grass.png"
 
 SPRITESHEET_DIRECTORY = "spritesheets"
 CLINT_SPRITESHEET = "clint-spritesheet.png"
+CLINT_LEG = pygame.image.load(os.path.join(ASSETS_DIRECTORY, "clint-leg.png"))
 
 SOUNDS_DIRECTORY = "sounds"
 BUILDINGS_DIRECTORY = "buildings"
