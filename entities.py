@@ -181,7 +181,7 @@ class Player(Human):
             self.direction = self.mount.direction
 
             self.animation_count += 1
-            if self.animation_count == 5:
+            if self.animation_count == 10:
                 self.animation_count = 0
                 self.update_animation()
 
